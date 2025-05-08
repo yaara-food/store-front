@@ -12,8 +12,8 @@ export default function LoginPage() {
   const router = useRouter();
   const intl = useIntl();
 
-  const [username, setUsername] = useState("admin");
-  const [password, setPassword] = useState("yaara");
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
 
   useEffect(() => {
     const token = localStorage.getItem("token");
