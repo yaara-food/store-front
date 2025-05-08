@@ -14,8 +14,8 @@ export const GOOGLE_SITE_VERIFICATION =
 
 export const FOOTER_DATA = process.env.NEXT_PUBLIC_FOOTER_DATA || "";
 export const WHATSAPP_MESSAGE = process.env.NEXT_PUBLIC_WHATSAPP_MESSAGE;
-export const ICON_IMAGE_URL =
-  "https://static.wixstatic.com/media/732d33_9e81c17960804712a27945b6ac7eb28a~mv2.png/v1/fill/w_184,h_140,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/logo_H_color_Kipod%20(1).png";
+export const ICON_IMAGE_URL = process.env.NEXT_PUBLIC_ICON_IMAGE_URL;
+
 
 export const MAX_FILE_SIZE_MB = 1;
 
