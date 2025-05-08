@@ -1,0 +1,22 @@
+const isDev = process.env.NODE_ENV === "development";
+
+export const API_URL = isDev
+  ? "http://localhost:4000"
+  : process.env.NEXT_PUBLIC_API_URL;
+
+export const baseUrl = isDev
+  ? "http://localhost:3000"
+  : process.env.NEXT_PUBLIC_BASE_URL;
+
+export const SITE_NAME = process.env.NEXT_PUBLIC_SITE_NAME;
+export const GOOGLE_SITE_VERIFICATION =
+  process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION;
+
+export const FOOTER_DATA = process.env.NEXT_PUBLIC_FOOTER_DATA || "";
+export const WHATSAPP_MESSAGE = process.env.NEXT_PUBLIC_WHATSAPP_MESSAGE;
+export const ICON_IMAGE_URL =
+  "https://static.wixstatic.com/media/732d33_9e81c17960804712a27945b6ac7eb28a~mv2.png/v1/fill/w_184,h_140,al_c,q_85,usm_0.66_1.00_0.01,enc_avif,quality_auto/logo_H_color_Kipod%20(1).png";
+
+export const MAX_FILE_SIZE_MB = 1;
+
+export const SEVEN_DAYS = 7 * 24 * 60 * 60 * 1000;
