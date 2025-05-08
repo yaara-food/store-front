@@ -1,8 +1,5 @@
 {
   "functions": {
     "regions": ["fra1"]
-  },
-  "analytics": {
-    "ignore": ["^/admin(?:/.*)?$", "^/login$"]
   }
 }
