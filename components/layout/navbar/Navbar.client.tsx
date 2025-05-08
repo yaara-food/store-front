@@ -11,7 +11,7 @@ export default function NavbarClient() {
         <Link href="/" prefetch={true} className="flex items-center">
           <LogoSquare />
         </Link>
-        <h1 style={{ color: "red" }}>האתר בבניה!!</h1>
+        {/*<h1 style={{ color: "red" }}>האתר בבניה!!</h1>*/}
         <div className="flex w-full md:w-1/3 justify-center px-2">
           <Search />
         </div>
