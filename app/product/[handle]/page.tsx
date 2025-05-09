@@ -4,10 +4,9 @@ import { Suspense } from "react";
 import Head from "next/head";
 
 import { getProducts } from "lib/api";
-import { Gallery } from "components/product/Gallery";
 import { ProductDescription } from "components/product/product-description";
 import { Image, Product } from "lib/types/entities";
-
+import { Gallery } from "components/product/Gallery";
 type Props = {
   params: Promise<{ handle: string }>;
 };
