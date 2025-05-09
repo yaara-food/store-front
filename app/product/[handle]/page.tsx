@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 import { Suspense } from "react";
-import Head from "next/head"; // ✅ Add Head for fallback <meta>
+import Head from "next/head";
 
 import { getProducts } from "lib/api";
 import { Gallery } from "components/product/Gallery";
