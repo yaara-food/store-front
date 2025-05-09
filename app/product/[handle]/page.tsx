@@ -6,7 +6,7 @@ import Head from "next/head";
 import { getProducts } from "lib/api";
 import { ProductDescription } from "components/product/product-description";
 import { Image, Product } from "lib/types/entities";
-import { Gallery } from "components/product/Gallery";
+import {ProductGallery} from "../../../components/product/ProductGallery";
 type Props = {
   params: Promise<{ handle: string }>;
 };
@@ -117,7 +117,7 @@ export default async function ProductPage({ params }: Props) {
                 <div className="relative aspect-square h-full max-h-[550px] w-full overflow-hidden" />
               }
             >
-              <Gallery
+              <ProductGallery
                 images={product.images.slice(0, 5).map((image: Image) => ({
                   src: image.url,
                   altText: image.altText,

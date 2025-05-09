@@ -6,7 +6,7 @@ import { GridTileImage } from "components/product/grid/tile";
 import Image from "next/image";
 import { useState } from "react";
 
-export function Gallery({
+export function ProductGallery({
   images,
 }: {
   images: { src: string; altText: string }[];
