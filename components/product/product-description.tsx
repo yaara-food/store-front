@@ -4,7 +4,6 @@ import { Product } from "lib/types/entities";
 import { Box, Grid } from "@mui/material";
 
 export function ProductDescription({ product }: { product: Product }) {
-  console.log(product.title.length);
   const isLongTitle = product.title.length > 30;
   return (
     <>

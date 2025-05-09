@@ -114,6 +114,20 @@ html.high-contrast .accessibility-panel {
   background-color: var(--color-bg) !important;
 }
 
+html.high-contrast .price-badge {
+  background-color: black !important;
+  color: yellow !important;
+}
+
+html.high-contrast .price-badge * {
+  color: yellow !important;
+}
+
+html.high-contrast .bg-blue-600 {
+  background-color: black !important;
+  color: yellow !important;
+}
+
 .MuiDialog-root,
 .MuiDialogContent-root,
 .MuiTypography-root,
@@ -132,13 +146,3 @@ html.font-size-110 { --font-scale-factor: 1.1; }
 html.font-size-120 { --font-scale-factor: 1.2; }
 html.font-size-150 { --font-scale-factor: 1.5; }
 html.font-size-200 { --font-scale-factor: 2; }
-
-/* ✅ High-contrast rule for price badge */
-html.high-contrast .price-badge {
-  background-color: black !important;
-  color: yellow !important;
-}
-
-html.high-contrast .price-badge * {
-  color: yellow !important;
-}
