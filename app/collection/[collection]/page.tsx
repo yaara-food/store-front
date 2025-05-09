@@ -7,7 +7,7 @@ import { getCollection, getCollectionProducts } from "lib/api";
 import { baseUrl, ICON_IMAGE_URL, SITE_NAME } from "lib/const";
 import { getCollectionTitle, getCollectionDescription } from "lib/i18n/seo_heb";
 import { Product } from "lib/types/entities";
-import Loading from "../../../components/shared/LoadingProduct";
+import LoadingProduct from "../../../components/shared/LoadingProduct";
 
 const ClientProduct = dynamic(
   () => import("components/product/ClientProduct"),
@@ -96,7 +96,7 @@ export default async function CategoryPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Suspense fallback={<Loading />}>
+      <Suspense fallback={<LoadingProduct />}>
         <ClientProduct products={products} />
       </Suspense>
     </section>

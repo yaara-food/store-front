@@ -198,21 +198,6 @@ export default function CheckoutInfo({
                     type="submit"
                     variant="contained"
                     disabled={isSubmitting}
-                    sx={{
-                      backgroundColor: "var(--color-accent)",
-                      color: "white",
-                      fontWeight: "bold",
-                      borderRadius: 2,
-                      py: 1.5,
-                      fontSize: "inherit", // ✅ responds to --font-scale-factor
-                      textDecoration: "none",
-                      ".underline-links &": {
-                        textDecoration: "underline", // ✅ underline when accessibility is on
-                      },
-                      "&:hover": {
-                        backgroundColor: "var(--color-accent)",
-                      },
-                    }}
                   >
                     <FormattedMessage id="checkout.submit" />
                   </Button>

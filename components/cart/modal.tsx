@@ -1,5 +1,9 @@
 "use client";
-
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import {
   Dialog,
   DialogContent,
@@ -10,16 +14,15 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Price from "components/shared/Price";
-import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+
 import { RootState } from "../../lib/store";
 import { updateItem } from "../../lib/store/cartSlice";
-import { DeleteItemButton } from "./delete-item-button";
-import { EditItemQuantityButton } from "./edit-item-quantity-button";
-import OpenCart from "./open-cart";
+import {
+  DeleteItemButton,
+  EditItemQuantityButton,
+  OpenCart,
+  CheckoutButton,
+} from "./CartButtons";
 import { FormattedMessage } from "react-intl";
 
 export default function CartModal() {
@@ -274,17 +277,5 @@ export default function CartModal() {
         )}
       </Dialog>
     </>
-  );
-}
-
-function CheckoutButton({ onClick }: { onClick: () => void }) {
-  return (
-    <button
-      onClick={onClick}
-      className="block w-full rounded-full bg-blue-600 p-3 text-center font-medium text-white opacity-90 hover:opacity-100 cursor-pointer underline-links"
-      type="button"
-    >
-      <FormattedMessage id="cart.checkout" />
-    </button>
   );
 }

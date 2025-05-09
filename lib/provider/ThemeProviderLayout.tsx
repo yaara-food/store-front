@@ -1,7 +1,7 @@
 "use client";
-import { ThemeProvider } from "@mui/material/styles";
+
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 import { ReactNode } from "react";
-import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
   direction: "rtl",
@@ -15,6 +15,10 @@ const theme = createTheme({
   },
   shape: {
     borderRadius: 8,
+  },
+  typography: {
+    fontSize: 16, // base size before --font-scale-factor kicks in
+    fontFamily: "inherit", // let html/body control font (for readable-font)
   },
   components: {
     MuiTextField: {
@@ -42,11 +46,30 @@ const theme = createTheme({
         root: {
           borderRadius: 8,
           textTransform: "none",
+          fontWeight: 500,
+          fontSize: "1em",
+          fontFamily: "inherit",
+          paddingTop: "0.75em",
+          paddingBottom: "0.75em",
           boxShadow: "none",
           border: "1px solid #ddd",
-          "&:hover": {
-            borderColor: "#aaa",
-            backgroundColor: "#f9f9f9",
+          transition: "all 0.2s",
+
+          "&.MuiButton-contained": {
+            backgroundColor: "var(--color-accent)",
+            color: "white",
+            "&:hover": {
+              backgroundColor: "var(--color-accent)",
+            },
+          },
+
+          "&.underline-links": {
+            textDecoration: "underline",
+          },
+
+          "@media (prefers-contrast: more)": {
+            color: "yellow",
+            borderColor: "yellow",
           },
         },
       },

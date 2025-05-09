@@ -1,4 +1,4 @@
-import { AddToCart } from "components/cart/add-to-cart";
+import { AddToCart } from "components/product/AddToCart";
 import Price from "components/shared/Price";
 import { Product } from "lib/types/entities";
 import { Box, Grid } from "@mui/material";
@@ -40,22 +40,23 @@ export function ProductDescription({ product }: { product: Product }) {
         </Grid>
 
         <Grid item>
-          <Box
-            sx={{
-              backgroundColor: "primary.main",
-              color: "white",
-              px: 3,
-              py: 1.2,
-              borderRadius: 999,
-              fontSize: "1.2em",
-              fontWeight: "bold",
-              width: "fit-content",
-              whiteSpace: "nowrap",
-              lineHeight: 1.3,
-            }}
-          >
-            <Price amount={product.price} />
-          </Box>
+            <Box
+                className="price-badge"
+                sx={{
+                    backgroundColor: "var(--color-accent)", // normal mode
+                    px: 3,
+                    py: 1.2,
+                    borderRadius: 999,
+                    fontSize: "1.2em",
+                    fontWeight: "bold",
+                    width: "fit-content",
+                    whiteSpace: "nowrap",
+                    lineHeight: 1.3,
+                    color: "black", // fallback text color (normal mode)
+                }}
+            >
+                <Price amount={product.price} />
+            </Box>
         </Grid>
       </Grid>
 

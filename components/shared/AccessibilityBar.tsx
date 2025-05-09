@@ -76,11 +76,6 @@ export default function AccessibilityBar() {
     const next = fontSize - 20;
     setFontSize(skipSizes.includes(next) ? 120 : next);
   };
-  const toggleInvert = () => {
-    const newInvert = !invert;
-    setInvert(newInvert);
-    setHighContrast(newInvert);
-  };
   const reset = () => {
     setFontSize(100);
     setHighContrast(false);
@@ -194,7 +189,7 @@ export default function AccessibilityBar() {
             <ActionItem
               labelId="accessibility.invert"
               icon={<VisibilityIcon />}
-              onClick={toggleInvert}
+              onClick={() => setInvert(!invert)}
               selected={invert}
             />
             <ActionItem

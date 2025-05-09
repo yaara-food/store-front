@@ -45,9 +45,12 @@ function FilterItemList({ list }: { list: Collection[] }) {
               py: 1,
               px: 2,
               textAlign: "right",
-              backgroundColor: isActive ? "#e0f7fa" : "transparent",
+              backgroundColor: isActive
+                ? "var(--collection-active-bg, #e0f7fa)"
+                : "transparent",
+              transition: "background-color 0.2s",
               "&:hover": {
-                backgroundColor: "#e0f7fa",
+                backgroundColor: "var(--collection-hover-bg, #e0f7fa)",
               },
             }}
           >

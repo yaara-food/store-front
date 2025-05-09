@@ -29,44 +29,41 @@ export default function Label({
           alignItems: "center",
           borderRadius: "9999px",
           bgcolor: "var(--color-chip)",
-
-          color: "black",
+          color: "var(--color-text-strong)",
           px: 1.5,
           py: 0.5,
           fontWeight: 600,
           fontSize: "0.9em",
           gap: 1,
           border: "1px solid var(--color-border)",
-          ".high-contrast &": {
-            bgcolor: "black",
-          },
         }}
       >
         <h3
           className="product-title mr-4 line-clamp-2 grow pl-2 leading-none tracking-tight"
-          style={{ fontSize: "1.2em" }}
+          style={{
+            fontSize: "1.2em",
+            color: "var(--color-text-strong)",
+          }}
         >
           {title}
         </h3>
 
-        <Box
-          sx={{
-            backgroundColor: "var(--color-accent)",
-
-            borderRadius: "9999px",
-            px: 1.5,
-            py: 0.5,
-            color: "black",
-
-            fontSize: "1.2em",
-            fontWeight: "bold",
-            ".high-contrast &": {
-              bgcolor: "black",
-            },
-          }}
-        >
-          <Price amount={amount} currencyCode="ILS" />
-        </Box>
+          <Box
+              className="price-badge black-bg"
+              sx={{
+                  backgroundColor: "var(--color-accent)",
+                  borderRadius: "9999px",
+                  px: 1.5,
+                  py: 0.5,
+                  fontSize: "1.2em",
+                  fontWeight: "bold",
+                  width: "fit-content",
+                  whiteSpace: "nowrap",
+                  lineHeight: 1.3,
+              }}
+          >
+              <Price amount={amount} currencyCode="ILS" className="price-text" />
+          </Box>
       </Box>
     </Box>
   );
