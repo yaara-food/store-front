@@ -1,5 +1,5 @@
 import { redirect } from "next/navigation";
-import { ModelType } from "../../lib/form";
+import { ModelType } from "../../lib/types/form";
 
 export default function AdminRedirectPage() {
   redirect(`/admin/${ModelType.order}`);

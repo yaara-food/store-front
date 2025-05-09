@@ -1,8 +1,6 @@
-"use client";
-
-import { Box, Typography } from "@mui/material";
+import { Box } from "@mui/material";
 import clsx from "clsx";
-import Price from "./price";
+import Price from "../../shared/Price";
 
 export default function Label({
   title,

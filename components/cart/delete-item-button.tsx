@@ -1,7 +1,7 @@
 "use client";
 
 import CloseIcon from "@mui/icons-material/Close";
-import type { CartItem } from "lib/types";
+import type { CartItem } from "lib/types/entities";
 
 export function DeleteItemButton({
   item,

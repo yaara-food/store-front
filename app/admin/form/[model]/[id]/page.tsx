@@ -1,20 +1,20 @@
 "use client";
 import { Container, Typography } from "@mui/material";
-import FormChild from "../../FormChild";
+import FormChild from "../../../../../components/admin/form/FormChild";
 import {
   array_obj_to_obj_with_key,
   create_form_fields,
   FormField,
   get_form_by_model,
   ModelType,
-} from "../../../../../lib/form";
+} from "../../../../../lib/types/form";
 import { useEffect, useState } from "react";
 import {
   getCollections,
   getProducts,
   submitModel,
 } from "../../../../../lib/api";
-import { Image } from "../../../../../lib/types";
+import { Image } from "../../../../../lib/types/entities";
 import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { FormattedMessage, useIntl } from "react-intl";

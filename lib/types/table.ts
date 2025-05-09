@@ -1,6 +1,6 @@
 import { ColDef } from "ag-grid-community";
-import { ModelType } from "../../lib/form";
-import { Collection, Order, Product } from "../../lib/types";
+import { ModelType } from "./form";
+import { Collection, Order, Product } from "./entities";
 
 export type AGTableModelType = Product | Collection | Order;
 export const columns_product: ColDef<Product>[] = [

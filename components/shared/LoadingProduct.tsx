@@ -1,6 +1,6 @@
-import Grid from "components/grid";
+import Grid from "components/product/grid";
 
-export default function Loading() {
+export default function LoadingProduct() {
   return (
     <>
       <div className="mb-4 h-6" />

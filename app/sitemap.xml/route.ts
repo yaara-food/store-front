@@ -1,4 +1,4 @@
-import { baseUrl } from "lib/utils";
+import { baseUrl } from "lib/const";
 import { getCollections, getProducts } from "lib/api";
 
 export const dynamic = "force-dynamic";

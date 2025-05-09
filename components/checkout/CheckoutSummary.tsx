@@ -2,8 +2,8 @@
 
 import { Box, Divider, Grid, Typography } from "@mui/material";
 import { useSelector } from "react-redux";
-import { RootState } from "../../store";
-import Price from "../../components/price";
+import { RootState } from "../../lib/store";
+import Price from "../shared/Price";
 import React from "react";
 import { FormattedMessage } from "react-intl";
 

@@ -14,10 +14,10 @@ import {
 import * as Yup from "yup";
 import { Formik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "../../store";
-import { Cart, Order } from "lib/types";
+import { RootState } from "../../lib/store";
+import { Cart, Order } from "lib/types/entities";
 import { submitOrder } from "../../lib/api";
-import { clearCart } from "../../store/cartSlice";
+import { clearCart } from "../../lib/store/cartSlice";
 import { toast } from "sonner";
 import { FormattedMessage, useIntl } from "react-intl";
 

@@ -13,7 +13,7 @@ import {
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
 import { toast } from "sonner";
-import { ModelType } from "../../../lib/form";
+import { ModelType } from "../../../lib/types/form";
 import { FormattedMessage, useIntl } from "react-intl";
 
 const adminRoutes = [

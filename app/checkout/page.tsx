@@ -1,7 +1,7 @@
 "use client";
 import { Grid, Container, Typography } from "@mui/material";
-import CheckoutInfo from "./CheckoutInfo";
-import CheckoutSummary from "./CheckoutSummary";
+import CheckoutInfo from "../../components/checkout/CheckoutInfo";
+import CheckoutSummary from "../../components/checkout/CheckoutSummary";
 import { useState } from "react";
 import { FormattedMessage } from "react-intl";
 

@@ -3,7 +3,7 @@
 import AddIcon from "@mui/icons-material/Add";
 import RemoveIcon from "@mui/icons-material/Remove";
 import clsx from "clsx";
-import type { CartItem } from "lib/types";
+import type { CartItem } from "lib/types/entities";
 
 function SubmitButton({ type }: { type: "plus" | "minus" }) {
   return (

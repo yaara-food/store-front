@@ -2,9 +2,9 @@
 
 import AddIcon from "@mui/icons-material/Add";
 import clsx from "clsx";
-import { Product } from "lib/types";
+import { Product } from "lib/types/entities";
 import { useDispatch } from "react-redux";
-import { addItem } from "../../store/cartSlice";
+import { addItem } from "../../lib/store/cartSlice";
 import { FormattedMessage, useIntl } from "react-intl";
 
 function SubmitButton({

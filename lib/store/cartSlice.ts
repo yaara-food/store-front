@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Cart, CartItem, Product } from "lib/types";
+import { Cart, CartItem, Product } from "lib/types/entities";
 import { createTransform } from "redux-persist";
-import { SEVEN_DAYS } from "../lib/utils";
+import { SEVEN_DAYS } from "../const";
 
 function createEmptyCart(): Cart {
   return {

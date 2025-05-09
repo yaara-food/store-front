@@ -3,7 +3,7 @@
 import { AgGridReact } from "ag-grid-react";
 import { ColDef } from "ag-grid-community";
 import ActionRender from "./ActionRender";
-import { AGTableModelType } from "./ag_table";
+import { AGTableModelType } from "../../../lib/types/table";
 import OrderItemsRender from "./OrderItemsRender";
 
 const defaultColDef: ColDef = {

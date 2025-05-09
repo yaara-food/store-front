@@ -10,9 +10,9 @@ import {
   FormControlLabel,
   Switch,
 } from "@mui/material";
-import { FormField, FormType } from "../../../lib/form";
-import ImagesEditor from "./[model]/[id]/ImagesEditor";
-import { Image } from "../../../lib/types";
+import { FormField, FormType } from "../../../lib/types/form";
+import ImagesEditor from "./ImagesEditor";
+import { Image } from "../../../lib/types/entities";
 import { getCollections } from "../../../lib/api";
 import { FormattedMessage, useIntl } from "react-intl";
 

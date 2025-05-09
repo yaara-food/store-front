@@ -7,7 +7,7 @@ import EmailIcon from "@mui/icons-material/Email";
 import PhoneIcon from "@mui/icons-material/Phone";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import { metadata_site_title } from "../../lib/i18n/seo_heb";
-import { FOOTER_DATA, WHATSAPP_MESSAGE } from "../../lib/utils";
+import { FOOTER_DATA, WHATSAPP_MESSAGE } from "../../lib/const";
 
 const [email, address, phone, instagram, facebook, website] =
   FOOTER_DATA.split(",");

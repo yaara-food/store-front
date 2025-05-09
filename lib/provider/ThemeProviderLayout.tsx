@@ -1,8 +1,10 @@
+"use client";
+import { ThemeProvider } from "@mui/material/styles";
+import { ReactNode } from "react";
 import { createTheme } from "@mui/material/styles";
 
 const theme = createTheme({
   direction: "rtl",
-
   palette: {
     primary: {
       main: "#24bfa7",
@@ -52,4 +54,6 @@ const theme = createTheme({
   },
 });
 
-export default theme;
+export function ThemeProviderLayout({ children }: { children: ReactNode }) {
+  return <ThemeProvider theme={theme}>{children}</ThemeProvider>;
+}

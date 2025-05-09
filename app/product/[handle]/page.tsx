@@ -6,7 +6,7 @@ import Head from "next/head"; // ✅ Add Head for fallback <meta>
 import { getProducts } from "lib/api";
 import { Gallery } from "components/product/gallery";
 import { ProductDescription } from "components/product/product-description";
-import { Image, Product } from "lib/types";
+import { Image, Product } from "lib/types/entities";
 
 type Props = {
   params: Promise<{ handle: string }>;

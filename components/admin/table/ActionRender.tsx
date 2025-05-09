@@ -13,8 +13,8 @@ import {
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { ModelType } from "../../lib/form";
-import { deleteModel } from "../../lib/api";
+import { ModelType } from "../../../lib/types/form";
+import { deleteModel } from "../../../lib/api";
 import { toast } from "sonner";
 import { useIntl } from "react-intl";
 

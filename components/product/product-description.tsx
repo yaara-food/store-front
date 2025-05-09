@@ -1,6 +1,6 @@
 import { AddToCart } from "components/cart/add-to-cart";
-import Price from "components/price";
-import { Product } from "lib/types";
+import Price from "components/shared/Price";
+import { Product } from "lib/types/entities";
 import { Box, Grid } from "@mui/material";
 
 export function ProductDescription({ product }: { product: Product }) {

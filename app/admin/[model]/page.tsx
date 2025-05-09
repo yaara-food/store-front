@@ -9,11 +9,14 @@ import ImageIcon from "@mui/icons-material/Image";
 import { useRouter } from "next/navigation";
 import { useIntl, FormattedMessage } from "react-intl";
 
-import { ModelType } from "../../../lib/form";
+import { ModelType } from "../../../lib/types/form";
 import { getCollections, getOrders, getProducts } from "../../../lib/api";
-import { AGTableModelType, get_columns_by_title } from "../ag_table";
+import {
+  AGTableModelType,
+  get_columns_by_title,
+} from "../../../lib/types/table";
 import { ColDef } from "ag-grid-community";
-import AGTable from "../AGTable";
+import AGTable from "../../../components/admin/table/AGTable";
 
 export default function AdminPage({
   params,

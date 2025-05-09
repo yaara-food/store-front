@@ -7,14 +7,14 @@ import {
   GOOGLE_SITE_VERIFICATION,
   ICON_IMAGE_URL,
   SITE_NAME,
-} from "lib/utils";
-import { ReduxProvider } from "./providers";
+} from "lib/const";
+import { ReduxProvider } from "../lib/provider/ReduxProvider";
 import "../styles/theme.scss";
 import { Toaster } from "sonner";
-import AccessibilityBar from "../components/accessibility-bar";
+import AccessibilityBar from "../components/shared/AccessibilityBar";
 import { Analytics } from "@vercel/analytics/react";
-import { ThemeClientProvider } from "../components/theme-provider";
-import IntlClientProvider from "../components/IntlClientProvider";
+import { ThemeProviderLayout } from "../lib/provider/ThemeProviderLayout";
+import IntProvider from "../lib/provider/IntProvider";
 import Footer from "../components/layout/Footer";
 import { Box } from "@mui/material";
 import {
@@ -69,8 +69,8 @@ export default async function RootLayout({
     <html lang="he" dir="rtl" className={GeistSans.variable}>
       <body>
         <ReduxProvider>
-          <IntlClientProvider>
-            <ThemeClientProvider>
+          <IntProvider>
+            <ThemeProviderLayout>
               <div
                 id="font-scale-wrapper"
                 className="bg-theme text-theme selection:bg-teal-300 dark:bg-theme-dark dark:text-theme dark:selection:bg-pink-500 dark:selection:text-white"
@@ -93,8 +93,8 @@ export default async function RootLayout({
                 <Toaster richColors position="bottom-center" />
                 <AccessibilityBar />
               </div>
-            </ThemeClientProvider>
-          </IntlClientProvider>
+            </ThemeProviderLayout>
+          </IntProvider>
         </ReduxProvider>
       </body>
     </html>

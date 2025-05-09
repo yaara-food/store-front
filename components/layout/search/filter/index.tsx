@@ -10,7 +10,7 @@ import {
 import { usePathname, useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import { useIntl, FormattedMessage } from "react-intl";
-import { Collection } from "../../../../lib/types";
+import { Collection } from "../../../../lib/types/entities";
 
 function safeDecodeURIComponent(value: string): string {
   try {

@@ -1,4 +1,4 @@
-import { SITE_NAME } from "../utils";
+import { SITE_NAME } from "../const";
 
 export const metadata_site_title = `${SITE_NAME} - מקום לצמוח`;
 export const metadata_site_description =

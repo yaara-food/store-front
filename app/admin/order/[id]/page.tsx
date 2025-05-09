@@ -1,7 +1,7 @@
 "use client";
 
 import { notFound } from "next/navigation";
-import Price from "components/price";
+import Price from "components/shared/Price";
 import { getOrderById, updateOrderStatus } from "../../../../lib/api";
 import {
   Box,
@@ -22,7 +22,7 @@ import {
   ShoppingBagTwoTone as ShoppingBagTwoToneIcon,
 } from "@mui/icons-material";
 import * as React from "react";
-import { Order, OrderStatus } from "../../../../lib/types";
+import { Order, OrderStatus } from "../../../../lib/types/entities";
 import { toast } from "sonner";
 import { useIntl, FormattedMessage } from "react-intl";
 

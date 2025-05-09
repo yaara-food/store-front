@@ -1,6 +1,6 @@
-import { Order, OrderStatus, Product, Collection } from "./types";
-import { ModelType } from "./form";
-import { API_URL } from "./utils";
+import { Order, OrderStatus, Product, Collection } from "./types/entities";
+import { ModelType } from "./types/form";
+import { API_URL } from "./const";
 
 let cachedData: { products: Product[]; collections: Collection[] } = {
   products: [],

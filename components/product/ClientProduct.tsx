@@ -1,9 +1,9 @@
 "use client";
 
-import Grid from "components/grid";
+import Grid from "components/product/grid";
 import ProductGridItems from "components/layout/product-grid-items";
-import { NoProductsMessage, SearchResultsMessage } from "../messages";
-import { Product } from "lib/types";
+import { NoProductsMessage, SearchResultsMessage } from "../shared/messages";
+import { Product } from "lib/types/entities";
 import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
 

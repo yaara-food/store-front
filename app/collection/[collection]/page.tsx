@@ -1,12 +1,21 @@
+import { Suspense } from "react";
 import { Metadata } from "next";
+import dynamic from "next/dynamic";
 import { notFound } from "next/navigation";
-import { getCollection, getCollectionProducts } from "lib/api";
-import { baseUrl, ICON_IMAGE_URL, SITE_NAME } from "lib/utils";
-import { getCollectionTitle, getCollectionDescription } from "lib/i18n/seo_heb";
-import { Product } from "lib/types";
-import ClientProduct from "components/product/client-product";
 
-// merge duplicate
+import { getCollection, getCollectionProducts } from "lib/api";
+import { baseUrl, ICON_IMAGE_URL, SITE_NAME } from "lib/const";
+import { getCollectionTitle, getCollectionDescription } from "lib/i18n/seo_heb";
+import { Product } from "lib/types/entities";
+import Loading from "../../../components/shared/LoadingProduct";
+
+const ClientProduct = dynamic(
+  () => import("components/product/ClientProduct"),
+  {
+    ssr: false,
+  },
+);
+
 function safeDecodeURIComponent(value: string): string {
   try {
     return decodeURIComponent(value);
@@ -87,7 +96,9 @@ export default async function CategoryPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <ClientProduct products={products} />
+      <Suspense fallback={<Loading />}>
+        <ClientProduct products={products} />
+      </Suspense>
     </section>
   );
 }
