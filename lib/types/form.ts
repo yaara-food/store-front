@@ -1,12 +1,6 @@
 /* eslint-disable max-classes-per-file */
-export enum FormType {
-  TEXT = "text",
-  TEXTAREA = "textarea",
-  NUMBER = "number",
-  AutoComplete = "AutoComplete",
-  Switch = "Switch",
-  ImagesEditor = "ImagesEditor",
-}
+
+import { FormType, ModelType } from "./enums";
 
 export class FieldInput {
   constructor(
@@ -35,25 +29,19 @@ export type InputField = {
   options?: string[];
 };
 
-export enum ModelType {
-  collection = "collection",
-  order = "order",
-  product = "product",
-}
-
 export const product_fields: InputField[] = [
   { key: "title", type: FormType.TEXT },
   { key: "price", type: FormType.NUMBER },
   { key: "description", type: FormType.TEXTAREA },
   {
-    key: "collection",
+    key: "category",
     type: FormType.AutoComplete,
     options: [],
   },
   { key: "available", type: FormType.Switch },
   { key: "images", type: FormType.ImagesEditor },
 ];
-export const collection_fields: InputField[] = [
+export const category_fields: InputField[] = [
   { key: "title", type: FormType.TEXT },
   { key: "position", type: FormType.NUMBER },
 ];
@@ -91,8 +79,8 @@ export const get_form_by_model = (type_form: ModelType): FormField[] => {
   switch (type_form) {
     case ModelType.product:
       return json_fields_to_form_fields([...product_fields]);
-    case ModelType.collection:
-      return json_fields_to_form_fields([...collection_fields]);
+    case ModelType.category:
+      return json_fields_to_form_fields([...category_fields]);
   }
 };
 export const array_obj_to_obj_with_key = (

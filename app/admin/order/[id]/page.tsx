@@ -22,7 +22,7 @@ import {
   ShoppingBagTwoTone as ShoppingBagTwoToneIcon,
 } from "@mui/icons-material";
 import * as React from "react";
-import { Order, OrderStatus } from "../../../../lib/types/entities";
+import { Order, OrderStatus } from "../../../../lib/types";
 import { toast } from "sonner";
 import { useIntl, FormattedMessage } from "react-intl";
 

@@ -7,10 +7,10 @@ export const messages = {
   he: {
     "admin.product.title": "מוצרים",
     "admin.order.title": "הזמנות",
-    "admin.collection.title": "קטגוריות",
+    "admin.category.title": "קטגוריות",
     "admin.product.add": "הוסף מוצר",
     "admin.order.add": "הוסף הזמנה",
-    "admin.collection.add": "הוסף קטגוריה",
+    "admin.category.add": "הוסף קטגוריה",
     "admin.search.placeholder": "חיפוש...",
     "admin.product.image": "הוסף תמונה",
 
@@ -25,9 +25,9 @@ export const messages = {
     "admin.image.instructions":
       "לחץ על הכפתור הוסף תמונה (בתוך תמונות) כדי לעבור לממשק הוספת התמונות. לאחר הוספת תמונה, העתק את הקישור ובאמצעות האייקון שמשמאל לקישור  תוכל להדביק את כתובת התמונה.",
     "form.add.product": "הוספת מוצר",
-    "form.add.collection": "הוספת קטגוריה",
+    "form.add.category": "הוספת קטגוריה",
     "form.edit.product": "עריכת מוצר",
-    "form.edit.collection": "עריכת קטגוריה",
+    "form.edit.category": "עריכת קטגוריה",
     "form.image.required": "חובה למלא לפחות תמונה אחת",
     "form.success": "✅ נשמר בהצלחה!",
     "form.error": "❌ שמירה נכשלה",
@@ -54,7 +54,7 @@ export const messages = {
     "form.label.title": "כותרת",
     "form.label.description": "תיאור",
     "form.label.price": "מחיר",
-    "form.label.collection": "קטגוריה",
+    "form.label.category": "קטגוריה",
     "form.label.active": "פעיל",
     "form.label.images": "תמונות",
     "form.label.position": "מיקום בתצוגה",
@@ -101,9 +101,9 @@ export const messages = {
     "checkout.orderId": "מספר הזמנה: {id}",
     "checkout.error": "ארעה שגיאה בעת השליחה. אנא נסה שוב.",
 
-    "collection.searchResults": "נמצאו {count} מוצרים",
-    "collection.noProducts": "לא נמצאו מוצרים",
-    "collection.title.seo": "צמחים ושתילים מרהיבים – הכל באהבה ובמבחר משתנה",
+    "category.searchResults": "נמצאו {count} מוצרים",
+    "category.noProducts": "לא נמצאו מוצרים",
+    "category.title.seo": "צמחים ושתילים מרהיבים – הכל באהבה ובמבחר משתנה",
 
     "product.addToCart": "הוסף לעגלה",
     "product.outOfStock": "לא זמין במלאי",
@@ -112,8 +112,8 @@ export const messages = {
     "cart.empty": "העגלה ריקה.",
     "cart.checkout": "רכישה",
 
-    "collections.all": "הכל",
-    "collections.selectCategory": "בחר קטגוריה",
+    "category.all": "הכל",
+    "category.selectCategory": "בחר קטגוריה",
 
     "search.placeholder": "חיפוש מוצרים",
     "search.admin": "ניהול",
@@ -146,5 +146,3 @@ export const messages = {
     "login.failed": "התחברות נכשלה",
   },
 };
-
-export type SupportedLocale = keyof typeof messages;

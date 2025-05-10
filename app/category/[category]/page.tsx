@@ -1,13 +1,11 @@
-import { Suspense } from "react";
 import { Metadata } from "next";
 import dynamic from "next/dynamic";
 import { notFound } from "next/navigation";
 
-import { getCollection, getCollectionProducts } from "lib/api";
-import { baseUrl, ICON_IMAGE_URL, SITE_NAME } from "lib/const";
-import { getCollectionTitle, getCollectionDescription } from "lib/i18n/seo_heb";
-import { Product } from "lib/types/entities";
-import LoadingProduct from "../../../components/shared/LoadingProduct";
+import { getCategory, getCategoryProducts } from "lib/api";
+import { baseUrl, ICON_IMAGE_URL, SITE_NAME } from "lib/config";
+import { getCategoryTitle, getCategoryDescription } from "lib/assets/i18n/seo_heb";
+import { Product } from "lib/types";
 
 const ClientProduct = dynamic(
   () => import("components/product/ClientProduct"),
@@ -25,28 +23,28 @@ function safeDecodeURIComponent(value: string): string {
 }
 
 type Props = {
-  params: { collection: string };
+  params: { category: string };
 };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { collection } = params;
-  const decoded = safeDecodeURIComponent(collection);
-  const collectionData = await getCollection(decoded);
-  if (!collectionData) return notFound();
+  const { category } = params;
+  const decoded = safeDecodeURIComponent(category);
+  const categoryData = await getCategory(decoded);
+  if (!categoryData) return notFound();
 
-  const title = getCollectionTitle(collectionData.title);
-  const description = getCollectionDescription(collectionData.title);
+  const title = getCategoryTitle(categoryData.title);
+  const description = getCategoryDescription(categoryData.title);
 
   return {
     title,
     description,
     alternates: {
-      canonical: `${baseUrl}/collection/${decoded}`,
+      canonical: `${baseUrl}/category/${decoded}`,
     },
     openGraph: {
       title,
       description,
-      url: `${baseUrl}/collection/${decoded}`,
+      url: `${baseUrl}/category/${decoded}`,
       siteName: SITE_NAME,
       type: "website",
       images: [
@@ -69,15 +67,12 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 }
 
 export default async function CategoryPage({ params }: Props) {
-  const { collection } = params;
-  const decoded = safeDecodeURIComponent(collection);
-  const collectionData = await getCollection(decoded);
-  if (!collectionData) return notFound();
+  const { category } = params;
+  const decoded_category = safeDecodeURIComponent(category);
 
-  const products: Product[] = await getCollectionProducts({
-    collection: decoded,
+  const products: Product[] = await getCategoryProducts({
+    category: decoded_category,
   });
-
   const jsonLd = {
     "@context": "https://schema.org",
     "@type": "ItemList",
@@ -91,14 +86,12 @@ export default async function CategoryPage({ params }: Props) {
 
   return (
     <section>
-      <h1 className="sr-only">{collectionData.title}</h1>
+      <h1 className="sr-only">{decoded_category}</h1>
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
-      <Suspense fallback={<LoadingProduct />}>
-        <ClientProduct products={products} />
-      </Suspense>
+      <ClientProduct products={products} />
     </section>
   );
 }

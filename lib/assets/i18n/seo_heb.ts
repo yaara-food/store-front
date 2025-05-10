@@ -1,4 +1,4 @@
-import { SITE_NAME } from "../const";
+import { SITE_NAME } from "../../config";
 
 export const metadata_site_title = `${SITE_NAME} - מקום לצמוח`;
 export const metadata_site_description =
@@ -16,20 +16,20 @@ export const metadata_keywords = [
   SITE_NAME,
 ];
 
-export function getCollectionTitle(
-  collectionTitle: string,
+export function getCategoryTitle(
+  categoryTitle: string,
   query?: string,
 ): string {
   return query
-    ? `תוצאות חיפוש עבור "${query}" בקטגוריית ${collectionTitle} | ${SITE_NAME}`
-    : `${collectionTitle} | ${SITE_NAME}`;
+    ? `תוצאות חיפוש עבור "${query}" בקטגוריית ${categoryTitle} | ${SITE_NAME}`
+    : `${categoryTitle} | ${SITE_NAME}`;
 }
 
-export function getCollectionDescription(
-  collectionTitle: string,
+export function getCategoryDescription(
+  categoryTitle: string,
   query?: string,
 ): string {
   return query
-    ? `מוצרים תואמים ל"${query}" בקטגוריית ${collectionTitle}`
-    : `קטגוריית ${collectionTitle} - מבחר מוצרים ייחודיים`;
+    ? `מוצרים תואמים ל"${query}" בקטגוריית ${categoryTitle}`
+    : `קטגוריית ${categoryTitle} - מבחר מוצרים ייחודיים`;
 }

@@ -1,6 +1,6 @@
-@import "ag-grid-community/styles/ag-theme-alpine.css";
-@import "ag-grid-community/styles/ag-grid.css";
-@import "tailwindcss";
+@import "../../../node_modules/ag-grid-community/styles/ag-theme-alpine.css";
+@import "../../../node_modules/ag-grid-community/styles/ag-grid.css";
+@import "../../../node_modules/tailwindcss";
 
 @plugin "@tailwindcss/container-queries";
 @plugin "@tailwindcss/typography";
@@ -32,21 +32,21 @@ body {
 
 html.readable-font,
 html.readable-font .MuiButton-root {
-  font-family: "Arial Rounded MT Bold", "Tahoma", "Verdana", sans-serif !important;
+  font-family:
+    "Arial Rounded MT Bold", "Tahoma", "Verdana", sans-serif !important;
 }
 
 html.underline-links .MuiButton-root,
 html.underline-links .MuiButton-root *,
 html.underline-links a,
 html.underline-links h3.product-title,
-html.underline-links .collection-title,
 html.underline-links .autocomplete-option {
   text-decoration: underline !important;
 }
 
 html.high-contrast {
-  --collection-hover-bg: #333 !important;
-  --collection-active-bg: #444 !important;
+  --category-hover-bg: #333 !important;
+  --category-active-bg: #444 !important;
   --color-bg: black !important;
   --color-text-strong: yellow !important;
   --color-border: yellow !important;
@@ -139,10 +139,24 @@ html.grayscale {
   filter: grayscale(100%);
 }
 
-html.font-size-80 { --font-scale-factor: 0.8; }
-html.font-size-90 { --font-scale-factor: 0.9; }
-html.font-size-100 { --font-scale-factor: 1; }
-html.font-size-110 { --font-scale-factor: 1.1; }
-html.font-size-120 { --font-scale-factor: 1.2; }
-html.font-size-150 { --font-scale-factor: 1.5; }
-html.font-size-200 { --font-scale-factor: 2; }
+html.font-size-80 {
+  --font-scale-factor: 0.8;
+}
+html.font-size-90 {
+  --font-scale-factor: 0.9;
+}
+html.font-size-100 {
+  --font-scale-factor: 1;
+}
+html.font-size-110 {
+  --font-scale-factor: 1.1;
+}
+html.font-size-120 {
+  --font-scale-factor: 1.2;
+}
+html.font-size-150 {
+  --font-scale-factor: 1.5;
+}
+html.font-size-200 {
+  --font-scale-factor: 2;
+}

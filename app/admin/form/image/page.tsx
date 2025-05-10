@@ -12,7 +12,7 @@ import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { toast } from "sonner";
 import { uploadImage } from "../../../../lib/api";
-import { MAX_FILE_SIZE_MB } from "../../../../lib/const";
+import { MAX_FILE_SIZE_MB } from "../../../../lib/config";
 import { useIntl, FormattedMessage } from "react-intl";
 
 export default function UploadImagePage() {

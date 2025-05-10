@@ -13,7 +13,7 @@ export function SearchResultsMessage({ count }: { count: number }) {
       color="black"
     >
       <FormattedMessage
-        id="collection.searchResults"
+        id="category.searchResults"
         defaultMessage="{count} products found"
         values={{ count }}
       />
@@ -25,7 +25,7 @@ export function NoProductsMessage() {
   return (
     <Typography textAlign="center" mt={3} color="text.secondary">
       <FormattedMessage
-        id="collection.noProducts"
+        id="category.noProducts"
         defaultMessage="No products found"
       />
     </Typography>
@@ -35,7 +35,7 @@ export function NoProductsMessage() {
 export function H1SeoTitle() {
   return (
     <h1 className="sr-only">
-      <FormattedMessage id="collection.title.seo" />
+      <FormattedMessage id="category.title.seo" />
     </h1>
   );
 }

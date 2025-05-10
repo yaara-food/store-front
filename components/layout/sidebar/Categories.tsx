@@ -10,7 +10,7 @@ import {
 import { usePathname, useRouter } from "next/navigation";
 import React, { useState, useEffect } from "react";
 import { useIntl, FormattedMessage } from "react-intl";
-import { Collection } from "../../../../lib/types/entities";
+import { Category, ModelType } from "../../../lib/types";
 
 function safeDecodeURIComponent(value: string): string {
   try {
@@ -21,23 +21,23 @@ function safeDecodeURIComponent(value: string): string {
 }
 
 // Desktop list
-function FilterItemList({ list }: { list: Collection[] }) {
+function CategoriesItemList({ list }: { list: Category[] }) {
   const router = useRouter();
   const pathname = safeDecodeURIComponent(usePathname());
 
   return (
     <>
-      {list.map((item: Collection, index: number) => {
+      {list.map((item: Category, index: number) => {
         const isAll = item.handle === "all";
         const isActive =
-          pathname.endsWith(`/collection/${item.handle}`) ||
+          pathname.endsWith(`/${ModelType.category}/${item.handle}`) ||
           (isAll && pathname === "/");
 
         return (
           <ListItemButton
             key={index}
             onClick={() =>
-              router.push(isAll ? "/" : `/collection/${item.handle}`)
+              router.push(isAll ? "/" : `/${ModelType.category}/${item.handle}`)
             }
             sx={{
               borderRadius: "8px",
@@ -46,11 +46,11 @@ function FilterItemList({ list }: { list: Collection[] }) {
               px: 2,
               textAlign: "right",
               backgroundColor: isActive
-                ? "var(--collection-active-bg, #e0f7fa)"
+                ? "var(--category-active-bg, #e0f7fa)"
                 : "transparent",
               transition: "background-color 0.2s",
               "&:hover": {
-                backgroundColor: "var(--collection-hover-bg, #e0f7fa)",
+                backgroundColor: "var(--category-hover-bg, #e0f7fa)",
               },
             }}
           >
@@ -58,7 +58,7 @@ function FilterItemList({ list }: { list: Collection[] }) {
               primary={
                 <Typography
                   component="span"
-                  className="collection-title"
+                  className="category-title"
                   sx={{
                     fontSize: "1.1em",
                     fontWeight: isActive ? "bold" : "normal",
@@ -67,7 +67,7 @@ function FilterItemList({ list }: { list: Collection[] }) {
                   }}
                 >
                   {isAll ? (
-                    <FormattedMessage id="collections.all" />
+                    <FormattedMessage id={`${ModelType.category}.all`} />
                   ) : (
                     item.title
                   )}
@@ -81,30 +81,32 @@ function FilterItemList({ list }: { list: Collection[] }) {
   );
 }
 
-// Main
-export default function FilterList({ list }: { list: Collection[] }) {
+export default function Categories({ list }: { list: Category[] }) {
   const router = useRouter();
   const pathname = safeDecodeURIComponent(usePathname());
   const intl = useIntl();
 
   const all_option = {
     handle: "all",
-    title: intl.formatMessage({ id: "collections.all" }),
-  } as Collection;
+    title: intl.formatMessage({ id: `${ModelType.category}.all` }),
+  } as Category;
+
   const options = [all_option, ...list];
 
   const initialItem =
-    list.find((item) => pathname.endsWith(`/collection/${item.handle}`)) ??
-    (pathname === "/" ? options[0] : undefined);
+    list.find((item) =>
+      pathname.endsWith(`/${ModelType.category}/${item.handle}`),
+    ) ?? (pathname === "/" ? options[0] : undefined);
 
-  const [selectedItem, setSelectedItem] = useState<Collection | undefined>(
+  const [selectedItem, setSelectedItem] = useState<Category | undefined>(
     initialItem,
   );
 
   useEffect(() => {
     const matching =
-      list.find((item) => pathname.endsWith(`/collection/${item.handle}`)) ??
-      (pathname === "/" ? options[0] : undefined);
+      list.find((item) =>
+        pathname.endsWith(`/${ModelType.category}/${item.handle}`),
+      ) ?? (pathname === "/" ? options[0] : undefined);
     setSelectedItem(matching);
   }, [pathname, list]);
 
@@ -112,7 +114,7 @@ export default function FilterList({ list }: { list: Collection[] }) {
     <nav>
       {/* Desktop */}
       <div className="hidden md:block p-2">
-        <FilterItemList list={options} />
+        <CategoriesItemList list={options} />
       </div>
 
       {/* Mobile */}
@@ -122,12 +124,12 @@ export default function FilterList({ list }: { list: Collection[] }) {
           getOptionLabel={(option) => option.title}
           value={selectedItem}
           onChange={(event, value) => {
-            const selected: Collection = value ?? all_option;
+            const selected: Category = value ?? all_option;
             setSelectedItem(selected);
             router.push(
               selected.handle === "all"
                 ? "/"
-                : `/collection/${selected.handle}`,
+                : `/${ModelType.category}/${selected.handle}`,
             );
           }}
           isOptionEqualToValue={(option, value) =>
@@ -138,7 +140,7 @@ export default function FilterList({ list }: { list: Collection[] }) {
             <TextField
               {...params}
               label={intl.formatMessage({
-                id: "collections.selectCategory",
+                id: `${ModelType.category}.selectCategory`,
               })}
               InputProps={{
                 ...params.InputProps,

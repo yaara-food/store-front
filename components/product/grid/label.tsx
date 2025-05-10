@@ -48,22 +48,22 @@ export default function Label({
           {title}
         </h3>
 
-          <Box
-              className="price-badge black-bg"
-              sx={{
-                  backgroundColor: "var(--color-accent)",
-                  borderRadius: "9999px",
-                  px: 1.5,
-                  py: 0.5,
-                  fontSize: "1.2em",
-                  fontWeight: "bold",
-                  width: "fit-content",
-                  whiteSpace: "nowrap",
-                  lineHeight: 1.3,
-              }}
-          >
-              <Price amount={amount} currencyCode="ILS" className="price-text" />
-          </Box>
+        <Box
+          className="price-badge black-bg"
+          sx={{
+            backgroundColor: "var(--color-accent)",
+            borderRadius: "9999px",
+            px: 1.5,
+            py: 0.5,
+            fontSize: "1.2em",
+            fontWeight: "bold",
+            width: "fit-content",
+            whiteSpace: "nowrap",
+            lineHeight: 1.3,
+          }}
+        >
+          <Price amount={amount} currencyCode="ILS" className="price-text" />
+        </Box>
       </Box>
     </Box>
   );

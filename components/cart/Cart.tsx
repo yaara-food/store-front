@@ -25,7 +25,7 @@ import {
 } from "./CartButtons";
 import { FormattedMessage } from "react-intl";
 
-export default function CartModal() {
+export default function Cart() {
   const router = useRouter();
   const dispatch = useDispatch();
   const cart = useSelector((state: RootState) => state.cart);

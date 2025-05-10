@@ -2,7 +2,7 @@
 
 import { Button } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
-import { Product } from "lib/types/entities";
+import { Product } from "lib/types";
 import { useDispatch } from "react-redux";
 import { addItem } from "../../lib/store/cartSlice";
 import { FormattedMessage, useIntl } from "react-intl";

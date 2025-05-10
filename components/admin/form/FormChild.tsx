@@ -10,15 +10,13 @@ import {
   FormControlLabel,
   Switch,
 } from "@mui/material";
-import { FormField, FormType } from "../../../lib/types/form";
+import { FormField, FormType, Image, ModelType } from "../../../lib/types";
 import ImagesEditor from "./ImagesEditor";
-import { Image } from "../../../lib/types/entities";
-import { getCollections } from "../../../lib/api";
+import { getCategories } from "../../../lib/api";
 import { FormattedMessage, useIntl } from "react-intl";
 
 type FormFieldProps = {
   field: FormField;
-  collections: string[];
   onChange: (value: any, key: string) => void;
 };
 
@@ -29,9 +27,12 @@ export const FieldRenderer = ({ field, onChange }: FormFieldProps) => {
 
   useEffect(() => {
     const loadOptions = async () => {
-      if (field.type === FormType.AutoComplete && field.key === "collection") {
-        const collections = (await getCollections()).map((c) => c.title);
-        setOptions(collections);
+      if (
+        field.type === FormType.AutoComplete &&
+        field.key === ModelType.category
+      ) {
+        const categories = (await getCategories()).map((c) => c.title);
+        setOptions(categories);
       }
     };
     loadOptions();
@@ -125,11 +126,7 @@ export default function FormChild({ title, fields, onSubmit }: FormChildProps) {
         <Grid container direction="column" spacing={3}>
           {localFields.map((field) => (
             <Grid item key={field.key}>
-              <FieldRenderer
-                field={field}
-                onChange={handleChange}
-                collections={[]}
-              />
+              <FieldRenderer field={field} onChange={handleChange} />
             </Grid>
           ))}
 

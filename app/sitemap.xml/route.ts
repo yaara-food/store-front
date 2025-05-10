@@ -1,27 +1,34 @@
-import { baseUrl } from "lib/const";
-import { getCollections, getProducts } from "lib/api";
+import { baseUrl } from "lib/config";
+import { getCategories, getProducts } from "lib/api";
+import { ModelType } from "../../lib/types";
 
 export const dynamic = "force-dynamic";
 
 export async function GET() {
   const staticRoutes = [
     { url: `${baseUrl}/`, lastModified: new Date().toISOString() },
-    { url: `${baseUrl}/product`, lastModified: new Date().toISOString() },
-    { url: `${baseUrl}/collection`, lastModified: new Date().toISOString() },
+    {
+      url: `${baseUrl}/${ModelType.product}`,
+      lastModified: new Date().toISOString(),
+    },
+    {
+      url: `${baseUrl}/${ModelType.category}`,
+      lastModified: new Date().toISOString(),
+    },
   ];
 
-  const [collections, products] = await Promise.all([
-    getCollections(),
+  const [categories, products] = await Promise.all([
+    getCategories(),
     getProducts(),
   ]);
 
   const dynamicRoutes = [
-    ...collections.map((collection) => ({
-      url: `${baseUrl}/collection/${collection.handle}`,
-      lastModified: collection.updatedAt,
+    ...categories.map((category) => ({
+      url: `${baseUrl}/${ModelType.category}/${category.handle}`,
+      lastModified: category.updatedAt,
     })),
     ...products.map((product) => ({
-      url: `${baseUrl}/product/${product.handle}`,
+      url: `${baseUrl}/${ModelType.product}/${product.handle}`,
       lastModified: product.updatedAt,
     })),
   ];

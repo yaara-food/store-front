@@ -1,8 +1,8 @@
 import { ColDef } from "ag-grid-community";
-import { ModelType } from "./form";
-import { Collection, Order, Product } from "./entities";
+import { Category, Order, Product } from "./entities";
+import { ModelType } from "./enums";
 
-export type AGTableModelType = Product | Collection | Order;
+export type AGTableModelType = Product | Category | Order;
 export const columns_product: ColDef<Product>[] = [
   {
     field: "title",
@@ -15,7 +15,7 @@ export const columns_product: ColDef<Product>[] = [
     width: 80,
   },
   {
-    field: "collection",
+    field: "category",
     headerName: "קטגוריה",
     width: 130,
   },
@@ -23,7 +23,7 @@ export const columns_product: ColDef<Product>[] = [
     field: "id",
     headerName: "צפה",
     cellRenderer: "ActionRender",
-    width: 110,
+    width: 130,
   },
 ] as ColDef<Product>[];
 export const columns_order: ColDef<Order>[] = [
@@ -69,11 +69,11 @@ export const columns_order: ColDef<Order>[] = [
     field: "id",
     headerName: "צפה",
     cellRenderer: "ActionRender",
-    width: 80,
+    width: 100,
   },
 ] as ColDef<Order>[];
 
-export const columns_collection: ColDef<Collection>[] = [
+export const columns_category: ColDef<Category>[] = [
   {
     field: "title",
     headerName: "שם",
@@ -90,13 +90,13 @@ export const columns_collection: ColDef<Collection>[] = [
     field: "id",
     headerName: "צפה",
     cellRenderer: "ActionRender",
-    width: 80,
+    width: 100,
   },
-] as ColDef<Collection>[];
+] as ColDef<Category>[];
 export const get_columns_by_title = (
   title: ModelType,
 ): ColDef<AGTableModelType>[] => {
-  let columns = [];
+  let columns;
   switch (title) {
     case ModelType.product:
       columns = [...columns_product];
@@ -105,8 +105,8 @@ export const get_columns_by_title = (
     case ModelType.order:
       columns = [...columns_order];
       break;
-    case ModelType.collection:
-      columns = [...columns_collection];
+    case ModelType.category:
+      columns = [...columns_category];
       break;
 
     default:

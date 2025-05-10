@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { ICellRendererParams } from "ag-grid-community";
 import {
   IconButton,
@@ -13,7 +14,7 @@ import {
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
-import { ModelType } from "../../../lib/types/form";
+import { ModelType } from "../../../lib/types";
 import { deleteModel } from "../../../lib/api";
 import { toast } from "sonner";
 import { useIntl } from "react-intl";
@@ -22,14 +23,14 @@ const ActionRender = ({ data }: ICellRendererParams) => {
   const [open, setOpen] = useState(false);
   const intl = useIntl();
 
-  const isProduct = !!data.collection;
-  const isCollection = typeof data.position === "number";
-  const isOrder = !isProduct && !isCollection;
+  const isProduct = !!data.category;
+  const isCategory = typeof data.position === "number";
+  const isOrder = !isProduct && !isCategory;
 
   const model: ModelType | null = isProduct
     ? ModelType.product
-    : isCollection
-      ? ModelType.collection
+    : isCategory
+      ? ModelType.category
       : isOrder
         ? ModelType.order
         : null;
@@ -57,7 +58,7 @@ const ActionRender = ({ data }: ICellRendererParams) => {
   return (
     <>
       {(isOrder || isProduct) && (
-        <a
+        <Link
           href={
             isProduct
               ? `/${ModelType.product}/${data.handle}`
@@ -69,18 +70,18 @@ const ActionRender = ({ data }: ICellRendererParams) => {
           <IconButton size="small" aria-label="view" color="info">
             <VisibilityIcon fontSize="inherit" />
           </IconButton>
-        </a>
+        </Link>
       )}
 
-      {title && (isProduct || isCollection) && (
-        <a href={`/admin/form/${model}/${id}`} rel="noopener noreferrer">
+      {title && (isProduct || isCategory) && (
+        <Link href={`/admin/form/${model}/${id}`}>
           <IconButton size="small" aria-label="edit" color="primary">
             <EditIcon fontSize="inherit" />
           </IconButton>
-        </a>
+        </Link>
       )}
 
-      {(isProduct || isCollection) && (
+      {(isProduct || isCategory) && (
         <>
           <IconButton
             size="small"
@@ -97,7 +98,7 @@ const ActionRender = ({ data }: ICellRendererParams) => {
             </DialogTitle>
             <DialogContent>
               {intl.formatMessage({ id: "delete.description" })}
-              {isCollection && (
+              {isCategory && (
                 <div style={{ marginTop: 8, color: "red", fontWeight: 500 }}>
                   {intl.formatMessage({ id: "delete.cascadeWarning" })}
                 </div>
