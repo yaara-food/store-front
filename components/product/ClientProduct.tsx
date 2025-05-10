@@ -2,7 +2,7 @@
 
 import Grid from "components/product/grid";
 import ProductGridItems from "components/product/product-grid-items";
-import { NoProductsMessage, SearchResultsMessage } from "../shared/Messages";
+import { NoProductsMessage, SearchResultsMessage } from "components/shared/Messages";
 import { Product } from "lib/types";
 import { useSearchParams } from "next/navigation";
 import { useMemo } from "react";
