@@ -1,12 +1,12 @@
 "use client";
-import {useEffect, useState} from "react";
-import {useRouter} from "next/navigation";
-import {useIntl, FormattedMessage} from "react-intl";
-import {Box, Button, TextField, Typography, Container} from "@mui/material";
-import {toast} from "sonner";
+import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useIntl, FormattedMessage } from "react-intl";
+import { Box, Button, TextField, Typography, Container } from "@mui/material";
+import { toast } from "sonner";
 
-import {loginUser} from "../../lib/api";
-import {SEVEN_DAYS} from "../../lib/const";
+import { loginUser } from "../../lib/api";
+import { SEVEN_DAYS } from "../../lib/config";
 
 export default function LoginPage() {
   const router = useRouter();
