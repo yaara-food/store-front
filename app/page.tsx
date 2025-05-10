@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { getProducts } from "lib/api";
 import ClientProduct from "components/product/ClientProduct";
 import SidebarLayout from "components/layout/sidebar";
-import { H1SeoTitle } from "components/shared/Messages";
+import { H1SeoTitle } from "components/shared/messages";
 import {
   metadata_site_title,
   metadata_site_description,
