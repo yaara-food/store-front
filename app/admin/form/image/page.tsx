@@ -1,32 +1,26 @@
 "use client";
 
 import React, { useState } from "react";
-import {
-  Box,
-  Button,
-  Typography,
-  CircularProgress,
-  IconButton,
-} from "@mui/material";
+import { Box, Button, Typography, IconButton } from "@mui/material";
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import { toast } from "sonner";
-import { uploadImage } from "../../../../lib/api";
+import { setGlobalLoading, uploadImage } from "../../../../lib/api";
 import { MAX_FILE_SIZE_MB } from "../../../../lib/config";
 import { useIntl, FormattedMessage } from "react-intl";
+import { useLoading } from "../../../../lib/provider/LoadingProvider";
 
 export default function UploadImagePage() {
   const [file, setFile] = useState<File | null>(null);
   const [imageUrl, setImageUrl] = useState<string | null>(null);
-  const [loading, setLoading] = useState(false);
-
+  const { loading } = useLoading();
   const intl = useIntl();
 
   const handleUpload = async () => {
     if (!file) return;
 
     try {
-      setLoading(true);
+      setGlobalLoading(true);
       const url = await uploadImage(file);
       setImageUrl(url);
 
@@ -40,7 +34,7 @@ export default function UploadImagePage() {
       });
       setImageUrl(null);
     } finally {
-      setLoading(false);
+      setGlobalLoading(false);
     }
   };
 
@@ -128,7 +122,6 @@ export default function UploadImagePage() {
             variant="contained"
             onClick={handleUpload}
             disabled={!file || loading}
-            startIcon={loading ? <CircularProgress size={20} /> : undefined}
           >
             <FormattedMessage id="image.upload.button" />
           </Button>
