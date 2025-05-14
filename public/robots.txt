@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://yaara-store.vercel.app/sitemap.xml
+Sitemap: https://store.yaarafoodforest.com/sitemap.xml
