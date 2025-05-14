@@ -40,6 +40,7 @@ export default function Label({
       >
         <h3
           className="product-title mr-4 line-clamp-2 grow pl-2 leading-none tracking-tight"
+          data-testid="product-card-title"
           style={{
             fontSize: "1.2em",
             color: "var(--color-text-strong)",

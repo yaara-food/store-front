@@ -5,6 +5,7 @@ import { Box, Grid } from "@mui/material";
 
 export function ProductDescription({ product }: { product: Product }) {
   const isLongTitle = product.title.length > 30;
+
   return (
     <>
       <Grid
@@ -23,6 +24,7 @@ export function ProductDescription({ product }: { product: Product }) {
         <Grid item sx={{ flexGrow: 1, minWidth: 0 }}>
           <h1
             className="product-title line-clamp-2 leading-tight tracking-tight"
+            data-testid="product-title"
             style={{
               fontSize: "2.2em",
               fontWeight: "bold",
@@ -40,9 +42,10 @@ export function ProductDescription({ product }: { product: Product }) {
 
         <Grid item>
           <Box
+            data-testid="product-price"
             className="price-badge"
             sx={{
-              backgroundColor: "var(--color-accent)", // normal mode
+              backgroundColor: "var(--color-accent)",
               px: 3,
               py: 1.2,
               borderRadius: 999,
@@ -51,7 +54,7 @@ export function ProductDescription({ product }: { product: Product }) {
               width: "fit-content",
               whiteSpace: "nowrap",
               lineHeight: 1.3,
-              color: "black", // fallback text color (normal mode)
+              color: "black",
             }}
           >
             <Price amount={product.price} />
@@ -59,9 +62,12 @@ export function ProductDescription({ product }: { product: Product }) {
         </Grid>
       </Grid>
 
-      <AddToCart product={product} />
+      <div data-testid="add-to-cart">
+        <AddToCart product={product} />
+      </div>
 
       <h3
+        data-testid="product-description"
         className="text-primary mt-4 leading-relaxed"
         style={{
           fontSize: "1.8em",

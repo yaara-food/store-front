@@ -19,14 +19,15 @@ export function DeleteItemButton({
 }) {
   return (
     <IconButton
+      data-testid="cart-delete-item"
       onClick={() => optimisticUpdate(item.productId, "delete")}
       aria-label="Remove cart item"
       size="small"
       sx={{
-        backgroundColor: "#6b7280", // neutral-500
+        backgroundColor: "#6b7280",
         color: "#fff",
         "&:hover": {
-          backgroundColor: "#4b5563", // hover darker
+          backgroundColor: "#4b5563",
         },
         width: 24,
         height: 24,
@@ -52,6 +53,7 @@ export function EditItemQuantityButton({
 
   return (
     <IconButton
+      data-testid={`cart-qty-${type}`}
       onClick={() => optimisticUpdate(item.productId, type)}
       aria-label={ariaLabel}
       size="small"
@@ -80,6 +82,7 @@ export function OpenCart({
 }) {
   return (
     <Box
+      data-testid="cart-open"
       className={`relative flex h-11 w-11 items-center justify-center rounded-md border border-theme text-theme-strong transition-colors dark:border-theme dark:text-theme-strong ${className || ""}`}
     >
       <ShoppingCartIcon
@@ -98,6 +101,7 @@ export function OpenCart({
 export function CheckoutButton({ onClick }: { onClick: () => void }) {
   return (
     <Button
+      data-testid="cart-checkout"
       onClick={onClick}
       variant="contained"
       fullWidth

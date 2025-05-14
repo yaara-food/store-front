@@ -1,4 +1,5 @@
 "use client";
+
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -76,11 +77,16 @@ export default function Cart() {
 
   return (
     <>
-      <button aria-label="Open cart" onClick={openCart}>
+      <button
+        data-testid="open-cart-button"
+        aria-label="Open cart"
+        onClick={openCart}
+      >
         <OpenCart quantity={cart?.totalQuantity} />
       </button>
 
       <Dialog
+        data-testid="cart"
         open={isOpen}
         onClose={closeCart}
         hideBackdrop
@@ -117,6 +123,7 @@ export default function Cart() {
             onClick={closeCart}
             aria-label="Close cart"
             sx={{ color: highContrast ? "yellow" : "inherit" }}
+            data-testid="close-cart-button"
           >
             <CloseIcon />
           </IconButton>
@@ -154,7 +161,7 @@ export default function Cart() {
               </Typography>
             </Box>
           ) : (
-            <Box component="ul" py={2}>
+            <Box component="ul" py={2} data-testid="cart-list">
               {cart.lines
                 .filter((item) => item?.title)
                 .sort((a, b) => a.title.localeCompare(b.title))
@@ -203,13 +210,19 @@ export default function Cart() {
                             className="text-sm font-medium"
                             amount={item.unitAmount}
                           />
-                          <div className="flex h-9 flex-row items-center rounded-full border border-neutral-200 dark:border-neutral-700">
+                          <div
+                            className="flex h-9 flex-row items-center rounded-full border border-neutral-200 dark:border-neutral-700"
+                            data-testid="quantity-buttons"
+                          >
                             <EditItemQuantityButton
                               item={item}
                               type="minus"
                               optimisticUpdate={optimisticUpdate}
                             />
-                            <span className="w-6 text-center text-sm">
+                            <span
+                              className="w-6 text-center text-sm"
+                              data-testid="cart-item-qty"
+                            >
                               {item.quantity}
                             </span>
                             <EditItemQuantityButton
@@ -227,7 +240,6 @@ export default function Cart() {
           )}
         </DialogContent>
 
-        {/*   Mobile version */}
         {cart?.lines.length > 0 && (
           <Box
             sx={{
@@ -250,11 +262,12 @@ export default function Cart() {
               </Typography>
               <Price amount={cart.cost} />
             </Box>
-            <CheckoutButton onClick={redirectToCheckout} />
+            <div data-testid="cart-checkout-mobile">
+              <CheckoutButton onClick={redirectToCheckout} />
+            </div>
           </Box>
         )}
 
-        {/*   Desktop version */}
         {cart?.lines.length > 0 && (
           <Box
             sx={{
@@ -272,7 +285,9 @@ export default function Cart() {
               </Typography>
               <Price amount={cart.cost} />
             </Box>
-            <CheckoutButton onClick={redirectToCheckout} />
+            <div data-testid="cart-checkout-desktop">
+              <CheckoutButton onClick={redirectToCheckout} />
+            </div>
           </Box>
         )}
       </Dialog>

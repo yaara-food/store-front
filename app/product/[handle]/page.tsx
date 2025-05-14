@@ -89,7 +89,10 @@ export default async function ProductPage({ params }: Props) {
         }}
       />
 
-      <div className="mx-auto max-w-(--breakpoint-2xl) px-4">
+      <div
+        className="mx-auto max-w-(--breakpoint-2xl) px-4"
+        data-testid="product-detail"
+      >
         <div className="flex flex-col gap-6 rounded-lg border border-theme bg-theme p-8 md:p-12 lg:flex-row lg:gap-8 ">
           <div className="basis-full lg:basis-2/6">
             <ProductDescription product={product} />

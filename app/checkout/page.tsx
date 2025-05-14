@@ -14,6 +14,7 @@ export default function CheckoutPage() {
       {orderSuccess ? (
         <>
           <Typography
+            data-testid="checkout-success"
             variant="h5"
             textAlign="center"
             fontWeight="bold"
@@ -52,6 +53,7 @@ export default function CheckoutPage() {
         </>
       ) : (
         <Grid
+          data-testid="checkout-form-grid"
           container
           spacing={4}
           justifyContent="center"

@@ -19,6 +19,7 @@ export function AddToCart({ product }: { product: Product }) {
 
   return (
     <Button
+      data-testid="add-to-cart-button"
       onClick={handleAddToCart}
       fullWidth
       variant="contained"

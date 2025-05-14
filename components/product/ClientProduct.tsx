@@ -29,14 +29,17 @@ export default function ClientProduct({ products }: { products: Product[] }) {
   return (
     <>
       {q && <SearchResultsMessage count={filteredProducts.length} />}
+
       {filteredProducts.length > 0 ? (
-        <div className="container mx-auto px-4">
+        <div data-testid="product-list" className="container mx-auto px-4">
           <Grid className="grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
             <ProductGridItems products={filteredProducts} />
           </Grid>
         </div>
       ) : (
-        <NoProductsMessage />
+        <div data-testid="no-products">
+          <NoProductsMessage />
+        </div>
       )}
     </>
   );

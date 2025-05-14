@@ -63,6 +63,7 @@ export default function CheckoutInfo({
 
   return (
     <Box
+      data-testid="checkout-page"
       sx={{
         width: "100%",
         mx: "auto",
@@ -175,6 +176,7 @@ export default function CheckoutInfo({
                           autoComplete:
                             field.name === "phone" ? "tel" : field.name,
                           style: { fontSize: "inherit" },
+                          "data-testid": `checkout-input-${field.name}`,
                         }}
                         sx={{
                           direction: "rtl",
@@ -185,6 +187,7 @@ export default function CheckoutInfo({
                       {touched[field.name as keyof typeof touched] &&
                         errors[field.name as keyof typeof errors] && (
                           <FormHelperText
+                            data-testid={`checkout-error-${field.name}`}
                             sx={{ textAlign: "right", marginRight: 1 }}
                           >
                             {errors[field.name as keyof typeof errors]}
@@ -206,7 +209,8 @@ export default function CheckoutInfo({
                         onChange={handleChange}
                         name="agreed"
                         color="primary"
-                        sx={{ ml: 1 }} // give space between text and checkbox
+                        sx={{ ml: 1 }}
+                        data-testid="checkout-agree"
                       />
                     }
                     label={
@@ -229,7 +233,10 @@ export default function CheckoutInfo({
                     }
                   />
                   {touched.agreed && errors.agreed && (
-                    <FormHelperText sx={{ textAlign: "right" }}>
+                    <FormHelperText
+                      data-testid="checkout-error-agreed"
+                      sx={{ textAlign: "right" }}
+                    >
                       {errors.agreed}
                     </FormHelperText>
                   )}
@@ -253,6 +260,7 @@ export default function CheckoutInfo({
                 </Grid>
                 <Grid item>
                   <Button
+                    data-testid="checkout-submit"
                     fullWidth
                     size="large"
                     type="submit"
