@@ -34,7 +34,7 @@ export default function FormPage({
     categories: [],
   });
   const [fields, setFields] = useState<FormField[]>([]);
-  const [imagesError, setImagesError] = useState(false);
+  const [fieldError, setFieldError] = useState<string | null>(null);
 
   const is_add = id === "add";
 
@@ -48,7 +48,6 @@ export default function FormPage({
       const obj = is_add
         ? {}
         : (array_obj_to_obj_with_key(model_objs, Number(id), "id") ?? {});
-
       const fields_to_set = create_form_fields(get_form_by_model(model), obj);
       setFields(fields_to_set);
     };
@@ -60,46 +59,91 @@ export default function FormPage({
 
   const handleSubmit = async (send_fields: FormField[]) => {
     const data = Object.fromEntries(
-      send_fields.map((f) => [
-        f.key,
-        typeof f.value === "string" ? f.value.trim() : f.value,
-      ]),
+      send_fields.map((f) => {
+        let value = f.value;
+
+        if (typeof value === "string") {
+          value = value.trim();
+          if (value === "") return [f.key, null];
+        }
+
+        if (f.type === "number" && typeof value === "string") {
+          const num = parseFloat(value);
+          return [f.key, isNaN(num) ? null : num];
+        }
+
+        return [f.key, value];
+      }),
     );
 
     if (model === ModelType.product) {
-      const filteredImages = data.images.filter(
-        (img: Image) => img.url.trim() !== "" || img.altText.trim() !== "",
+      const images: Image[] = Array.isArray(data.images) ? data.images : [];
+
+      const filteredImages = images
+        .map((img) => ({
+          url: (img.url ?? "").trim(),
+          altText: (img.altText ?? "").trim(),
+        }))
+        .filter((img) => img.url !== "" || img.altText !== "");
+
+      const hasInvalidImage = filteredImages.some(
+        (img) => img.url === "" || img.altText === "",
       );
 
       if (filteredImages.length === 0) {
-        setImagesError(true);
+        setFieldError(intl.formatMessage({ id: "form.error.required.images" }));
         return;
       }
 
+      if (hasInvalidImage) {
+        setFieldError(
+          intl.formatMessage({ id: "form.error.required.imageFields" }),
+        );
+        return;
+      }
       data.images = filteredImages;
 
+      if (!data.category) {
+        setFieldError(
+          intl.formatMessage({ id: "form.error.required.category" }),
+        );
+        return;
+      }
       const category = array_obj_to_obj_with_key(
         list.categories,
         data.category,
         "handle",
       );
-      data.category_id = category.id;
+
+      data.category_id = category?.id;
       delete data.category;
     }
 
-    setImagesError(false);
+    setFieldError(null);
+
     try {
       const result: AGTableModelType = (await submitModel(
         model,
         id,
         data,
       )) as AGTableModelType;
+
       toast.success(intl.formatMessage({ id: "form.success" }), {
         description: `ID: ${result.id}`,
       });
       router.push(`/admin/${model}`);
-    } catch (err) {
-      toast.error(intl.formatMessage({ id: "form.error" }));
+    } catch (err: any) {
+      const rawMessage = err?.message || "Unknown error";
+      const match = rawMessage.match(/Missing required field: (\w+)/i);
+      const fieldKey = match?.[1]?.toLowerCase();
+
+      const intlId = `form.error.required.${fieldKey}`;
+      setFieldError(intl.formatMessage({ id: intlId }));
+
+      toast.error(intl.formatMessage({ id: "form.error" }), {
+        description: rawMessage,
+      });
+
       console.error("❌ Failed to submit:", err);
     }
   };
@@ -108,16 +152,20 @@ export default function FormPage({
     <Container maxWidth="lg" disableGutters sx={{ py: 4 }}>
       {fields.length > 0 && (
         <>
-          {imagesError && model === ModelType.product && (
-            <Typography
-              variant="h6"
-              color="error"
-              sx={{ textAlign: "center", mb: 2, fontWeight: "bold" }}
-            >
-              <FormattedMessage id="form.image.required" />
-            </Typography>
-          )}
           <FormChild title={title} fields={fields} onSubmit={handleSubmit} />
+          {fieldError && (
+            <h3
+              style={{
+                color: "red",
+                textAlign: "center",
+                marginTop: "1.5rem",
+                fontWeight: "bold",
+                fontSize: "2em",
+              }}
+            >
+              {fieldError}
+            </h3>
+          )}
         </>
       )}
     </Container>

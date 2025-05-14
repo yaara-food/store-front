@@ -1,70 +1,26 @@
 "use client";
-import {useState, useEffect, useRef} from "react";
-import {useRouter, usePathname, useSearchParams} from "next/navigation";
-import {useIntl, FormattedMessage} from "react-intl";
+import { useState, useEffect, useRef } from "react";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
+import { useIntl, FormattedMessage } from "react-intl";
 
-import {toast} from "sonner";
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { toast } from "sonner";
 import {
   TextField,
   InputAdornment,
-  Button,
   Box,
   ListItemButton,
   ListItemText,
   Typography,
+  Tooltip,
+  IconButton,
+  useMediaQuery,
 } from "@mui/material";
 import SearchIcon from "@mui/icons-material/Search";
-import {ModelType} from "../../../lib/types";
 
-const adminRoutes: ModelType[] = [
-  ModelType.order,
-  ModelType.product,
-  ModelType.category,
-];
-
-export function AdminNav() {
-  const router = useRouter();
-  const pathname = usePathname();
-
-  return (
-    <Box display="flex" gap={2} flexDirection="row">
-      {adminRoutes.map((model) => {
-        const isActive = pathname === `/admin/${model}`;
-
-        return (
-          <ListItemButton
-            key={model}
-            onClick={() => router.push(`/admin/${model}`)}
-            sx={{
-              borderRadius: "12px",
-              px: 3,
-              py: 0.5,
-              backgroundColor: isActive ? "var(--color-accent)" : "transparent",
-              transition: "background-color 0.2s ease",
-              "&:hover": {
-                backgroundColor: "var(--color-accent)",
-              },
-            }}
-          >
-            <ListItemText
-              primary={
-                <Typography
-                  variant="body1"
-                  sx={{
-                    color: isActive ? "white" : "black",
-                    fontWeight: isActive ? "bold" : "normal",
-                  }}
-                >
-                  <FormattedMessage id={`admin.${model}.title`} />
-                </Typography>
-              }
-            />
-          </ListItemButton>
-        );
-      })}
-    </Box>
-  );
-}
+import Cart from "components/cart/Cart";
+import { AdminNav } from "./AdminNav";
 
 function Search() {
   const intl = useIntl();
@@ -147,16 +103,21 @@ function AuthButtons() {
 
   return (
     <>
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => router.push("/admin")}
-      >
-        <FormattedMessage id="search.admin" />
-      </Button>
-      <Button variant="outlined" color="error" onClick={handleLogout}>
-        <FormattedMessage id="search.logout" />
-      </Button>
+      <Tooltip title={<FormattedMessage id="search.admin" />}>
+        <IconButton
+          color="primary"
+          onClick={() => router.push("/admin")}
+          size="large"
+        >
+          <AdminPanelSettingsIcon />
+        </IconButton>
+      </Tooltip>
+
+      <Tooltip title={<FormattedMessage id="search.logout" />}>
+        <IconButton color="error" onClick={handleLogout} size="large">
+          <LogoutIcon />
+        </IconButton>
+      </Tooltip>
     </>
   );
 }
@@ -164,22 +125,48 @@ function AuthButtons() {
 export default function HeaderControls() {
   const pathname = usePathname();
 
-  if (pathname.startsWith("/admin")) {
-    return <AdminNav />;
+  const isAdmin = pathname.startsWith("/admin");
+  const isDesktop = useMediaQuery("(min-width:768px)");
+
+  if (isAdmin) {
+    return (
+      <>
+        {isDesktop ? (
+          <>
+            <div className="flex w-full md:w-1/3 justify-center px-2">
+              <AdminNav />
+            </div>
+            <div className="flex justify-end w-auto md:w-1/3"></div>
+          </>
+        ) : (
+          <>
+            <div className="flex w-full md:w-1/3 justify-center px-2"></div>
+            <div className="flex justify-end w-auto md:w-1/3">
+              <AdminNav />
+            </div>
+          </>
+        )}
+      </>
+    );
   }
 
-  if (
+  const shouldHideSearch =
     pathname.startsWith("/product/") ||
     pathname.startsWith("/legal/") ||
-    pathname.startsWith("/login")
-  ) {
-    return null;
-  }
+    pathname.startsWith("/login");
 
   return (
-    <Box display="flex" gap={2}>
-      <Search />
-      <AuthButtons />
-    </Box>
+    <>
+      <div className="flex w-full md:w-1/3 justify-center px-2">
+        <Box display="flex" gap={{ xs: 0, md: 2 }}>
+          {!shouldHideSearch && <Search />}
+          <AuthButtons />
+        </Box>
+      </div>
+
+      <div className="flex justify-end w-auto md:w-1/3">
+        <Cart />
+      </div>
+    </>
   );
 }

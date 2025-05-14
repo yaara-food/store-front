@@ -1,3 +1,6 @@
+"use client";
+import { usePathname } from "next/navigation";
+
 import { green, red, blue } from "@mui/material/colors";
 import { Box, Typography, IconButton, Stack, Grid } from "@mui/material";
 import FacebookIcon from "@mui/icons-material/Facebook";
@@ -7,6 +10,7 @@ import EmailIcon from "@mui/icons-material/Email";
 import PhoneIcon from "@mui/icons-material/Phone";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import { metadata_site_title } from "../../lib/assets/i18n/seo_heb";
+
 import { FOOTER_DATA, WHATSAPP_MESSAGE } from "../../lib/config";
 
 export const [email, address, phone, instagram, facebook, website] =
@@ -15,6 +19,8 @@ const whatsappNumber = phone.replace(/^0/, "972");
 const whatsappMessage = encodeURIComponent(WHATSAPP_MESSAGE || "Hi");
 
 export default function Footer() {
+  const pathname = usePathname();
+  if (pathname.startsWith("/admin")) return null;
   return (
     <Box
       component="footer"

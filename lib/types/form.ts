@@ -26,6 +26,7 @@ export type FormField = FieldAutoComplete | FieldInput;
 export type InputField = {
   key: string;
   type: FormType;
+  value?: string;
   options?: string[];
 };
 
@@ -38,7 +39,7 @@ export const product_fields: InputField[] = [
     type: FormType.AutoComplete,
     options: [],
   },
-  { key: "available", type: FormType.Switch },
+  { key: "available", type: FormType.Switch, value: true },
   { key: "images", type: FormType.ImagesEditor },
 ];
 export const category_fields: InputField[] = [
@@ -57,6 +58,9 @@ const isInputFormType = (type: FormType): type is InputFormType => {
 export const json_field_to_form_field = (json_field: InputField): FormField => {
   if (isInputFormType(json_field.type)) {
     return new FieldInput(json_field.type, json_field.key);
+  }
+  if (json_field.type === FormType.Switch) {
+    return new FieldInput(json_field.type, json_field.key, json_field.value);
   }
 
   if (json_field.type === FormType.AutoComplete) {
@@ -98,9 +102,12 @@ export const create_form_fields = (
     (typeof target === "object" && Object.keys(target).length === 0)
   )
     return source.map((field) => ({ ...field }));
-
   return source.map((field) => {
-    const updatedValue = target[field.key] ?? "";
+    let updatedValue = target[field.key];
+
+    if (typeof updatedValue === "string") {
+      updatedValue = updatedValue.trim();
+    }
     return { ...field, value: updatedValue };
   });
 };
