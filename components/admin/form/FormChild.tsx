@@ -56,7 +56,11 @@ export const FieldRenderer = ({ field, onChange }: FormFieldProps) => {
           value={field.value}
           onChange={(e, value) => onChange(value, field.key)}
           renderInput={(params) => (
-            <TextField {...params} label={placeholder} />
+            <TextField
+              {...params}
+              label={placeholder}
+              data-testid={`form-input-${field.key}`}
+            />
           )}
         />
       );
@@ -66,6 +70,7 @@ export const FieldRenderer = ({ field, onChange }: FormFieldProps) => {
         <FormControlLabel
           control={
             <Switch
+              data-testid={`form-input-${field.key}`}
               onChange={(e, value) => onChange(value, field.key)}
               checked={!!field.value as boolean}
             />
@@ -89,6 +94,7 @@ export const FieldRenderer = ({ field, onChange }: FormFieldProps) => {
           multiline={field.type === FormType.TEXTAREA}
           rows={field.type === FormType.TEXTAREA ? 5 : undefined}
           onChange={(e) => onChange(e.target.value, field.key)}
+          data-testid={`form-input-${field.key}`}
         />
       );
   }
@@ -118,8 +124,13 @@ export default function FormChild({ title, fields, onSubmit }: FormChildProps) {
   return (
     <Grid container justifyContent="center">
       <Grid item xs={12} sm={10} md={6} lg={4}>
-        <Typography variant="h4" textAlign="center" fontWeight="bold" mb={2}>
-          {/*{title}*/}
+        <Typography
+          data-testid="form-title"
+          variant="h4"
+          textAlign="center"
+          fontWeight="bold"
+          mb={2}
+        >
           {intl.formatMessage({ id: title })}
         </Typography>
 
@@ -132,6 +143,7 @@ export default function FormChild({ title, fields, onSubmit }: FormChildProps) {
 
           <Grid item display="flex" justifyContent="center">
             <Button
+              data-testid="form-submit-button"
               variant="contained"
               onClick={handleSubmit}
               sx={{

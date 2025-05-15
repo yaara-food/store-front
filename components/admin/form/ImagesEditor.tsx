@@ -35,7 +35,7 @@ export default function ImagesEditor({
   };
 
   return (
-    <Box sx={{ mt: 2 }}>
+    <Box sx={{ mt: 2 }} data-testid="form-input-images">
       <Typography
         fontSize="1em"
         color="text.secondary"
@@ -45,7 +45,10 @@ export default function ImagesEditor({
         <FormattedMessage id="admin.image.instructions" />
       </Typography>
       <SimpleTreeView>
-        <TreeItem itemId="images" label={placeholder}>
+        <TreeItem
+          itemId="images"
+          label={<span data-testid="form-toggle-images">{placeholder}</span>}
+        >
           <Grid container direction="column" spacing={3}>
             <Button
               sx={{ mt: 2 }}
@@ -57,7 +60,12 @@ export default function ImagesEditor({
             </Button>
 
             {Array.from({ length: 5 }, (_, index) => (
-              <Grid item xs={12} key={index}>
+              <Grid
+                item
+                xs={12}
+                key={index}
+                data-testid={`form-image-${index}`}
+              >
                 <Typography fontWeight="bold">
                   <FormattedMessage
                     id="admin.image.label"
@@ -92,7 +100,9 @@ export default function ImagesEditor({
                             handleChange(index, "url", text);
                             toast.success(
                               <FormattedMessage id="admin.image.clipboard.success" />,
-                              { description: text },
+                              {
+                                description: text,
+                              },
                             );
                           } else {
                             toast.error(

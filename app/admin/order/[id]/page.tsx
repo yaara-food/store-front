@@ -59,7 +59,10 @@ export default function OrderViewPage({ params }: { params: { id: string } }) {
 
   return (
     order && (
-      <Box sx={{ maxWidth: 800, mx: "auto", p: 3, direction: "rtl" }}>
+      <Box
+        data-testid="admin-order-detail"
+        sx={{ maxWidth: 800, mx: "auto", p: 3, direction: "rtl" }}
+      >
         <Typography variant="h4" fontWeight="bold" textAlign="center" mb={3}>
           <FormattedMessage id="order.title" /> #{order.id}
         </Typography>

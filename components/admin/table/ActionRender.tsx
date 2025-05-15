@@ -67,7 +67,12 @@ const ActionRender = ({ data }: ICellRendererParams) => {
           target={isProduct ? "_blank" : undefined}
           rel={isProduct ? "noopener noreferrer" : undefined}
         >
-          <IconButton size="small" aria-label="view" color="info">
+          <IconButton
+            size="small"
+            aria-label="view"
+            color="info"
+            data-testid="action-view-button"
+          >
             <VisibilityIcon fontSize="inherit" />
           </IconButton>
         </Link>
@@ -75,7 +80,12 @@ const ActionRender = ({ data }: ICellRendererParams) => {
 
       {title && (isProduct || isCategory) && (
         <Link href={`/admin/form/${model}/${id}`}>
-          <IconButton size="small" aria-label="edit" color="primary">
+          <IconButton
+            size="small"
+            aria-label="edit"
+            color="primary"
+            data-testid="action-edit-button"
+          >
             <EditIcon fontSize="inherit" />
           </IconButton>
         </Link>
@@ -88,6 +98,7 @@ const ActionRender = ({ data }: ICellRendererParams) => {
             aria-label="delete"
             color="error"
             onClick={handleDeleteClick}
+            data-testid="action-delete-button"
           >
             <DeleteIcon fontSize="inherit" />
           </IconButton>
@@ -112,6 +123,7 @@ const ActionRender = ({ data }: ICellRendererParams) => {
                 onClick={handleConfirmDelete}
                 color="error"
                 variant="contained"
+                data-testid="confirm-delete-button"
               >
                 {intl.formatMessage({ id: "delete.confirm" })}
               </Button>

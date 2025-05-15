@@ -22,6 +22,7 @@ const AGTable = ({
 }) => (
   <div
     className="ag-theme-alpine"
+    data-testid="ag-table"
     style={{ height: 600, width: "100%", overflowX: "hidden" }}
   >
     <AgGridReact<AGTableModelType>
