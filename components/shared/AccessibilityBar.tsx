@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef, ReactNode } from "react";
 import { Box, IconButton, Typography, Stack } from "@mui/material";
 import { FormattedMessage } from "react-intl";
 
@@ -20,7 +20,7 @@ const ActionItem = ({
   onClick,
   selected = false,
 }: {
-  icon: React.ReactNode;
+  icon: ReactNode;
   labelId: string;
   onClick: () => void;
   selected?: boolean;
@@ -63,7 +63,7 @@ export default function AccessibilityBar() {
   const [grayscale, setGrayscale] = useState(false);
   const [underlineLinks, setUnderlineLinks] = useState(false);
   const [readableFont, setReadableFont] = useState(false);
-  const panelRef = useRef<HTMLDivElement>(null);
+  const panelRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     const sizes = [
@@ -90,10 +90,8 @@ export default function AccessibilityBar() {
   useEffect(() => {
     if (!open) return;
     const handleClickOutside = (event: MouseEvent) => {
-      if (
-        panelRef.current &&
-        !panelRef.current.contains(event.target as Node)
-      ) {
+      const panel = panelRef.current;
+      if (panel && !panel.contains(event.target as Node)) {
         setOpen(false);
       }
     };

@@ -1,4 +1,10 @@
-import { Order, OrderStatus, ModelType } from "../types";
+import {
+  Order,
+  OrderStatus,
+  ModelType,
+  AGTableModelType,
+  NewOrderPayload,
+} from "../types";
 import { API_URL } from "../config";
 import { cache } from "./cache";
 
@@ -16,6 +22,7 @@ export function subscribeGlobalLoading(cb: Callback) {
     subscribers = subscribers.filter((fn) => fn !== cb);
   };
 }
+
 export async function serverFetch(
   input: string,
   init: RequestInit = {},
@@ -23,49 +30,42 @@ export async function serverFetch(
   const {
     next,
     redirect,
-    headers,
+    headers, // unused in your usage
     cache: initCache,
     body,
     ...restInit
-  } = init as any;
+  } = init;
 
   const isBrowser = typeof window !== "undefined";
-
   const token = isBrowser ? localStorage.getItem("token") : null;
 
   let finalBody = body;
-  let finalHeaders: HeadersInit = headers || {};
+  const finalHeaders: Record<string, string> = {};
 
   if (body && !(body instanceof FormData)) {
     finalBody = JSON.stringify(body);
-    finalHeaders = {
-      "Content-Type": "application/json",
-      ...finalHeaders,
-    };
+    finalHeaders["Content-Type"] = "application/json";
   }
 
   if (token) {
-    finalHeaders = {
-      ...finalHeaders,
-      Authorization: `Bearer ${token}`,
-    };
+    finalHeaders["Authorization"] = `Bearer ${token}`;
   }
 
   if (isBrowser) setGlobalLoading(true);
 
   try {
-    const res = await fetch(`${API_URL}${input}`, {
+    return await fetch(`${API_URL}${input}`, {
       ...restInit,
       headers: finalHeaders,
       body: finalBody,
       credentials: "include",
       cache: initCache || "no-store",
     });
-    return res;
   } finally {
     if (isBrowser) setGlobalLoading(false);
   }
 }
+
 async function handleResponse<T = any>(
   response: Response,
   context: string,
@@ -127,22 +127,22 @@ export async function submitModel(
   model: ModelType,
   idOrAdd: string,
   body: any,
-): Promise<Response> {
+): Promise<AGTableModelType> {
   const res = await serverFetch(`/auth/${model}/${idOrAdd}`, {
     method: "POST",
     body,
   });
 
-  return await handleResponse(res, "submit model");
+  return await handleResponse<AGTableModelType>(res, "submit model");
 }
 
-export async function submitOrder(order: Order): Promise<Response> {
+export async function submitOrder(order: NewOrderPayload): Promise<Order> {
   const res = await serverFetch(`/checkout`, {
     method: "POST",
-    body: order,
+    body: order as any,
   });
 
-  return await handleResponse(res, "submit order"); // ✅ returns parsed Order
+  return handleResponse<Order>(res, "submit order");
 }
 
 export async function getOrders(): Promise<Order[]> {
@@ -165,7 +165,7 @@ export async function updateOrderStatus(
 ): Promise<Order> {
   const res = await serverFetch(`/auth/order/status`, {
     method: "POST",
-    body: { id, status },
+    body: { id, status } as any,
   });
 
   return handleResponse(res, "update order status");
@@ -177,7 +177,7 @@ export async function loginUser(
 ): Promise<{ token: string }> {
   const res = await serverFetch(`/login`, {
     method: "POST",
-    body: { username, password },
+    body: { username, password } as any,
   });
 
   return handleResponse(res, "login");

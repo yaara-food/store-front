@@ -53,7 +53,7 @@ export default function FormPage({
       setFields(fields_to_set);
     };
 
-    init();
+    void init();
   }, [model, id, is_add]);
 
   const title = is_add ? `form.add.${model}` : `form.edit.${model}`;
@@ -106,7 +106,7 @@ export default function FormPage({
         return;
       }
       const category = array_obj_to_obj_with_key(
-        list.categories,
+        list.categories ?? [],
         data.category,
         "title",
       );

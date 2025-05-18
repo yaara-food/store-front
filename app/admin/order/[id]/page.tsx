@@ -52,7 +52,8 @@ export default function OrderViewPage({ params }: { params: { id: string } }) {
       const obj = await getOrderById(Number(id));
       setOrder(obj);
     };
-    init();
+
+    void init();
   }, [id]);
 
   if (order === null) return notFound();
@@ -244,7 +245,7 @@ export default function OrderViewPage({ params }: { params: { id: string } }) {
                     onClick={async () => {
                       try {
                         const updated = await updateOrderStatus(
-                          order.id,
+                          (order as Order).id,
                           nextStatus,
                         );
                         toast.success(
@@ -276,14 +277,16 @@ export default function OrderViewPage({ params }: { params: { id: string } }) {
                       }
                     }}
                     onMouseEnter={(e) => {
-                      e.currentTarget.querySelector(
+                      const chip = e.currentTarget.querySelector(
                         ".MuiChip-root",
-                      )!.style.filter = "brightness(0.9)";
+                      ) as HTMLElement | null;
+                      if (chip) chip.style.filter = "brightness(0.9)";
                     }}
                     onMouseLeave={(e) => {
-                      e.currentTarget.querySelector(
+                      const chip = e.currentTarget.querySelector(
                         ".MuiChip-root",
-                      )!.style.filter = "";
+                      ) as HTMLElement | null;
+                      if (chip) chip.style.filter = "";
                     }}
                     style={{ display: "inline-block", cursor: "pointer" }}
                   >

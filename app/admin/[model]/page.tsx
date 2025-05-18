@@ -3,19 +3,14 @@
 import * as React from "react";
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
-import { Box, Button, Container, Grid, TextField } from "@mui/material";
+import { Button, Container, Grid, TextField } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import ImageIcon from "@mui/icons-material/Image";
 import { FormattedMessage, useIntl } from "react-intl";
 import { ColDef } from "ag-grid-community";
 
 import { AGTableModelType, get_columns_by_title, ModelType } from "lib/types";
-import {
-  getCategories,
-  getOrders,
-  getProducts,
-  setGlobalLoading,
-} from "lib/api";
+import { getCategories, getOrders, getProducts } from "lib/api";
 import { cache } from "lib/api/cache";
 import AGTable from "components/admin/table/AGTable";
 import { useLoading } from "lib/provider/LoadingProvider";
@@ -42,8 +37,7 @@ export default function AdminPage({
       setRows(cached);
     }
 
-    const load = async () => {
-      setGlobalLoading(true);
+    const init = async () => {
       try {
         const data =
           model === ModelType.product
@@ -53,14 +47,13 @@ export default function AdminPage({
               : await getCategories(true);
 
         cache.setByModel(model, data);
-
         setRows(data);
-      } finally {
-        setGlobalLoading(false);
+      } catch (err) {
+        console.error("❌ Failed to load model data", err);
       }
     };
 
-    load();
+    void init();
   }, [model]);
 
   const filteredRows = useMemo(() => {

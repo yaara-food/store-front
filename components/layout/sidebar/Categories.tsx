@@ -1,5 +1,8 @@
 "use client";
 
+import { usePathname, useRouter } from "next/navigation";
+import React, { useState, useEffect } from "react";
+import { useIntl, FormattedMessage } from "react-intl";
 import {
   Autocomplete,
   TextField,
@@ -7,11 +10,8 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-import { usePathname, useRouter } from "next/navigation";
-import React, { useState, useEffect } from "react";
-import { useIntl, FormattedMessage } from "react-intl";
-import { Category, ModelType } from "../../../lib/types";
 
+import { Category, ModelType } from "lib/types";
 import { safeDecodeURIComponent } from "lib/helper";
 
 // Desktop list
@@ -104,7 +104,6 @@ export default function Categories({ list }: { list: Category[] }) {
       ) ?? (pathname === "/" ? options[0] : undefined);
     setSelectedItem(matching);
   }, [pathname, list]);
-
   return (
     <nav>
       {/* Desktop */}
@@ -114,12 +113,12 @@ export default function Categories({ list }: { list: Category[] }) {
 
       {/* Mobile */}
       <div className="md:hidden p-2">
-        <Autocomplete
+        <Autocomplete<Category>
           options={options}
           getOptionLabel={(option) => option.title}
           value={selectedItem}
           onChange={(event, value) => {
-            const selected: Category = value ?? all_option;
+            const selected = (value ?? all_option) as Category;
             setSelectedItem(selected);
             router.push(
               selected.handle === "all"
@@ -130,43 +129,32 @@ export default function Categories({ list }: { list: Category[] }) {
           isOptionEqualToValue={(option, value) =>
             option.handle === value?.handle
           }
-          disableClearable
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              label={intl.formatMessage({
-                id: `${ModelType.category}.selectCategory`,
-              })}
-              InputProps={{
-                ...params.InputProps,
-                style: {
-                  direction: "rtl",
-                  fontSize: "1.1em",
-                  textDecoration: "inherit",
-                },
-              }}
-              InputLabelProps={{
-                ...params.InputLabelProps,
-                style: {
-                  direction: "rtl",
-                  textAlign: "right",
-                },
-              }}
-            />
-          )}
-          renderOption={(props, option) => {
-            const { key, ...rest } = props;
+          {...({
+            disableClearable: true,
+          } as any)}
+          renderInput={(params) => {
             return (
-              <li key={option.handle} {...rest} dir="rtl">
-                <span
-                  style={{
+              <TextField
+                {...params}
+                label={intl.formatMessage({
+                  id: `${ModelType.category}.selectCategory`,
+                })}
+                InputProps={{
+                  ...params.InputProps,
+                  style: {
+                    direction: "rtl",
                     fontSize: "1.1em",
                     textDecoration: "inherit",
-                  }}
-                >
-                  {option.title}
-                </span>
-              </li>
+                  },
+                }}
+                InputLabelProps={{
+                  ...params.InputLabelProps,
+                  style: {
+                    direction: "rtl",
+                    textAlign: "right",
+                  },
+                }}
+              />
             );
           }}
         />

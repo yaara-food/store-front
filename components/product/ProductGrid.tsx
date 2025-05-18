@@ -18,13 +18,12 @@ export default function ProductGrid({ products }: { products: Product[] }) {
   useEffect(() => {
     if (!hasMore) return;
 
-    if (observer.current) {
-      observer.current.disconnect();
-    }
+    observer.current?.disconnect();
 
     observer.current = new IntersectionObserver(
       (entries) => {
-        if (entries[0].isIntersecting && !loadingRef.current) {
+        const entry = entries[0];
+        if (entry?.isIntersecting && !loadingRef.current) {
           loadingRef.current = true;
           setPage((prev) => prev + 1);
         }
@@ -32,14 +31,12 @@ export default function ProductGrid({ products }: { products: Product[] }) {
       { threshold: 0.1 },
     );
 
-    if (sentinelRef.current) {
-      observer.current.observe(sentinelRef.current);
+    const node: HTMLDivElement | null = sentinelRef.current;
+    if (node) {
+      observer.current?.observe(node);
     }
-
     return () => {
-      if (observer.current) {
-        observer.current.disconnect();
-      }
+      observer.current?.disconnect();
     };
   }, [hasMore, visibleProducts.length]);
 

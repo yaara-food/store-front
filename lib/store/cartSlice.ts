@@ -17,17 +17,29 @@ const initialState: Cart = createEmptyCart();
 export const resetCartTransform = createTransform(
   (inboundState) => inboundState,
   (outboundState: any) => {
-    const isExpired = Date.now() - outboundState.createdAt > SEVEN_DAYS;
-    return isExpired ? createEmptyCart() : { ...outboundState };
+    const isValid =
+      outboundState?.createdAt && Array.isArray(outboundState?.lines);
+    const isExpired =
+      isValid && Date.now() - outboundState.createdAt > SEVEN_DAYS;
+    return isValid && !isExpired ? { ...outboundState } : createEmptyCart();
   },
   { whitelist: ["cart"] },
 );
+
+function calculateTotals(lines: CartItem[]) {
+  const totalQuantity = lines.reduce((sum, item) => sum + item.quantity, 0);
+  const totalAmount = lines.reduce((sum, item) => sum + item.totalAmount, 0);
+  return { totalQuantity, totalAmount };
+}
 
 const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
-    addItem(state, action: PayloadAction<{ product: Product }>) {
+    addItem(
+      state = createEmptyCart(),
+      action: PayloadAction<{ product: Product }>,
+    ) {
       const { product } = action.payload;
       const existingItem = state.lines.find(
         (item) => item.productId === product.id,
@@ -51,14 +63,7 @@ const cartSlice = createSlice({
           )
         : [...state.lines, updatedItem];
 
-      const totalQuantity = updatedLines.reduce(
-        (sum, item) => sum + item.quantity,
-        0,
-      );
-      const totalAmount = updatedLines.reduce(
-        (sum, item) => sum + item.totalAmount,
-        0,
-      );
+      const { totalQuantity, totalAmount } = calculateTotals(updatedLines);
 
       state.lines = updatedLines;
       state.totalQuantity = totalQuantity;
@@ -66,9 +71,9 @@ const cartSlice = createSlice({
     },
 
     updateItem(
-      state,
+      state = createEmptyCart(),
       action: PayloadAction<{
-        productId: string;
+        productId: number;
         updateType: "plus" | "minus" | "delete";
       }>,
     ) {
@@ -77,14 +82,10 @@ const cartSlice = createSlice({
       const updatedLines = state.lines
         .map((item) => {
           if (item.productId !== productId) return item;
-
           if (updateType === "delete") return null;
-
           const newQuantity =
             updateType === "plus" ? item.quantity + 1 : item.quantity - 1;
-
           if (newQuantity <= 0) return null;
-
           return {
             ...item,
             quantity: newQuantity,
@@ -93,14 +94,7 @@ const cartSlice = createSlice({
         })
         .filter(Boolean) as CartItem[];
 
-      const totalQuantity = updatedLines.reduce(
-        (sum, item) => sum + item.quantity,
-        0,
-      );
-      const totalAmount = updatedLines.reduce(
-        (sum, item) => sum + item.totalAmount,
-        0,
-      );
+      const { totalQuantity, totalAmount } = calculateTotals(updatedLines);
 
       state.lines = updatedLines;
       state.totalQuantity = totalQuantity;

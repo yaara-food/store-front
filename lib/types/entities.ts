@@ -27,7 +27,7 @@ export type Product = {
 };
 
 export type CartItem = {
-  productId: string;
+  productId: number;
   handle: string;
   title: string;
   imageUrl: string;
@@ -66,4 +66,12 @@ export type Order = {
   status: OrderStatus;
   createdAt: Date;
   items: OrderItem[];
+};
+
+export type NewOrderPayload = {
+  name: string;
+  email: string;
+  phone: string;
+  cart: Cart;
+  agreed?: boolean;
 };

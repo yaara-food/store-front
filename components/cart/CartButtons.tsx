@@ -15,7 +15,7 @@ export function DeleteItemButton({
   optimisticUpdate,
 }: {
   item: CartItem;
-  optimisticUpdate: (productId: string, updateType: "delete") => void;
+  optimisticUpdate: (productId: number, updateType: "delete") => void;
 }) {
   return (
     <IconButton
@@ -45,7 +45,7 @@ export function EditItemQuantityButton({
 }: {
   item: CartItem;
   type: "plus" | "minus";
-  optimisticUpdate: (id: string, type: "plus" | "minus") => void;
+  optimisticUpdate: (id: number, type: "plus" | "minus") => void;
 }) {
   const Icon = type === "plus" ? AddIcon : RemoveIcon;
   const ariaLabel =

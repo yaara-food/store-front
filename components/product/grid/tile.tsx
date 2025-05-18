@@ -1,3 +1,4 @@
+import React from "react";
 import clsx from "clsx";
 import Image from "next/image";
 import Label from "./label";
@@ -40,7 +41,6 @@ export function GridTileImage({
         <Label
           title={label.title}
           amount={label.amount}
-          currencyCode={"ILS"}
           position={label.position}
         />
       ) : null}

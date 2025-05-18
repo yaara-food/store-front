@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import React from "react";
 
 function Grid(props: React.ComponentProps<"ul">) {
   return (
@@ -11,7 +12,7 @@ function Grid(props: React.ComponentProps<"ul">) {
   );
 }
 
-function GridItem(props: React.ComponentProps<"li">) {
+export function ProductItem(props: React.ComponentProps<"li">) {
   return (
     <li
       {...props}
@@ -21,7 +22,5 @@ function GridItem(props: React.ComponentProps<"li">) {
     </li>
   );
 }
-
-Grid.Item = GridItem;
 
 export default Grid;
