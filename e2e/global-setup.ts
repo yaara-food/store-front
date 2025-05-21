@@ -6,7 +6,7 @@ export const TEST_BASE_URL = "http://localhost:3001";
 
 export default async () => {
   serverProcess = spawn("pnpm", ["dev"], {
-    cwd: "../nextjs-ecommerce-api",
+    cwd: "../backend",
     env: {
       ...process.env,
       NODE_ENV: "test",

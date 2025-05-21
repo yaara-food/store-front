@@ -1,20 +1,20 @@
 {
-  "name": "nextjs-ecommerce",
+  "name": "next-ecommerce-frontend",
   "version": "1.0.0",
   "private": true,
-  "description": "E-commerce platform built with Next.js, Express, and PostgreSQL",
+  "description": "Frontend for Next.js e-commerce platform",
   "author": "GILAD",
   "license": "MIT",
   "keywords": [
     "nextjs",
     "ecommerce",
-    "express",
-    "postgres",
-    "typescript"
+    "typescript",
+    "storefront",
+    "admin-dashboard"
   ],
   "repository": {
     "type": "git",
-    "url": "https://github.com/giladfuchs/nextjs-ecommerce"
+    "url": "https://github.com/giladfuchs/next-ecommerce"
   },
   "scripts": {
     "dev": "next dev",
