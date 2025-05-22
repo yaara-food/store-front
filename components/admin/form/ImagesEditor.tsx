@@ -63,17 +63,17 @@ export default function ImagesEditor({
               <Grid
                 item
                 xs={12}
+
                 key={index}
                 data-testid={`form-image-${index}`}
               >
-                <Typography fontWeight="bold">
+                <Typography fontWeight="bold" mb={1}>
                   <FormattedMessage
                     id="admin.image.label"
                     values={{ index: index + 1 }}
                   />
                 </Typography>
 
-                {/* ✅ Input + clipboard in 1 row */}
                 <Grid container spacing={1} alignItems="center">
                   <Grid item xs>
                     <TextField
@@ -149,20 +149,27 @@ export default function ImagesEditor({
 
                 {imagesState[index]?.url?.trim() && (
                   <Box
-                    component="img"
-                    src={imagesState[index].url}
-                    alt={intl.formatMessage({ id: "image.preview.alt" })}
-                    sx={{
-                      maxWidth: "100%",
-                      maxHeight: 150,
-                      borderRadius: 2,
-                      border: "1px solid #ccc",
-                      mt: 2,
-                    }}
-                  />
+                    mt={2}
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="center"
+                    width="100%"
+                  >
+                    <Box
+                      component="img"
+                      src={imagesState[index].url}
+                      alt={intl.formatMessage({ id: "image.preview.alt" })}
+                      sx={{
+                        width: 200,
+                        height: 120,
+                        objectFit: "cover",
+                        borderRadius: 2,
+                      }}
+                    />
+                  </Box>
                 )}
 
-                <Divider sx={{ my: 3 }} />
+                <Divider   />
               </Grid>
             ))}
           </Grid>

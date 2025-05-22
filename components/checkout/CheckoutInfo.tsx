@@ -28,16 +28,9 @@ const customInput = {
   marginTop: 1,
   marginBottom: 1,
   fontSize: "inherit",
-  "& > label": {
-    top: 23,
-    left: 0,
-    color: "#9e9e9e",
-    fontSize: "inherit",
-    '&[data-shrink="false"]': { top: 5 },
-  },
   "& > div > input": {
     padding: "30.5px 14px 11.5px !important",
-    textAlign: "right",
+    textAlign: localeCache.isRtl() ? "right" : "left",
     fontSize: "inherit",
   },
   "& legend": { display: "none" },
@@ -45,9 +38,9 @@ const customInput = {
 };
 
 const fields = [
-  { name: "name", id: "checkout.name", type: "text" },
-  { name: "email", id: "checkout.email", type: "text" },
-  { name: "phone", id: "checkout.phone", type: "tel" },
+  { name: "name", type: "text" },
+  { name: "email", type: "text" },
+  { name: "phone", type: "tel" },
 ];
 
 export default function CheckoutInfo({
@@ -155,14 +148,17 @@ export default function CheckoutInfo({
                         shrink
                         sx={{
                           position: "absolute",
-                          right: 14,
-                          left: "unset",
-                          transformOrigin: "top right",
+                          right: localeCache.isRtl() ? 14 : "auto",
+                          left: localeCache.isRtl() ? "auto" : 14,
+                          transformOrigin: localeCache.isRtl()
+                            ? "top right"
+                            : "top left",
                           transform: "translate(0, -1.5px) scale(0.75)",
                           fontSize: "inherit",
+                          marginTop: "1rem",
                         }}
                       >
-                        <FormattedMessage id={field.id} />
+                        <FormattedMessage id={`checkout.${field.name}`} />
                       </InputLabel>
                       <OutlinedInput
                         id={`outlined-${field.name}`}
@@ -181,14 +177,18 @@ export default function CheckoutInfo({
                         sx={{
                           direction: localeCache.dir(),
                           fontSize: "inherit",
-                          "& input": { textAlign: "right" },
+                          "& input": {
+                            textAlign: localeCache.isRtl() ? "right" : "left",
+                          },
                         }}
                       />
                       {touched[field.name as keyof typeof touched] &&
                         errors[field.name as keyof typeof errors] && (
                           <FormHelperText
                             data-testid={`checkout-error-${field.name}`}
-                            sx={{ textAlign: "right", marginRight: 1 }}
+                            sx={{
+                              textAlign: localeCache.isRtl() ? "right" : "left",
+                            }}
                           >
                             {String(errors[field.name as keyof typeof errors])}
                           </FormHelperText>
@@ -200,21 +200,34 @@ export default function CheckoutInfo({
                 <FormControl
                   required
                   error={Boolean(touched.agreed && errors.agreed)}
+                  sx={{ direction: localeCache.dir() }}
                 >
                   <FormControlLabel
-                    sx={{ mr: 0, justifyContent: "flex-end", ml: "auto" }}
+                    sx={{
+                      justifyContent: localeCache.isRtl()
+                        ? "flex-end"
+                        : "flex-start",
+                      ml: localeCache.isRtl() ? "auto" : 0,
+                      mr: localeCache.isRtl() ? 0 : "auto",
+                    }}
                     control={
                       <Checkbox
                         checked={values.agreed}
                         onChange={handleChange}
                         name="agreed"
                         color="primary"
-                        sx={{ ml: 1 }}
+                        sx={{
+                          ml: localeCache.isRtl() ? 1 : 0,
+                          mr: localeCache.isRtl() ? 0 : 1,
+                        }}
                         data-testid="checkout-agree"
                       />
                     }
                     label={
-                      <Typography fontSize="0.9rem" textAlign="right">
+                      <Typography
+                        fontSize="0.9rem"
+                        textAlign={localeCache.isRtl() ? "right" : "left"}
+                      >
                         <FormattedMessage
                           id="checkout.agreeToTerms"
                           values={{
@@ -235,7 +248,9 @@ export default function CheckoutInfo({
                   {touched.agreed && errors.agreed && (
                     <FormHelperText
                       data-testid="checkout-error-agreed"
-                      sx={{ textAlign: "right" }}
+                      sx={{
+                        textAlign: localeCache.isRtl() ? "right" : "left",
+                      }}
                     >
                       {String(errors.agreed)}
                     </FormHelperText>
@@ -251,13 +266,18 @@ export default function CheckoutInfo({
                     fontWeight="normal"
                     fontSize="0.9rem"
                     color="text.secondary"
-                    textAlign="right"
+                    textAlign={localeCache.isRtl() ? "right" : "left"}
                     maxWidth={280}
-                    sx={{ width: "fit-content", ml: "auto", mr: 0 }}
+                    sx={{
+                      width: "fit-content",
+                      ml: localeCache.isRtl() ? "auto" : 0,
+                      mr: localeCache.isRtl() ? 0 : "auto",
+                    }}
                   >
                     <FormattedMessage id="checkout.pickupNotice" />
                   </Typography>
                 </Grid>
+
                 <Grid item>
                   <Button
                     data-testid="checkout-submit"

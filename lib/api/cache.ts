@@ -72,14 +72,24 @@ class LocaleCache {
   private locale: "he" | "en" = "he";
 
   get(): "he" | "en" {
-    if (typeof document === "undefined") return this.locale;
+    if (typeof document !== "undefined") {
+      const cookie = document.cookie
+        .split("; ")
+        .find((row) => row.startsWith("NEXT_LOCALE="));
+      const value = cookie?.split("=")[1];
+      this.locale = value === "en" ? "en" : "he";
+      return this.locale;
+    }
 
-    const cookie = document.cookie
-      .split("; ")
-      .find((row) => row.startsWith("NEXT_LOCALE="));
+    try {
+      const { headers } = require("next/headers");
+      const cookie = headers().get("cookie") || "";
+      const match = cookie.match(/NEXT_LOCALE=(en|he)/);
+      this.locale = match?.[1] === "en" ? "en" : "he";
+    } catch {
+      this.locale = "en";
+    }
 
-    const value = cookie?.split("=")[1];
-    this.locale = value === "en" ? "en" : "he";
     return this.locale;
   }
 

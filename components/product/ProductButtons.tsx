@@ -9,6 +9,7 @@ import FacebookIcon from "@mui/icons-material/Facebook";
 import { addItem } from "../../lib/store/cartSlice";
 import { baseUrl } from "../../lib/config";
 import { Product, ModelType } from "lib/types";
+import { localeCache } from "../../lib/api";
 
 export function ProductButtons({ product }: { product: Product }) {
   const dispatch = useDispatch();
@@ -46,7 +47,8 @@ export function ProductButtons({ product }: { product: Product }) {
           fullWidth
           variant="contained"
           disabled={!product.available}
-          startIcon={<AddIcon />}
+          startIcon={localeCache.isRtl() ? <AddIcon /> : undefined}
+          endIcon={!localeCache.isRtl() ? <AddIcon /> : undefined}
           aria-label={intl.formatMessage({ id: "product.addToCart" })}
           sx={{ direction: "ltr", color: "black !important", flexGrow: 1 }}
         >

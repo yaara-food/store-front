@@ -25,15 +25,16 @@ import {
   CheckoutButton,
 } from "./CartButtons";
 import { FormattedMessage } from "react-intl";
+import { localeCache } from "../../lib/api";
 
 export default function Cart() {
   const router = useRouter();
   const dispatch = useDispatch();
   const cart = useSelector((state: RootState) => state.cart);
-
   const [isOpen, setIsOpen] = useState(false);
   const [highContrast, setHighContrast] = useState(false);
   const quantityRef = useRef(cart?.totalQuantity);
+  const isRtl = localeCache.isRtl();
 
   useEffect(() => {
     if (
@@ -96,12 +97,13 @@ export default function Cart() {
             position: "fixed",
             top: 0,
             bottom: 0,
-            left: 0,
+            [isRtl ? "left" : "right"]: 0,
             height: "100vh",
             width: { xs: "100%", sm: 390 },
             m: 0,
             borderRadius: 0,
-            borderRight: "1px solid var(--color-border)",
+            [isRtl ? "borderRight" : "borderLeft"]:
+              "1px solid var(--color-border)",
             bgcolor: highContrast ? "black" : "var(--color-bg)",
             color: highContrast ? "yellow" : "var(--color-text)",
             display: "flex",
@@ -115,6 +117,7 @@ export default function Cart() {
           alignItems="center"
           justifyContent="space-between"
           p={2}
+          sx={{ textAlign: isRtl ? "right" : "left" }}
         >
           <Typography fontWeight="bold" fontSize="1.25em">
             <FormattedMessage id="cart.title" />
@@ -179,7 +182,9 @@ export default function Cart() {
                           alt={item.imageAlt || item.title}
                           src={item.imageUrl}
                         />
-                        <div className="absolute top-0 right-0 z-10">
+                        <div
+                          className={`absolute top-0 z-10 ${isRtl ? "right-0" : "left-0"}`}
+                        >
                           <DeleteItemButton
                             item={item}
                             optimisticUpdate={optimisticUpdate}
@@ -193,11 +198,19 @@ export default function Cart() {
                             href={`/product/${item.handle}`}
                             onClick={closeCart}
                           >
-                            <h2 className="font-bold text-theme text-right leading-tight m-0">
+                            <h2
+                              className="font-bold text-theme leading-tight m-0"
+                              style={{ textAlign: isRtl ? "right" : "left" }}
+                            >
                               {item.title}
                             </h2>
                           </Link>
-                          <Box sx={{ minWidth: 80, textAlign: "right" }}>
+                          <Box
+                            sx={{
+                              minWidth: 80,
+                              textAlign: isRtl ? "right" : "left",
+                            }}
+                          >
                             <Price
                               className="text-base font-bold"
                               amount={item.totalAmount}
@@ -256,7 +269,12 @@ export default function Cart() {
               py: 2,
             }}
           >
-            <Box display="flex" justifyContent="space-between" mb={1}>
+            <Box
+              display="flex"
+              justifyContent="space-between"
+              mb={1}
+              sx={{ textAlign: isRtl ? "right" : "left" }}
+            >
               <Typography fontWeight="bold">
                 <FormattedMessage id="checkout.total" />
               </Typography>

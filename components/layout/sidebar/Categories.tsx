@@ -40,7 +40,7 @@ function CategoriesItemList({ list }: { list: Category[] }) {
               mb: 0.5,
               py: 1,
               px: 2,
-              textAlign: "right",
+              textAlign: localeCache.isRtl() ? "right" : "left",
               backgroundColor: isActive
                 ? "var(--category-active-bg, #e0f7fa)"
                 : "transparent",

@@ -2,6 +2,7 @@ import { ProductButtons } from "components/product/ProductButtons";
 import Price from "components/shared/Price";
 import { Product } from "lib/types";
 import { Box, Grid } from "@mui/material";
+import { localeCache } from "../../lib/api";
 
 export function ProductDescription({ product }: { product: Product }) {
   const isLongTitle = product.title.length > 30;
@@ -34,6 +35,7 @@ export function ProductDescription({ product }: { product: Product }) {
               overflow: "hidden",
               textOverflow: "ellipsis",
               whiteSpace: isLongTitle ? "normal" : "nowrap",
+              textAlign: localeCache.isRtl() ? "right" : "left",
             }}
           >
             {product.title}
@@ -76,6 +78,7 @@ export function ProductDescription({ product }: { product: Product }) {
           fontSize: "1.8em",
           fontWeight: 400,
           whiteSpace: "pre-line",
+          textAlign: localeCache.isRtl() ? "right" : "left",
         }}
       >
         {product.description}

@@ -74,7 +74,7 @@ export const columns_category: ColDef<Category>[] = [
   },
   {
     field: "position",
-    width: 80,
+    width: 100,
   },
 ] as ColDef<Category>[];
 export const get_columns_by_title = (

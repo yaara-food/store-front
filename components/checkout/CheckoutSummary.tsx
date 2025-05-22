@@ -41,11 +41,9 @@ export default function CheckoutSummary() {
               boxShadow: "0 2px 6px rgba(0,0,0,0.05)",
               direction: localeCache.dir(),
               color: "var(--color-text)",
-
-              // 🔶 High-contrast overrides
               ".high-contrast &": {
-                bgcolor: "#000", // black background
-                color: "#fff", // white text
+                bgcolor: "#000",
+                color: "#fff",
                 border: "1px solid yellow",
               },
             }}
@@ -60,7 +58,6 @@ export default function CheckoutSummary() {
                 borderRadius: 2,
                 objectFit: "cover",
                 flexShrink: 0,
-
                 ".high-contrast &": {
                   filter: "brightness(1.2) contrast(1.2)",
                 },
@@ -74,13 +71,11 @@ export default function CheckoutSummary() {
                 flexDirection: "column",
                 flexGrow: 1,
                 minWidth: 0,
+                textAlign: localeCache.isRtl() ? "right" : "left",
               }}
             >
-              <Typography variant="subtitle1" textAlign="right">
-                {product.title}
-              </Typography>
-
-              <Typography variant="body2" textAlign="right">
+              <Typography variant="subtitle1">{product.title}</Typography>
+              <Typography variant="body2">
                 <Price amount={product.unitAmount} />
               </Typography>
             </Grid>
@@ -94,17 +89,13 @@ export default function CheckoutSummary() {
                 flexDirection: "column",
                 flexGrow: 1,
                 minWidth: 0,
+                textAlign: localeCache.isRtl() ? "right" : "left",
               }}
             >
-              <Typography
-                fontWeight="bold"
-                fontSize="1.2rem"
-                textAlign="right"
-                minWidth={70}
-              >
+              <Typography fontWeight="bold" fontSize="1.2rem" minWidth={70}>
                 <Price amount={product.totalAmount} />
               </Typography>
-              <Typography variant="body2" textAlign="right">
+              <Typography variant="body2">
                 <FormattedMessage
                   id="checkout.quantity"
                   values={{ quantity: product.quantity }}

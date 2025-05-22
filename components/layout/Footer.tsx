@@ -1,6 +1,6 @@
 "use client";
-import { usePathname } from "next/navigation";
 
+import { usePathname } from "next/navigation";
 import { green, red, blue } from "@mui/material/colors";
 import { Box, Typography, IconButton, Stack, Grid } from "@mui/material";
 import FacebookIcon from "@mui/icons-material/Facebook";
@@ -10,8 +10,8 @@ import EmailIcon from "@mui/icons-material/Email";
 import PhoneIcon from "@mui/icons-material/Phone";
 import WhatsAppIcon from "@mui/icons-material/WhatsApp";
 import { metadata_site_title } from "../../lib/assets/i18n/seo_heb";
-
 import { FOOTER_DATA, WHATSAPP_MESSAGE } from "../../lib/config";
+import { localeCache } from "../../lib/api";
 
 export const [email, address, phone, instagram, facebook, website] =
   FOOTER_DATA.split(",");
@@ -21,6 +21,7 @@ const whatsappMessage = encodeURIComponent(WHATSAPP_MESSAGE || "Hi");
 export default function Footer() {
   const pathname = usePathname();
   if (pathname.startsWith("/admin")) return null;
+
   return (
     <Box
       component="footer"
@@ -34,6 +35,7 @@ export default function Footer() {
         px: 2,
         py: { xs: 1, sm: 2 },
         zIndex: 10,
+        direction: localeCache.dir(),
       }}
     >
       <Box
@@ -68,9 +70,9 @@ export default function Footer() {
               item
               sx={{
                 minWidth: 120,
-                textAlign: "right",
+                textAlign: localeCache.isRtl() ? "right" : "left",
                 whiteSpace: "nowrap",
-                mr: 1,
+                mx: localeCache.isRtl() ? 1 : 0,
               }}
             >
               <h2
@@ -88,22 +90,24 @@ export default function Footer() {
                 {address}
               </p>
             </Grid>
+
             <Grid
               item
               sx={{
-                textAlign: "left",
-                ml: { xs: 1, sm: 2 },
+                textAlign: localeCache.isRtl() ? "left" : "right",
+                ml: localeCache.isRtl() ? 0 : { xs: 1, sm: 2 },
+                mr: localeCache.isRtl() ? { xs: 1, sm: 2 } : 0,
                 overflow: "hidden",
                 textOverflow: "ellipsis",
                 whiteSpace: "nowrap",
-                minWidth: 0,
+                minWidth: 200,
               }}
             >
               <Typography variant="body2" fontSize="0.75rem" lineHeight={1.3}>
-                {email}
+                {phone}
               </Typography>
               <Typography variant="body2" fontSize="0.75rem" lineHeight={1.3}>
-                {phone}
+                {email}
               </Typography>
             </Grid>
           </Grid>
@@ -115,6 +119,7 @@ export default function Footer() {
               alignItems: "center",
               flexWrap: "wrap",
               gap: "25px",
+              direction: localeCache.dir(),
             }}
           >
             <IconButton

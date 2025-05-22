@@ -15,17 +15,17 @@ export function middleware(request: NextRequest) {
     return response;
   }
 
-  // Handle /product/:handle
+  const response = NextResponse.next();
+
+  response.headers.set("x-pathname", pathname);
+
   if (pathname.startsWith("/product")) {
     const segments = pathname.split("/").filter(Boolean);
     const handle = segments[1] || null;
-
-    const response = NextResponse.next();
     if (handle) {
       response.headers.set("x-product-handle", handle);
     }
-    return response;
   }
 
-  return NextResponse.next();
+  return response;
 }
