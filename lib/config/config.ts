@@ -31,7 +31,8 @@ export const ICON_IMAGE_URL =
   process.env.NEXT_PUBLIC_ICON_IMAGE_URL ??
   "https://racit0uja2cckwpw.public.blob.vercel-storage.com/logo-social.png";
 
-export const MAX_FILE_SIZE_MB = 1;
+// Max upload size: 1 MB (easy to tweak to 2 or 1.5)
+export const MAX_FILE_SIZE_MB = 1 * 1024 * 1024;
 
 export const SEVEN_DAYS = 7 * 24 * 60 * 60 * 1000;
 

@@ -2,6 +2,8 @@ import * as Yup from "yup";
 import { IntlShape } from "react-intl";
 import { FormType, ModelType } from "./enums";
 import { ProductImage } from "./entities";
+import { cache, localeCache } from "../api";
+
 // -- Admin Mui Form--
 export class FieldInput {
   constructor(
@@ -135,13 +137,35 @@ export const form_fields_to_data = (
       }
 
       if (f.type === "number" && typeof value === "string") {
-        const num = parseFloat(value);
+        const num = Number(value);
         return [f.key, isNaN(num) ? null : num];
       }
 
       return [f.key, value];
     }),
   );
+};
+
+export const transform_data_to_body = (
+  model: ModelType,
+  data: Record<string, any>,
+): Record<string, any> => {
+  if (model === ModelType.product) {
+    if (!data.category) {
+      throw "form.error.required.category_id";
+    }
+
+    const category = array_obj_to_obj_with_key(
+      cache.getByModel(ModelType.category) ?? [],
+      data.category,
+      "title",
+    );
+
+    data.category_id = category?.id;
+    delete data.category;
+  }
+
+  return data;
 };
 
 //--formik ----
@@ -169,7 +193,19 @@ export const getCheckoutValidationSchema = (intl: IntlShape) =>
       .max(255)
       .required(intl.formatMessage({ id: "form.error.email" })),
     phone: Yup.string()
-      .matches(/^05\d{8}$/, intl.formatMessage({ id: "form.error.phone" }))
+      .when([], {
+        is: () => localeCache.isRtl(),
+        then: (schema) =>
+          schema.matches(
+            /^05\d{8}$/,
+            intl.formatMessage({ id: "form.error.phone" }),
+          ),
+        otherwise: (schema) =>
+          schema.matches(
+            /^\+?[0-9\s\-().]{7,20}$/,
+            intl.formatMessage({ id: "form.error.phone" }),
+          ),
+      })
       .required(intl.formatMessage({ id: "form.error.phone" })),
     agreed: Yup.boolean()
       .oneOf([true], intl.formatMessage({ id: "form.error.agree" }))

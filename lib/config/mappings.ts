@@ -13,9 +13,9 @@ export const statusOptions: Record<OrderStatus, OrderStatus[]> = {
 };
 export const modelFetchers: Record<
   ModelType,
-  () => Promise<AGTableModelType[]>
+  (force?: boolean) => Promise<AGTableModelType[]>
 > = {
-  [ModelType.product]: () => getProducts(true),
-  [ModelType.category]: () => getCategories(true),
-  [ModelType.order]: () => getOrders(),
+  [ModelType.product]: (force?: boolean) => getProducts(force),
+  [ModelType.category]: (force?: boolean) => getCategories(force),
+  [ModelType.order]: (force?: boolean) => getOrders(force),
 };

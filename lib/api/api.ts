@@ -148,7 +148,7 @@ export async function submitOrder(order: NewOrderPayload): Promise<Order> {
   return handleResponse<Order>(res, "submit order");
 }
 
-export async function getOrders(): Promise<Order[]> {
+export async function getOrders(force = true): Promise<Order[]> {
   const res = await serverFetch(`/auth/orders`);
   return handleResponse(res, "fetch orders");
 }

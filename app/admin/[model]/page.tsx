@@ -28,7 +28,7 @@ export default function AdminPage({
 
   const loadData = useCallback(async (targetModel: ModelType) => {
     try {
-      const data = (await modelFetchers[targetModel]?.()) ?? [];
+      const data = (await modelFetchers[targetModel]?.(true)) ?? [];
       cache.setByModel(targetModel, data);
       setRows(data);
     } catch (err) {

@@ -17,6 +17,7 @@ import {
   OutlinedInput,
   Typography,
 } from "@mui/material";
+import { formikHelperTextSx, formikTextFieldSx } from "lib/assets/styles/style";
 import { RootState } from "lib/store";
 import {
   Cart,
@@ -67,11 +68,7 @@ const CheckoutFormFields = ({
   onSubmit: (values: CheckoutFormValues) => void;
 }) => {
   const intl = useIntl();
-  const rtlHelperTextSx = {
-    textAlign: localeCache.isRtl() ? "right" : "left",
-    marginInlineStart: localeCache.isRtl() ? 0 : 1,
-    marginInlineEnd: localeCache.isRtl() ? 1 : 0,
-  };
+
   return (
     <Formik<CheckoutFormValues>
       initialValues={{ email: "", phone: "", name: "", agreed: false }}
@@ -101,26 +98,7 @@ const CheckoutFormFields = ({
                       touched[field.name as keyof typeof touched] &&
                       Boolean(errors[field.name as keyof typeof errors])
                     }
-                    sx={{
-                      mt: 1,
-                      mb: 1,
-                      fontSize: "inherit",
-                      "& > label": {
-                        top: 5,
-                        left: localeCache.isRtl() ? "unset" : 14,
-                        right: localeCache.isRtl() ? 14 : "unset",
-                        position: "absolute",
-                        transformOrigin: localeCache.isRtl()
-                          ? "top right"
-                          : "top left",
-                        transform: "translate(0, -1.5px) scale(0.75)",
-                        fontSize: "inherit",
-                        color: "#9e9e9e",
-                        '&[data-shrink="false"]': { top: 5 },
-                      },
-                      "& legend": { display: "none" },
-                      "& fieldset": { top: 0 },
-                    }}
+                    sx={formikTextFieldSx}
                   >
                     <InputLabel
                       htmlFor={`outlined-${field.name}`}
@@ -167,7 +145,7 @@ const CheckoutFormFields = ({
                       errors[field.name as keyof typeof errors] && (
                         <FormHelperText
                           data-testid={`checkout-error-${field.name}`}
-                          sx={rtlHelperTextSx}
+                          sx={formikHelperTextSx}
                         >
                           {String(errors[field.name as keyof typeof errors])}
                         </FormHelperText>
@@ -214,7 +192,7 @@ const CheckoutFormFields = ({
                 {touched.agreed && errors.agreed && (
                   <FormHelperText
                     data-testid="checkout-error-agreed"
-                    sx={rtlHelperTextSx}
+                    sx={formikHelperTextSx}
                   >
                     {String(errors.agreed)}
                   </FormHelperText>

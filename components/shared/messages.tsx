@@ -82,3 +82,16 @@ export const OrderErrorMessage = () => (
     <FormattedMessage id="checkout.error" />
   </Typography>
 );
+
+export const FormFieldError = ({ fieldError }: { fieldError: string }) => (
+  <Typography
+    data-testid={`form-error-message-${fieldError}`}
+    color="error"
+    textAlign="center"
+    mt={4}
+    fontWeight="bold"
+    fontSize="2em"
+  >
+    <FormattedMessage id={fieldError} />
+  </Typography>
+);

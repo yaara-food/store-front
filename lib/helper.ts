@@ -23,3 +23,7 @@ export function filterBySearch<T extends object>(
     ),
   );
 }
+export const extract_missing_field = (message: string): string | null => {
+  const match = message.match(/Missing required field: (\w+)/i);
+  return match?.[1]?.toLowerCase() || null;
+};
