@@ -77,11 +77,11 @@ export const columns_category: ColDef<Category>[] = [
     width: 100,
   },
 ] as ColDef<Category>[];
-export const get_columns_by_title = (
-  title: ModelType,
+export const get_columns_ag_by_model = (
+  model: ModelType,
 ): ColDef<AGTableModelType>[] => {
   let columns;
-  switch (title) {
+  switch (model) {
     case ModelType.product:
       columns = [...columns_product];
       break;

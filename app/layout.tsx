@@ -44,6 +44,7 @@ export const metadata = {
   robots: {
     follow: true,
     index: true,
+    "max-image-preview": "large",
   },
   openGraph: {
     title: SITE_NAME!,

@@ -3,6 +3,7 @@ import { IntlShape } from "react-intl";
 import { FormType, ModelType } from "./enums";
 import { ProductImage } from "./entities";
 import { cache, localeCache } from "../api";
+import {array_obj_to_obj_with_key} from "../helper";
 
 // -- Admin Mui Form--
 export class FieldInput {
@@ -51,8 +52,8 @@ export const category_fields: FormField[] = [
   new FieldInput(FormType.NUMBER, "position"),
 ];
 
-export const get_form_by_model = (type_form: ModelType): FormField[] => {
-  switch (type_form) {
+export const get_form_by_model = (model: ModelType): FormField[] => {
+  switch (model) {
     case ModelType.product:
       return [...product_fields];
     case ModelType.category:
@@ -61,11 +62,7 @@ export const get_form_by_model = (type_form: ModelType): FormField[] => {
   }
 };
 
-export const array_obj_to_obj_with_key = (
-  iterable: any[],
-  value: any,
-  key: string,
-) => iterable.find((o: any) => o[key]?.toString() === value.toString());
+
 
 export const create_form_fields = (
   source: FormField[],

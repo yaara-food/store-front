@@ -5,7 +5,11 @@ import { Container, Grid } from "@mui/material";
 import AGTable from "components/admin/table";
 import { useLoading } from "lib/provider/LoadingProvider";
 import { LoadingTable } from "components/shared/loading-skeleton";
-import { AGTableModelType, get_columns_by_title, ModelType } from "lib/types";
+import {
+  AGTableModelType,
+  get_columns_ag_by_model,
+  ModelType,
+} from "lib/types";
 import { cache } from "lib/api";
 import { filterBySearch } from "lib/helper";
 import { modelFetchers } from "lib/config/mappings";
@@ -22,7 +26,7 @@ export default function AdminPage({
   const [searchValue, setSearchValue] = useState("");
 
   const cols: ColDef<AGTableModelType>[] = useMemo(
-    () => get_columns_by_title(model),
+    () => get_columns_ag_by_model(model),
     [model],
   );
 

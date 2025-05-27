@@ -8,7 +8,6 @@ import DynamicForm from "components/admin/form";
 import { FormFieldError } from "components/shared/messages";
 import {
   AGTableModelType,
-  array_obj_to_obj_with_key,
   create_form_fields,
   form_fields_to_data,
   FormField,
@@ -18,7 +17,7 @@ import {
 } from "lib/types";
 import { submitModel } from "lib/api";
 import { modelFetchers } from "lib/config/mappings";
-import { extract_missing_field } from "lib/helper";
+import {array_obj_to_obj_with_key, extract_missing_field} from "lib/helper";
 
 export default function FormPage({
   params: { model, id },

@@ -17,6 +17,7 @@ import {
 } from "@mui/material";
 import Cart from "components/cart";
 import AdminNav from "./admin-nav";
+
 const Search = () => {
   const intl = useIntl();
   const router = useRouter();
@@ -122,18 +123,15 @@ export default function HeaderControls() {
   const pathname = usePathname();
   const isAdmin = pathname.startsWith("/admin");
 
-  const shouldHideSearch =
-    pathname.startsWith("/product/") ||
-    pathname.startsWith("/legal/") ||
-    pathname.startsWith("/login");
+  const shouldShowSearch = pathname === "/" || pathname.startsWith("/category");
 
   if (isAdmin) return <AdminNav />;
 
   return (
     <>
-      <div className="flex w-full md:w-1/3 justify-center px-2">
-        <Box display="flex" gap={{ xs: 0, md: 2 }}>
-          {!shouldHideSearch && <Search />}
+      <div className="flex w-full md:w-1/3 justify-start px-2">
+        <Box display="flex" gap={{ xs: 0, md: 2 }} alignItems="center">
+          {shouldShowSearch && <Search />}
           <AuthButtons />
         </Box>
       </div>

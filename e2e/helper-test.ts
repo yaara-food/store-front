@@ -166,10 +166,20 @@ export async function deleteFirstRowFromModel(page: Page, model: ModelType) {
   await deleteButtons.first().click();
   await page.getByTestId("confirm-delete-button").click();
   await page.waitForLoadState("networkidle");
-  const rowCountAfter = await getRowCount(page);
-  expect(rowCountAfter).toBe(rowCountBefore - 1);
-}
 
+  const maxAttempts = 10;
+  const intervalMs = 200;
+
+  for (let i = 0; i < maxAttempts; i++) {
+    const rowCountAfter = await getRowCount(page);
+    if (rowCountAfter === rowCountBefore - 1) {
+      return;
+    }
+    await page.waitForTimeout(intervalMs);
+  }
+
+  throw new Error("Row count did not decrease after deletion");
+}
 export async function openFirstEditForm(page: Page, model: ModelType) {
   await loginToAdmin(page);
   await navigateToAdminModel(page, model);

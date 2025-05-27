@@ -3,12 +3,14 @@ import { ICON_IMAGE_URL } from "lib/config/config";
 
 export default function Logo() {
   return (
-    <div className="flex flex-none items-center justify-center h-[45px] w-[60px] rounded-xl border-none bg-white dark:bg-transparent">
+    <div className="h-16 flex items-center">
       <Image
         src={(ICON_IMAGE_URL as string) || "/favicon.ico"}
         alt="logo"
+        className="h-11 w-auto"
         width={80}
-        height={20}
+        height={48}
+        priority
       />
     </div>
   );

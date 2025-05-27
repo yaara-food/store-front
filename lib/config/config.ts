@@ -10,6 +10,7 @@ export const API_URL: string =
       ? process.env.NEXT_PUBLIC_API_URL
       : "https://your-api.vercel.app";
 
+// export const API_URL: string = process.env.NEXT_PUBLIC_API_URL
 export const baseUrl: string =
   process.env.NEXT_PUBLIC_BASE_URL &&
   process.env.NEXT_PUBLIC_BASE_URL.trim() !== ""
