@@ -7,8 +7,9 @@ import { GeistSans } from "geist/font/sans";
 import { Box } from "@mui/material";
 import { Toaster } from "sonner";
 
-import "../lib/assets/styles/globals.css";
-import "../lib/assets/styles/theme.scss";
+import "lib/assets/styles/globals.css";
+import "lib/assets/styles/theme.scss";
+
 import {
   baseUrl,
   GOOGLE_ANALYTICS,
@@ -17,22 +18,22 @@ import {
   SITE_NAME,
 } from "lib/config/config";
 
-import { ReduxProvider } from "../lib/provider/ReduxProvider";
-import { ThemeProviderLayout } from "../lib/provider/ThemeProviderLayout";
-import IntProvider from "../lib/provider/IntProvider";
+import { ReduxProvider } from "lib/provider/ReduxProvider";
+import { ThemeProviderLayout } from "lib/provider/ThemeProviderLayout";
+import IntProvider from "lib/provider/IntProvider";
 import { LoadingProvider } from "lib/provider/LoadingProvider";
 
 import LoadingGlobal from "components/shared/loading-global";
 import { LoadingProductsList } from "components/shared/loading-skeleton";
 import Header from "components/layout/header";
 import Footer from "components/layout/footer";
-import AccessibilityBar from "../components/layout/accessibility-bar";
+import AccessibilityBar from "components/layout/accessibility-bar";
 
 import {
   metadata_site_description,
   metadata_site_title,
 } from "lib/assets/i18n/localizedMetadata";
-import { localeCache } from "../lib/api";
+import { localeCache } from "lib/api";
 
 export const metadata = {
   metadataBase: new URL(baseUrl),

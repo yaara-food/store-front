@@ -10,6 +10,17 @@ const theme = createTheme({
     primary: {
       main: "#24bfa7",
     },
+    secondary: {
+      main: "#5262cb",
+    },
+    warning: {
+      main: "#ff9800",
+      contrastText: "#fff",
+    },
+    error: {
+      main: "#d32f2f",
+      contrastText: "#fff",
+    },
     background: {
       default: "#f4f9f8",
     },
@@ -56,9 +67,8 @@ const theme = createTheme({
           border: "1px solid #ddd",
           transition: "all 0.2s",
 
-          "&.MuiButton-contained": {
+          "&.MuiButton-containedPrimary": {
             backgroundColor: "var(--color-accent)",
-            color: "white",
             "&:hover": {
               backgroundColor: "var(--color-accent)",
             },

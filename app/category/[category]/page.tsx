@@ -56,11 +56,14 @@ export async function generateMetadata({
   };
 }
 export async function generateStaticParams() {
-  const categories = await (await import("lib/api")).getCategories();
-
-  return categories.map((category) => ({
-    category: encodeURIComponent(category.title),
-  }));
+  try {
+    const categories = await (await import("lib/api")).getCategories();
+    return categories.map((category) => ({
+      category: encodeURIComponent(category.title),
+    }));
+  } catch (err) {
+    return [];
+  }
 }
 export const revalidate = 60;
 export default async function CategoryPage({ params: { category } }: Props) {

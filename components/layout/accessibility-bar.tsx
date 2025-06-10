@@ -167,7 +167,7 @@ export default function AccessibilityBar() {
             <FormattedMessage id="accessibility.title" />
           </Typography>
 
-          <Stack spacing={1}>
+          <Stack key={Math.random().toString(36)} spacing={1}>
             {accessibility_buttons.map(({ id, icon, onClick, selected }) => (
               <ActionItem
                 key={id}

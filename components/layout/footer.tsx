@@ -40,36 +40,60 @@ export default function Footer() {
             spacing={0.5}
             justifyContent="space-between"
             alignItems="flex-start"
-            sx={{ flex: 1, flexWrap: "nowrap", overflow: "hidden" }}
+            sx={{ flex: 1, overflow: "hidden", flexWrap: "nowrap" }}
           >
+            {/* stack on desktop, inline with spacing on mobile */}
             <Grid
               item
               sx={{
                 minWidth: 120,
                 textAlign: localeCache.isRtl() ? "right" : "left",
-                whiteSpace: "nowrap",
                 mx: localeCache.isRtl() ? 1 : 0,
               }}
             >
-              <Typography variant="h6" fontWeight="bold" lineHeight={1.3}>
-                {metadata_site_title}
-              </Typography>
-              <Typography
-                variant="body2"
-                fontWeight="bold"
-                fontSize="0.85rem"
-                lineHeight={1.3}
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: { xs: "row", sm: "column" },
+                  justifyContent: { xs: "space-between", sm: "flex-start" },
+                  alignItems: localeCache.isRtl() ? "flex-end" : "flex-start",
+                  whiteSpace: "nowrap",
+                  gap: 0.5,
+                }}
               >
-                {address}
-              </Typography>
+                <Typography variant="h6" fontWeight="bold" lineHeight={1.3}>
+                  {metadata_site_title}
+                </Typography>
+                <Typography
+                  variant="body2"
+                  fontWeight="bold"
+                  fontSize="0.85rem"
+                  lineHeight={1.3}
+                  sx={{
+                    display: { xs: "inline", sm: "block" },
+                    ml: { xs: 1, sm: 0 },
+                    mr: { xs: 0.5, sm: 0 },
+                  }}
+                >
+                  <Box
+                    component="span"
+                    sx={{ display: { xs: "inline", sm: "none" } }}
+                  >
+                    &nbsp;|&nbsp;
+                  </Box>
+                  {address}
+                </Typography>
+              </Box>
             </Grid>
 
+            {/* hide on mobile */}
             <Grid
               item
               sx={{
+                display: { xs: "none", sm: "block" },
                 textAlign: localeCache.isRtl() ? "left" : "right",
-                ml: localeCache.isRtl() ? 0 : { xs: 1, sm: 2 },
-                mr: localeCache.isRtl() ? { xs: 1, sm: 2 } : 0,
+                ml: localeCache.isRtl() ? 0 : { sm: 2 },
+                mr: localeCache.isRtl() ? { sm: 2 } : 0,
                 overflow: "hidden",
                 textOverflow: "ellipsis",
                 whiteSpace: "nowrap",

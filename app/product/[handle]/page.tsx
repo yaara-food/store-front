@@ -58,11 +58,14 @@ export async function generateMetadata({
   };
 }
 export async function generateStaticParams() {
-  const products = await getProducts();
-
-  return products.map((product) => ({
-    handle: encodeURIComponent(product.handle),
-  }));
+  try {
+    const products = await getProducts();
+    return products.map((product) => ({
+      handle: encodeURIComponent(product.handle),
+    }));
+  } catch (err) {
+    return [];
+  }
 }
 export const revalidate = 60;
 export default async function ProductPage({ params: { handle } }: Props) {

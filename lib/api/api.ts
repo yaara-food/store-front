@@ -107,7 +107,7 @@ export async function fetchData(force = false) {
 }
 
 export async function deleteModel(model: ModelType, id: number): Promise<void> {
-  const res = await serverFetch(`/auth/${model}/${id}`, {
+  const res = await serverFetch(`/auth/${model}/${id}/delete`, {
     method: "DELETE",
   });
   await handleResponse(res, "delete model");
@@ -184,4 +184,22 @@ export async function loginUser(
   });
 
   return handleResponse(res, "login");
+}
+
+export async function registerUser(body: {
+  username: string;
+  password: string;
+  email: string;
+}): Promise<{ token: string }> {
+  const res = await serverFetch(`/register`, {
+    method: "POST",
+    body: body as any,
+  });
+
+  return handleResponse(res, "login");
+}
+
+export async function resetMockDb(): Promise<{ token: string }> {
+  const res = await serverFetch(`/reset_mock_db`);
+  return handleResponse(res, "reset_mock_db");
 }

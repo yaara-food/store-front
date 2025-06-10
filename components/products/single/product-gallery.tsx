@@ -21,8 +21,10 @@ export default function ProductGallery({ images }: { images: ProductImage[] }) {
           className="h-full w-full object-contain mx-auto"
           fill
           sizes="(min-width: 1024px) 66vw, 100vw"
-          alt={(images[imageIndex] as ProductImage).altText}
-          src={(images[imageIndex] as ProductImage).url}
+          // @ts-ignore
+          alt={((images[imageIndex] || {}) as ProductImage).altText || ""}
+          // @ts-ignore
+          src={((images[imageIndex] || {}) as ProductImage).url || ""}
           priority
         />
 
