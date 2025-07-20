@@ -23,11 +23,14 @@ export function SearchResultsMessage({ count }: { count: number }) {
 
 export function NoProductsMessage() {
   return (
-    <Typography textAlign="center" mt={3} color="text.secondary">
-      <FormattedMessage
-        id="category.noProducts"
-        defaultMessage="No products found"
-      />
+    <Typography
+      data-testid="no-products"
+      textAlign="center"
+      mt={3}
+      mx={2}
+      color="text.secondary"
+    >
+      <FormattedMessage id="category.noProducts" />
     </Typography>
   );
 }

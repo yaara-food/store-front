@@ -5,10 +5,11 @@ import { Box, Button, IconButton } from "@mui/material";
 import {
   Add as AddIcon,
   Remove as RemoveIcon,
-  Close as CloseIcon,
+  Delete as DeleteIcon,
   ShoppingCart as ShoppingCartIcon,
 } from "@mui/icons-material";
-import type { CartItem } from "lib/types";
+import type { CartItem } from "@/lib/types";
+import { localeCache } from "@/lib/api";
 
 export const DeleteItemButton = memo(
   ({
@@ -24,16 +25,13 @@ export const DeleteItemButton = memo(
       aria-label="Remove cart item"
       size="small"
       sx={{
-        backgroundColor: "#6b7280",
-        color: "#fff",
+        color: "#e50707",
         "&:hover": {
           backgroundColor: "#4b5563",
         },
-        width: 24,
-        height: 24,
       }}
     >
-      <CloseIcon fontSize="small" />
+      <DeleteIcon fontSize="small" />
     </IconButton>
   ),
 );
@@ -76,24 +74,49 @@ export const EditItemQuantityButton = memo(
 );
 
 export const OpenCart = memo(
-  ({ className, quantity }: { className?: string; quantity?: number }) => (
-    <Box
-      data-testid="cart-open"
-      className={`relative flex h-11 w-11 items-center justify-center rounded-md border border-theme text-theme-strong transition-colors dark:border-theme dark:text-theme-strong ${className || ""}`}
+  ({ quantity, onClick }: { quantity?: number; onClick?: () => void }) => (
+    <IconButton
+      onClick={onClick}
+      data-testid="open-cart-button"
+      aria-label="Open cart"
+      sx={{
+        position: "relative",
+        width: "2.75rem",
+        height: "2.75rem",
+        borderRadius: "0.375rem",
+        bgcolor: "transparent",
+        color: "inherit",
+        border: quantity ? "1px solid" : "none",
+        borderColor: "primary.main",
+      }}
     >
-      <ShoppingCartIcon
-        fontSize="small"
-        className="transition-all ease-in-out hover:scale-110"
-      />
+      <ShoppingCartIcon fontSize="small" />
       {quantity ? (
-        <div className="absolute right-0 top-0 -mr-2 -mt-2 h-4 w-4 rounded-sm bg-blue-600 text-[11px] font-medium text-white">
+        <Box
+          sx={{
+            position: "absolute",
+            top: 0,
+            [localeCache.isRtl() ? "right" : "left"]: 0,
+            transform: `${localeCache.isRtl() ? "translate(40%, -40%)" : "translate(-40%, -40%)"}`,
+            width: "1rem",
+            height: "1rem",
+            borderRadius: "0.25rem",
+            bgcolor: "primary.main",
+            color: "#fff",
+            fontSize: "0.6875rem",
+            fontWeight: 500,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            lineHeight: 1,
+          }}
+        >
           {quantity}
-        </div>
+        </Box>
       ) : null}
-    </Box>
+    </IconButton>
   ),
 );
-
 export const CheckoutButton = memo(({ onClick }: { onClick: () => void }) => (
   <Button
     data-testid="cart-checkout"

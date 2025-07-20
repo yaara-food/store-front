@@ -10,12 +10,12 @@ import {
   ListItemText,
   Typography,
 } from "@mui/material";
-import { OrderDisplay } from "components/shared/elements-client";
-import { Price } from "components/shared/elements-ssr";
-import { localeCache, updateOrderStatus } from "lib/api";
-import { Order, OrderItem, OrderStatus } from "lib/types";
-import { getOrderInfoSections, OrderInfoItem } from "lib/config/ui";
-import { statusOptions } from "lib/config/mappings";
+import { OrderStatusDisplay } from "@/components/shared/elements-client";
+import { Price } from "@/components/shared/elements-ssr";
+import { localeCache, updateOrderStatus } from "@/lib/api";
+import { Order, OrderItem, OrderStatus } from "@/lib/types";
+import { getOrderInfoSections, OrderInfoItem } from "@/lib/config/ui";
+import { statusOptions } from "@/lib/config/mappings";
 export const OrderInfoList = ({ order }: { order: Order }) => {
   const { left, right } = getOrderInfoSections(order);
 
@@ -37,14 +37,16 @@ export const OrderInfoList = ({ order }: { order: Order }) => {
     </List>
   );
   return (
-    <Grid container spacing={2} mb={4}>
-      <Grid item xs={12} sm={6}>
-        {renderSection(left)}
+    <Box sx={{ display: "flex", justifyContent: "center" }}>
+      <Grid container spacing={2} mb={4}>
+        <Grid {...({ item: true } as any)} xs={12} sm={6}>
+          {renderSection(left)}
+        </Grid>
+        <Grid {...({ item: true } as any)} xs={12} sm={6}>
+          {renderSection(right)}
+        </Grid>
       </Grid>
-      <Grid item xs={12} sm={6}>
-        {renderSection(right)}
-      </Grid>
-    </Grid>
+    </Box>
   );
 };
 
@@ -55,6 +57,8 @@ export const OrderItemsList = ({ items }: { items: OrderItem[] }) => {
         <Grid
           key={product.id}
           sx={{
+            mx: "auto",
+            maxWidth: "30rem",
             display: "flex",
             flexDirection: "row",
             alignItems: "center",
@@ -79,7 +83,7 @@ export const OrderItemsList = ({ items }: { items: OrderItem[] }) => {
               flexShrink: 0,
             }}
           />
-          <Grid item sx={{ flexGrow: 1, minWidth: 0 }}>
+          <Grid {...({ item: true } as any)} sx={{ flexGrow: 1, minWidth: 0 }}>
             <Typography
               fontWeight="bold"
               textAlign={localeCache.isRtl() ? "right" : "left"}
@@ -122,9 +126,13 @@ export const OrderStatusActions = ({
       <Typography variant="h6" gutterBottom>
         <FormattedMessage id="order.statusUpdate" />
       </Typography>
-      <Grid container justifyContent="center" spacing={2}>
+      <Grid
+        {...({ container: true } as any)}
+        justifyContent="center"
+        spacing={2}
+      >
         {nextOptions.map((nextStatus) => (
-          <Grid item key={nextStatus}>
+          <Grid {...({ item: true } as any)} key={nextStatus}>
             <div
               onClick={async () => {
                 try {
@@ -165,7 +173,7 @@ export const OrderStatusActions = ({
               }}
               style={{ display: "inline-block", cursor: "pointer" }}
             >
-              <OrderDisplay status={nextStatus} size="large" clickable />
+              <OrderStatusDisplay status={nextStatus} size="large" clickable />
             </div>
           </Grid>
         ))}
@@ -176,6 +184,7 @@ export const OrderStatusActions = ({
 export const OrderStatusHeader = ({ status }: { status: OrderStatus }) => {
   return (
     <Box
+      className="order-status-vars"
       display="flex"
       justifyContent="center"
       alignItems="center"
@@ -193,7 +202,7 @@ export const OrderStatusHeader = ({ status }: { status: OrderStatus }) => {
       >
         <FormattedMessage id="order.status" />:
       </h2>
-      <OrderDisplay status={status} size="large" />
+      <OrderStatusDisplay status={status} size="large" />
     </Box>
   );
 };

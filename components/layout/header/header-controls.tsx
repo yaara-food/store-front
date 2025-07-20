@@ -15,8 +15,10 @@ import {
   Tooltip,
   IconButton,
 } from "@mui/material";
-import Cart from "components/cart";
+import Cart from "@/components/cart";
 import AdminNav from "./admin-nav";
+import { localeCache } from "@/lib/api";
+import ProductGalleryClient from "@/components/products/single/product-gallery";
 
 const Search = () => {
   const intl = useIntl();
@@ -55,14 +57,15 @@ const Search = () => {
       placeholder={intl.formatMessage({ id: "search.placeholder" })}
       variant="outlined"
       size="small"
-      fullWidth
-      inputProps={{ "data-testid": "search-input" }}
-      InputProps={{
-        endAdornment: (
-          <InputAdornment position="end">
-            <SearchIcon className="text-gray-400" fontSize="small" />
-          </InputAdornment>
-        ),
+      slotProps={{
+        input: {
+          endAdornment: (
+            <InputAdornment position={localeCache.isRtl() ? "start" : "end"}>
+              <SearchIcon fontSize="small" />
+            </InputAdornment>
+          ),
+          autoComplete: "off",
+        },
       }}
     />
   );
@@ -118,26 +121,39 @@ const AuthButtons = () => {
     </>
   );
 };
-
-export default function HeaderControls() {
+export default function HeaderControlsClient() {
   const pathname = usePathname();
   const isAdmin = pathname.startsWith("/admin");
-
   const shouldShowSearch = pathname === "/" || pathname.startsWith("/category");
 
   if (isAdmin) return <AdminNav />;
 
   return (
-    <>
-      <div className="flex w-full md:w-1/3 justify-start px-2">
-        <Box display="flex" gap={{ xs: 0, md: 2 }} alignItems="center">
-          {shouldShowSearch && <Search />}
-          <AuthButtons />
+    <Box
+      sx={{
+        gap: "0.5rem",
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "space-between",
+        width: "100%",
+      }}
+    >
+
+      <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+        <AuthButtons />
+      </Box>
+
+      {shouldShowSearch && (
+        <Box sx={{ flexGrow: 1, display: "flex", justifyContent: "center" }}>
+          <Box sx={{ maxWidth: "24rem", width: "100%" }}>
+            <Search />
+          </Box>
         </Box>
-      </div>
-      <div className="flex justify-end w-auto md:w-1/3">
+      )}
+
+      <Box sx={{ display: "flex", alignItems: "center" }}>
         <Cart />
-      </div>
-    </>
+      </Box>
+    </Box>
   );
 }

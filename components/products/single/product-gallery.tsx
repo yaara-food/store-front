@@ -1,69 +1,143 @@
 "use client";
-
 import { useState } from "react";
 import Image from "next/image";
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import { GridTileImage } from "components/products/grid/tile";
-import { ProductImage } from "lib/types";
-import { localeCache } from "lib/api";
+import { Box, Button } from "@mui/material";
+import { ChevronLeft as ChevronLeftIcon, ChevronRight as ChevronRightIcon } from "@mui/icons-material";
+import GridTileImage from "@/components/products/grid/tile";
+import { ProductImage } from "@/lib/types";
 
-export default function ProductGallery({ images }: { images: ProductImage[] }) {
+export type PropsProductGallery = {
+  images: ProductImage[];
+  isRtl: boolean;
+};
+export default function ProductGalleryClient({ images, isRtl }: PropsProductGallery) {
   const [imageIndex, setImageIndex] = useState(0);
   const next = () => setImageIndex((prev) => (prev + 1) % images.length);
   const prev = () =>
     setImageIndex((prev) => (prev - 1 + images.length) % images.length);
 
+  const currentImage = images[imageIndex];
   return (
-    <div>
-      <div className="relative aspect-square h-full max-h-[550px] w-full overflow-hidden">
+    <Box>
+      <Box
+        sx={{
+          position: "relative",
+          aspectRatio: "1 / 1",
+          height: "100%",
+          maxHeight: "34.375rem",
+          width: "100%",
+          overflow: "hidden",
+        }}
+      >
         <Image
-          className="h-full w-full object-contain mx-auto"
           fill
           sizes="(min-width: 1024px) 66vw, 100vw"
-          // @ts-ignore
-          alt={((images[imageIndex] || {}) as ProductImage).altText || ""}
-          // @ts-ignore
-          src={((images[imageIndex] || {}) as ProductImage).url || ""}
+          src={currentImage?.url || ""}
+          alt={currentImage?.altText || ""}
+          style={{
+            objectFit: "contain",
+            width: "100%",
+            height: "100%",
+            display: "block",
+            marginInline: "auto",
+          }}
           priority
         />
 
         {images.length > 1 && (
-          <div className="absolute bottom-[15%] flex w-full justify-center">
-            <div
-              dir="ltr"
-              className="mx-auto flex h-11 items-center rounded-full border border-white bg-neutral-50/80 text-neutral-500 backdrop-blur-sm dark:border-black dark:bg-neutral-900/80"
+          <Box
+            sx={{
+              position: "absolute",
+              bottom: "1%",
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: isRtl ? "row" : "row-reverse",
+                alignItems: "center",
+                gap: "2rem",
+              }}
             >
-              <button
-                onClick={localeCache.isRtl() ? next : prev}
-                aria-label="Previous product image"
-                className="h-full px-6 transition-all hover:scale-110 hover:text-black dark:hover:text-white flex items-center justify-center"
-              >
-                <ChevronLeftIcon fontSize="small" />
-              </button>
-
-              <div className="mx-1 h-6 w-px bg-neutral-500" />
-
-              <button
-                onClick={localeCache.isRtl() ? prev : next}
+              <Button
+                onClick={isRtl ? prev : next}
                 aria-label="Next product image"
-                className="h-full px-6 transition-all hover:scale-110 hover:text-black dark:hover:text-white flex items-center justify-center"
+                sx={{
+                  minWidth: 0,
+                  padding: 0,
+                  width: "3rem",
+                  height: "3rem",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  "&:hover": {
+                    transform: "scale(1.2)",
+                  },
+                }}
               >
-                <ChevronRightIcon fontSize="small" />
-              </button>
-            </div>
-          </div>
+                <ChevronRightIcon sx={{ fontSize: "2rem" }} />
+              </Button>
+
+              <Button
+                onClick={isRtl ? next : prev}
+                aria-label="Previous product image"
+                sx={{
+                  minWidth: 0,
+                  padding: 0,
+                  width: "3rem",
+                  height: "3rem",
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  "&:hover": {
+                    transform: "scale(1.2)",
+                  },
+                }}
+              >
+                <ChevronLeftIcon sx={{ fontSize: "2rem" }} />
+              </Button>
+            </Box>
+          </Box>
         )}
-      </div>
+      </Box>
 
       {images.length > 1 && (
-        <ul className="my-12 flex flex-wrap items-center justify-center gap-2 overflow-auto py-1 lg:mb-0">
+        <Box
+          component="ul"
+          sx={{
+            display: "flex",
+            flexWrap: "wrap",
+            justifyContent: "center",
+            alignItems: "center",
+            gap: "0.5rem",
+            py: 1,
+            my: 3,
+            overflowX: "auto",
+            listStyle: "none",
+            paddingInline: 0,
+          }}
+        >
           {images.map((image, idx) => (
-            <li key={image.url} className="h-20 w-20">
-              <button
+            <Box
+              component="li"
+              key={image.url}
+              sx={{
+                width: "5rem",
+                height: "5rem",
+              }}
+            >
+              <Button
                 onClick={() => setImageIndex(idx)}
                 aria-label="Select product image"
-                className="h-full w-full"
+                sx={{
+                  width: "100%",
+                  height: "100%",
+                  minWidth: 0,
+                  padding: 0,
+                }}
               >
                 <GridTileImage
                   alt={image.altText}
@@ -72,11 +146,11 @@ export default function ProductGallery({ images }: { images: ProductImage[] }) {
                   height={80}
                   active={idx === imageIndex}
                 />
-              </button>
-            </li>
+              </Button>
+            </Box>
           ))}
-        </ul>
+        </Box>
       )}
-    </div>
+    </Box>
   );
 }

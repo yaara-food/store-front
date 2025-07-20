@@ -1,15 +1,20 @@
 "use client";
-import { CSSProperties } from "react";
+import {CSSProperties, RefObject, useEffect, useRef, useState} from "react";
 import { useIntl } from "react-intl";
 import {
-  Chip,
-  Dialog,
-  DialogTitle,
-  DialogContent,
-  DialogActions,
-  Button,
+    Chip,
+    Dialog,
+    DialogTitle,
+    DialogContent,
+    DialogActions,
+    Button,
+    Autocomplete,
+    TextField, AutocompleteRenderInputParams,
 } from "@mui/material";
-import { OrderStatus } from "lib/types";
+import { Category, ModelType, OrderStatus } from "@/lib/types";
+import { usePathname, useRouter } from "next/navigation";
+import { safeDecodeURIComponent } from "@/lib/helper";
+import ProductGalleryClient from "@/components/products/single/product-gallery";
 
 type Props = {
   status: OrderStatus;
@@ -18,7 +23,7 @@ type Props = {
   style?: CSSProperties; // allow parent to inject custom hover
 };
 
-export const OrderDisplay = ({
+export const OrderStatusDisplay = ({
   status,
   size = "small",
   clickable = false,
@@ -38,11 +43,13 @@ export const OrderDisplay = ({
   };
 
   return (
-    <Chip
-      label={intl.formatMessage({ id: `order.status.${status}` })}
-      style={baseStyle}
-      size={size === "large" ? "medium" : "small"}
-    />
+    <div className="order-status-vars">
+      <Chip
+        label={intl.formatMessage({ id: `order.status.${status}` })}
+        style={baseStyle}
+        size={size === "large" ? "medium" : "small"}
+      />
+    </div>
   );
 };
 
@@ -61,7 +68,7 @@ export const DeleteConfirmDialog = ({
 }) => {
   const intl = useIntl();
   return (
-    <Dialog open={open} onClose={onClose}>
+    <Dialog open={open} onClose={onClose} slots={{ transition: undefined }}>
       <DialogTitle>
         {intl.formatMessage({ id: "delete.title" }, { title })}
       </DialogTitle>
@@ -89,3 +96,111 @@ export const DeleteConfirmDialog = ({
     </Dialog>
   );
 };
+
+export const CategoryAutocompleteClient = ({ options }: { options: Category[] }) => {
+  const intl = useIntl();
+  const router = useRouter();
+  const pathname = safeDecodeURIComponent(usePathname());
+
+  const allOption: Category = options[0]!;
+
+  const findSelected = () =>
+    options.find((item) => pathname.endsWith(`${item.handle}`)) ?? allOption;
+
+  const [selectedItem, setSelectedItem] = useState<Category>(allOption);
+
+  useEffect(() => {
+    setSelectedItem(findSelected());
+  }, [pathname, options]);
+
+  return (
+      <Autocomplete
+          disablePortal
+          options={options}
+          getOptionLabel={(option) => option.title}
+          value={selectedItem}
+          onChange={(event, value: Category | null) => {
+              if (!value) return;
+
+              setSelectedItem(value);
+              router.push(
+                  value.handle === "all"
+                      ? "/"
+                      : `/${ModelType.category}/${value.handle}`
+              );
+              (event?.target as HTMLInputElement)?.blur();
+          }}
+
+          renderInput={(params:AutocompleteRenderInputParams) => (
+              <TextField
+                  {...params}
+                  label={intl.formatMessage({
+                      id: `${ModelType.category}.selectCategory`,
+                  })}
+                  inputProps={{
+                      ...params.inputProps,
+                      readOnly: true,
+                  }}
+              />
+          )}
+      />
+  );
+};
+
+
+export function useInfiniteScroll<T>(
+    allItems: T[],
+    itemsPerPage: number,
+    sessionKey: string,
+): {
+    visibleItems: T[];
+    hasMore: boolean;
+    sentinelRef: RefObject<HTMLDivElement>;
+} {
+    const [page, setPage] = useState(() => {
+        const stored = sessionStorage.getItem(sessionKey);
+        return stored ? parseInt(stored) : 1;
+    });
+
+    const sentinelRef = useRef<HTMLDivElement | null>(null);
+    const observer = useRef<IntersectionObserver | null>(null);
+    const loadingRef = useRef(false);
+
+    const visibleItems = allItems.slice(0, page * itemsPerPage);
+    const hasMore = visibleItems.length < allItems.length;
+
+    useEffect(() => {
+        sessionStorage.setItem(sessionKey, String(page));
+    }, [page, sessionKey]);
+
+    useEffect(() => {
+        if (!hasMore) return;
+
+        const node = sentinelRef.current;
+        if (!node) return;
+
+        observer.current?.disconnect();
+
+        const newObserver = new IntersectionObserver(
+            (entries) => {
+                const entry = entries[0];
+                if (entry?.isIntersecting && !loadingRef.current) {
+                    loadingRef.current = true;
+                    setPage((prev) => prev + 1);
+                }
+            },
+            { threshold: 0.1 },
+        );
+
+        newObserver.observe(node);
+        observer.current = newObserver;
+
+        return () => newObserver.disconnect();
+    }, [hasMore, page, allItems]);
+
+    useEffect(() => {
+        loadingRef.current = false;
+    }, [page]);
+
+    return { visibleItems, hasMore, sentinelRef };
+}

@@ -1,24 +1,44 @@
 import { ReactNode } from "react";
+import { Box } from "@mui/material";
 import Categories from "./categories";
-import { getCategories } from "lib/api";
+import { Category } from "@/lib/types";
 
-export default async function SidebarLayout({
+export default function SidebarLayout({
   children,
+  categories,
+  currentPath,
 }: {
+  currentPath?: string;
   children: ReactNode;
+  categories: Category[];
 }) {
-  const categories = (await getCategories()) ?? [];
   return (
-    <div className="mx-auto flex max-w-(--breakpoint-2xl) flex-col gap-8 px-4 pb-4 text-black md:flex-row dark:text-white">
-      <div
-        className="order-first w-full flex-none md:max-w-[125px]"
+    <Box
+      sx={{
+        maxWidth: "var(--breakpoint-2xl)",
+        display: "flex",
+        flexDirection: { xs: "column", md: "row" },
+        alignItems: "flex-start",
+      }}
+    >
+      <Box
+        sx={{
+          flexShrink: 0,
+          width: { xs: "100%", md: "6rem" }, // ✅ FIXED: sidebar stays narrow
+        }}
         data-testid="category-nav"
       >
-        <Categories categories={categories} />
-      </div>
-      <div className="order-last min-h-screen w-full md:order-none">
+        <Categories currentPath={currentPath} categories={categories} />
+      </Box>
+
+      <Box
+        sx={{
+          flexGrow: 1,
+          width: "100%",
+        }}
+      >
         {children}
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 }

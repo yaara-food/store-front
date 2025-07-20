@@ -1,19 +1,17 @@
-"use client";
-import { usePathname } from "next/navigation";
 import { Box, Typography, IconButton, Stack, Grid } from "@mui/material";
-import { metadata_site_title } from "lib/assets/i18n/localizedMetadata";
-import { FOOTER_DATA } from "lib/config/config";
-import { localeCache } from "lib/api";
-import { SOCIAL_LINKS } from "lib/config/ui";
+import { metadata_site_title } from "@/lib/assets/i18n/localizedMetadata";
+import { FOOTER_DATA } from "@/lib/config/config";
+import { localeCache } from "@/lib/api";
+import { SOCIAL_LINKS } from "@/lib/config/ui";
+
 export const [email, address, phone, instagram, facebook, website] =
   FOOTER_DATA.split(",");
 
 export default function Footer() {
-  const pathname = usePathname();
-  if (pathname.startsWith("/admin")) return null;
   return (
     <Box
       component="footer"
+      className="hide-in-admin"
       sx={{
         position: "sticky",
         bottom: 0,
@@ -27,7 +25,7 @@ export default function Footer() {
         direction: localeCache.dir(),
       }}
     >
-      <Box sx={{ maxWidth: "1320px", mx: "auto", width: "100%" }}>
+      <Box sx={{ maxWidth: "65rem", mx: "auto", width: "100%" }}>
         <Stack
           direction={{ xs: "column", sm: "row" }}
           justifyContent="space-between"
@@ -36,7 +34,7 @@ export default function Footer() {
           sx={{ gap: { xs: 0, sm: 2 }, rowGap: { xs: 0.5, sm: 0 } }}
         >
           <Grid
-            container
+            {...({ container: true } as any)}
             spacing={0.5}
             justifyContent="space-between"
             alignItems="flex-start"
@@ -44,7 +42,7 @@ export default function Footer() {
           >
             {/* stack on desktop, inline with spacing on mobile */}
             <Grid
-              item
+              {...({ item: true } as any)}
               sx={{
                 minWidth: 120,
                 textAlign: localeCache.isRtl() ? "right" : "left",
@@ -88,7 +86,7 @@ export default function Footer() {
 
             {/* hide on mobile */}
             <Grid
-              item
+              {...({ item: true } as any)}
               sx={{
                 display: { xs: "none", sm: "block" },
                 textAlign: localeCache.isRtl() ? "left" : "right",

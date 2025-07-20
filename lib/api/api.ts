@@ -4,38 +4,19 @@ import {
   ModelType,
   AGTableModelType,
   NewOrderPayload,
+  ResponseData,
 } from "../types";
-import { API_URL, USE_MOCK_DATA } from "../config/config";
-import { cache } from "./cache";
-type Callback = (loading: boolean) => void;
+import {setGlobalLoading} from "@/lib/provider/LoadingProvider";
+import { API_URL, isTest, USE_MOCK_DATA } from "../config";
 
-let subscribers: Callback[] = [];
-
-export function setGlobalLoading(value: boolean) {
-  subscribers.forEach((cb) => cb(value));
-}
-
-export function subscribeGlobalLoading(cb: Callback) {
-  subscribers.push(cb);
-  return () => {
-    subscribers = subscribers.filter((fn) => fn !== cb);
-  };
-}
 
 export async function serverFetch(
   input: string,
   init: RequestInit = {},
 ): Promise<Response> {
-  const {
-    redirect,
-    headers, // unused in your usage
-    cache: initCache,
-    body,
-    ...restInit
-  } = init;
+  const { body, ...restInit } = init;
 
   const isBrowser = typeof window !== "undefined";
-  const token = isBrowser ? localStorage.getItem("token") : null;
 
   let finalBody = body;
   const finalHeaders: Record<string, string> = {};
@@ -44,12 +25,23 @@ export async function serverFetch(
     finalBody = JSON.stringify(body);
     finalHeaders["Content-Type"] = "application/json";
   }
-
-  if (token) {
-    finalHeaders["Authorization"] = `Bearer ${token}`;
+  if (isBrowser) {
+    setGlobalLoading(true);
+    if (localStorage.getItem("token")) {
+      finalHeaders["Authorization"] = `Bearer ${localStorage.getItem("token")}`;
+    }
   }
 
-  if (isBrowser) setGlobalLoading(true);
+  const fetchInit: RequestInit = {
+    ...restInit,
+    headers: finalHeaders,
+    body: finalBody,
+  } as RequestInit;
+
+  if (!isBrowser && !isTest) {
+    fetchInit["cache"] = "force-cache";
+    fetchInit["next"] = { revalidate: 60 };
+  }
 
   try {
     if (USE_MOCK_DATA) {
@@ -57,53 +49,44 @@ export async function serverFetch(
       return await mockResponse(input);
     }
 
-    return await fetch(`${API_URL}${input}`, {
-      ...restInit,
-      headers: finalHeaders,
-      body: finalBody,
-      credentials: "include",
-      cache: initCache || "no-store",
-    });
+    return await fetch(`${API_URL}${input}`, fetchInit);
   } finally {
     if (isBrowser) setGlobalLoading(false);
   }
 }
 
-async function handleResponse<T = any>(
+export async function handleResponse<T = any>(
   response: Response,
   context: string,
 ): Promise<T> {
   if (!response.ok) {
     const err = await response.json().catch(() => ({}));
+
+    if (response.status === 401 && typeof window !== "undefined") {
+      console.warn("⛔ Unauthorized — clearing token and redirecting to login");
+      localStorage.clear();
+      window.location.href = "/login";
+    }
+
     console.error(`❌ Failed to ${context}`);
     throw new Error(err?.error || `Failed to ${context}`);
   }
+
   return response.json();
 }
 
-export async function fetchData(force = false) {
-  if (!force && cache.isFresh()) {
-    return cache.get();
-  }
+let inFlight: Promise<ResponseData> | null = null;
 
-  const inflight = cache.getInFlight();
-  if (!force && inflight) {
-    return inflight;
-  }
+export async function getData(): Promise<ResponseData> {
+  if (inFlight) return inFlight;
 
-  const promise = serverFetch(`/data`)
-    .then((res) =>
-      handleResponse(res, "fetch data").then((data) => {
-        cache.set(data);
-        return data;
-      }),
-    )
+  inFlight = serverFetch("/data")
+    .then((res) => handleResponse<ResponseData>(res, "init data"))
     .finally(() => {
-      cache.setInFlight(null);
+      inFlight = null;
     });
 
-  cache.setInFlight(promise);
-  return promise;
+  return inFlight;
 }
 
 export async function deleteModel(model: ModelType, id: number): Promise<void> {

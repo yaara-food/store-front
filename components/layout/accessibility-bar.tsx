@@ -3,8 +3,8 @@ import { useEffect, useState, useRef, ReactNode } from "react";
 import { FormattedMessage } from "react-intl";
 import AccessibleIcon from "@mui/icons-material/Accessible";
 import { Box, IconButton, Typography, Stack } from "@mui/material";
-import { localeCache } from "lib/api";
-import { createAccessibilityButtons } from "lib/config/ui";
+import { localeCache } from "@/lib/api";
+import { createAccessibilityButtons } from "@/lib/config/ui";
 
 const ActionItem = ({
   icon,
@@ -47,7 +47,7 @@ const ActionItem = ({
   </Box>
 );
 
-export default function AccessibilityBar() {
+export default function AccessibilityBarClient() {
   const buttonIconOpenRef = useRef<HTMLButtonElement | null>(null);
   const panelRef = useRef<HTMLDivElement | null>(null);
 
@@ -124,10 +124,18 @@ export default function AccessibilityBar() {
   );
 
   return (
-    <div
-      className={`fixed top-1/2 z-50 -translate-y-1/2 ${localeCache.isRtl() ? "left-1" : "right-1"}`}
+    <Box
+        className="hide-in-admin"
+        sx={{
+        position: "fixed",
+        top: "70%",
+        transform: "translateY(-50%)",
+        zIndex: 50,
+        display: "flex",
+        alignItems: "center",
+        ...(localeCache.isRtl() ? { left: "0.2rem" } : { right: "0.2rem" }),
+      }}
       dir={localeCache.dir()}
-      style={{ display: "flex", alignItems: "center" }}
     >
       <IconButton
         ref={buttonIconOpenRef}
@@ -135,8 +143,10 @@ export default function AccessibilityBar() {
         sx={{
           backgroundColor: "#124cda",
           color: "var(--color-bg)",
-          "&:hover": { backgroundColor: "#124cda" },
-          "&:focus, &:active": { backgroundColor: "#124cda", opacity: 1 },
+          "&:hover, &:focus, &:active": {
+            backgroundColor: "#124cda",
+            opacity: 1,
+          },
           zIndex: 10,
         }}
       >
@@ -147,11 +157,11 @@ export default function AccessibilityBar() {
         <Box
           ref={panelRef}
           sx={{
-            ...(fontSize > 140 && { mt: 25 }),
-            ml: 1,
-            width: 200,
-            p: 2,
-            borderRadius: 2,
+            ...(fontSize > 140 && { mt: "6.25rem" }), // 100px ≈ 25 * 4px
+            ml: "0.25rem",
+            width: "12.5rem", // 200px
+            p: "0.5rem",
+            borderRadius: "0.5rem",
             boxShadow: 3,
             border: "1px solid var(--color-border)",
             color: "var(--color-text-strong)",
@@ -180,6 +190,6 @@ export default function AccessibilityBar() {
           </Stack>
         </Box>
       )}
-    </div>
+    </Box>
   );
 }

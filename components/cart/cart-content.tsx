@@ -1,8 +1,14 @@
 "use client";
+import NextLink from "next/link";
 import { FormattedMessage } from "react-intl";
 import Image from "next/image";
-import Link from "next/link";
-import { IconButton, Typography, Box, useMediaQuery } from "@mui/material";
+import {
+  IconButton,
+  Typography,
+  Box,
+  useMediaQuery,
+  Divider,
+} from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import {
@@ -10,10 +16,11 @@ import {
   EditItemQuantityButton,
   CheckoutButton,
 } from "./cart-buttons";
-import { Price } from "components/shared/elements-ssr";
-import { RootState } from "lib/store";
-import { localeCache } from "lib/api";
+import { Price } from "@/components/shared/elements-ssr";
+import { RootState } from "@/lib/store";
+import { localeCache } from "@/lib/api";
 import { useTheme } from "@mui/system";
+import React from "react";
 export const CartHeader = ({ closeCart }: { closeCart: () => void }) => (
   <Box
     display="flex"
@@ -28,7 +35,6 @@ export const CartHeader = ({ closeCart }: { closeCart: () => void }) => (
     <IconButton
       onClick={closeCart}
       aria-label="Close cart"
-      // sx={{ color: highContrast ? "yellow" : "inherit" }}
       data-testid="close-cart-button"
     >
       <CloseIcon />
@@ -59,66 +65,140 @@ export const CartItemList = ({
   ) => void;
   closeCart: () => void;
 }) => (
-  <Box component="ul" py={2} data-testid="cart-list">
+  <Box
+    component="ul"
+    py={2}
+    px={0}
+    data-testid="cart-list"
+    sx={{
+      listStyle: "none",
+      m: 0,
+    }}
+  >
     {cart.lines
       .filter((item) => item?.title)
       .sort((a, b) => a.title.localeCompare(b.title))
       .map((item, i) => (
-        <li
+        <Box
+          component="li"
           key={i}
-          className="flex w-full flex-col border-b border-neutral-300 dark:border-neutral-700 pb-2"
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            width: "100%",
+            borderBottom: "1px solid",
+            borderColor: "divider",
+            "&:last-of-type": {
+              borderBottom: "none",
+            },
+          }}
         >
-          <div className="flex items-start justify-between gap-4 px-1 py-4">
-            <div className="relative h-16 w-16 flex-shrink-0">
+          <Box
+            sx={{
+              display: "flex",
+              gap: "1rem",
+              justifyContent: "space-between",
+              alignItems: "flex-start",
+              px: 1,
+              py: 2,
+            }}
+          >
+            <Box
+              sx={{
+                position: "relative",
+                width: 64,
+                height: 64,
+                flexShrink: 0,
+              }}
+            >
               <Image
-                className="h-full w-full rounded-md border border-neutral-300 bg-neutral-300 object-cover dark:border-neutral-700 dark:bg-neutral-900"
                 width={64}
                 height={64}
                 alt={item.imageAlt || item.title}
                 src={item.imageUrl}
+                style={{
+                  width: "100%",
+                  height: "100%",
+                  borderRadius: "0.375rem",
+                  border: "1px solid var(--theme-border, #ccc)",
+                  background: "var(--theme-bg, #eee)",
+                  objectFit: "cover",
+                }}
               />
-              <div
-                className={`absolute top-0 z-10 ${localeCache.isRtl() ? "right-0" : "left-0"}`}
-              >
-                <DeleteItemButton
-                  item={item}
-                  optimisticUpdate={optimisticUpdate}
-                />
-              </div>
-            </div>
+            </Box>
 
-            <div className="flex flex-1 flex-col justify-between">
-              <div className="flex items-center justify-between">
-                <Link href={`/product/${item.handle}`} onClick={closeCart}>
-                  <h2
-                    className="font-bold text-theme leading-tight m-0"
-                    style={{
-                      textAlign: localeCache.isRtl() ? "right" : "left",
-                    }}
-                  >
-                    {item.title}
-                  </h2>
-                </Link>
+            <Box
+              sx={{
+                flex: 1,
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "space-between",
+              }}
+            >
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                <Typography
+                  component={NextLink}
+                  href={`/product/${item.handle}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  variant="subtitle1"
+                  fontWeight="bold"
+                  color="text.primary"
+                  lineHeight={1.2}
+                  textAlign={localeCache.isRtl() ? "right" : "left"}
+                  sx={{
+                    textDecoration: "none",
+                    "&:hover": {
+                      textDecoration: "underline",
+                    },
+                  }}
+                >
+                  {item.title}
+                </Typography>
                 <Box
                   sx={{
                     minWidth: 80,
                     textAlign: localeCache.isRtl() ? "right" : "left",
                   }}
                 >
-                  <Price
-                    className="text-base font-bold"
-                    amount={item.totalAmount}
-                  />
+                  <Price amount={item.totalAmount} />
                 </Box>
-              </div>
+              </Box>
 
-              <div className="mt-2 flex items-center justify-between">
+              <Box
+                sx={{
+                  mt: 2,
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
                 <Price
-                  className="text-sm font-medium"
                   amount={item.unitAmount}
+                  sx={{ fontSize: "0.875rem", fontWeight: 500 }}
                 />
-                <div
-                  className="flex h-9 flex-row items-center rounded-full border border-neutral-200 dark:border-neutral-700"
+                <DeleteItemButton
+                  item={item}
+                  optimisticUpdate={optimisticUpdate}
+                />
+
+                <Box
+                  sx={{
+                    display: "flex",
+                    flexDirection: "row",
+                    alignItems: "center",
+                    height: "2.25rem",
+                    borderRadius: "999px",
+                    border: "1px solid",
+                    borderColor: "divider",
+                    overflow: "hidden",
+                  }}
                   data-testid="quantity-buttons"
                 >
                   <EditItemQuantityButton
@@ -126,22 +206,26 @@ export const CartItemList = ({
                     type="minus"
                     optimisticUpdate={optimisticUpdate}
                   />
-                  <span
-                    className="w-6 text-center text-sm"
+                  <Box
+                    sx={{
+                      width: "1.5rem",
+                      textAlign: "center",
+                      fontSize: "0.875rem",
+                    }}
                     data-testid="cart-item-qty"
                   >
                     {item.quantity}
-                  </span>
+                  </Box>
                   <EditItemQuantityButton
                     item={item}
                     type="plus"
                     optimisticUpdate={optimisticUpdate}
                   />
-                </div>
-              </div>
-            </div>
-          </div>
-        </li>
+                </Box>
+              </Box>
+            </Box>
+          </Box>
+        </Box>
       ))}
   </Box>
 );

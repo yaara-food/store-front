@@ -1,56 +1,55 @@
 "use client";
-import { ChangeEvent, useCallback, useEffect, useMemo, useState } from "react";
+import {
+  ChangeEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  use,
+} from "react";
+import { useDispatch } from "react-redux";
 import { ColDef } from "ag-grid-community";
 import { Container, Grid } from "@mui/material";
-import AGTable from "components/admin/table";
-import { useLoading } from "lib/provider/LoadingProvider";
-import { LoadingTable } from "components/shared/loading-skeleton";
+import AGTable from "@/components/admin/table";
+import { useLoading } from "@/lib/provider/LoadingProvider";
+import { LoadingTable } from "@/components/shared/loading-skeleton";
 import {
   AGTableModelType,
   get_columns_ag_by_model,
   ModelType,
-} from "lib/types";
-import { cache } from "lib/api";
-import { filterBySearch } from "lib/helper";
-import { modelFetchers } from "lib/config/mappings";
-import { TableHeader } from "components/admin/table/table-header";
+} from "@/lib/types";
+import { filterBySearch } from "@/lib/helper";
+import { TableHeader } from "@/components/admin/table/table-header";
+import { useSelector } from "react-redux";
+import { fetchRowsByModel, RootState } from "@/lib/store";
 
 export default function AdminPage({
-  params: { model },
+  params,
 }: {
-  params: { model: ModelType };
+  params: Promise<{ model: ModelType }>;
 }) {
+  const { model } = use(params);
   const { loading } = useLoading();
 
-  const [rows, setRows] = useState<AGTableModelType[]>([]);
   const [searchValue, setSearchValue] = useState("");
-
+  const rows: AGTableModelType[] = useSelector(
+    (state: RootState) => state.admin[model],
+  ) as AGTableModelType[];
   const cols: ColDef<AGTableModelType>[] = useMemo(
     () => get_columns_ag_by_model(model),
     [model],
   );
 
-  const loadData = useCallback(async (targetModel: ModelType) => {
-    try {
-      const data = (await modelFetchers[targetModel]?.(true)) ?? [];
-      cache.setByModel(targetModel, data);
-      setRows(data);
-    } catch (err) {
-      console.error("❌ Failed to load model data", err);
-    }
-  }, []);
+  const dispatch: any = useDispatch();
 
   useEffect(() => {
-    const cached = cache.getByModel(model);
-    if (cached.length > 0) setRows(cached);
-
-    void loadData(model);
-  }, [model]);
-
+    dispatch(fetchRowsByModel({ model }));
+  }, [dispatch, model]);
   const filteredRows = useMemo(
     () => filterBySearch(rows, searchValue),
     [searchValue, rows],
   );
+
   const onSearchChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     setSearchValue(e.target.value);
   }, []);

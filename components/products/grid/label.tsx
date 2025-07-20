@@ -1,71 +1,78 @@
-import { Box } from "@mui/material";
-import clsx from "clsx";
-import { Price } from "components/shared/elements-ssr";
+import { Box, Chip, Typography } from "@mui/material";
+import { Price } from "@/components/shared/elements-ssr";
 
 export default function Label({
   title,
   amount,
-  position = "bottom",
 }: {
   title: string;
   amount: number;
-  position?: "bottom" | "center";
 }) {
   return (
     <Box
-      className={clsx("absolute bottom-0 left-0 w-full @container/label", {
-        "lg:px-20 lg:pb-[35%]": position === "center",
-      })}
       sx={{
-        px: 2,
-        pb: 2,
+        position: "absolute",
+        bottom: "0.75rem",
+        insetInlineStart: "0.75rem",
+        maxWidth: "calc(100% - 1.5rem)",
         display: "flex",
         justifyContent: "flex-start",
       }}
     >
-      <Box
+      <Chip
         sx={{
-          display: "flex",
-          alignItems: "center",
-          borderRadius: "9999px",
           bgcolor: "var(--color-chip)",
           color: "var(--color-text-strong)",
-          px: 1.5,
-          py: 0.5,
-          fontWeight: 600,
-          fontSize: "0.9em",
-          gap: 1,
           border: "1px solid var(--color-border)",
+          borderRadius: "9999rem",
+          fontSize: "1.2rem",
+          display: "flex",
+          alignItems: "center",
+          maxWidth: "100%",
         }}
-      >
-        <h3
-          className="product-title mr-4 line-clamp-2 grow pl-2 leading-none tracking-tight"
-          data-testid="product-card-title"
-          style={{
-            fontSize: "1.2em",
-            color: "var(--color-text-strong)",
-          }}
-        >
-          {title}
-        </h3>
+        label={
+          <Box
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              width: "100%",
+              gap: "0.5rem",
+            }}
+          >
+            <Typography
+              sx={{
+                fontWeight: 800,
+                overflow: "hidden",
+                whiteSpace: "nowrap",
+                textOverflow: "ellipsis",
+                flexGrow: 1,
+              }}
+              data-testid="product-card-title"
+            >
+              {title}
+            </Typography>
 
-        <Box
-          className="price-badge black-bg"
-          sx={{
-            backgroundColor: "var(--color-accent)",
-            borderRadius: "9999px",
-            px: 1.5,
-            py: 0.5,
-            fontSize: "1.2em",
-            fontWeight: "bold",
-            width: "fit-content",
-            whiteSpace: "nowrap",
-            lineHeight: 1.3,
-          }}
-        >
-          <Price amount={amount} className="price-text" />
-        </Box>
-      </Box>
+            <Box
+              sx={{
+                backgroundColor: "var(--color-accent)",
+                borderRadius: "9999rem",
+                px: "0.6rem",
+                py: "0.2rem",
+
+                fontWeight: "bold",
+                fontSize: "0.875rem",
+                lineHeight: 1,
+                color: "black",
+                whiteSpace: "nowrap",
+                flexShrink: 0,
+              }}
+            >
+              <Price amount={amount} />
+            </Box>
+          </Box>
+        }
+      />
     </Box>
   );
 }

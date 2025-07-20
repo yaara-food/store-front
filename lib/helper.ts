@@ -6,6 +6,16 @@ export function safeDecodeURIComponent(value: string): string {
   }
 }
 
+export const getStaticHandleParams = (list: { handle: string }[]) =>
+  list.map((item) => ({ handle: item.handle }));
+
+export async function getDecodedHandle(
+  paramsPromise: Promise<{ handle: string }>,
+) {
+  const { handle } = await paramsPromise;
+  return safeDecodeURIComponent(handle);
+}
+
 export function filterBySearch<T extends object>(
   items: T[],
   searchValue: string,
@@ -33,3 +43,33 @@ export const array_obj_to_obj_with_key = (
   value: any,
   key: string,
 ) => iterable.find((o: any) => o[key]?.toString() === value.toString());
+
+export const create_key_to_value_map = (
+  items: any[],
+  key_field: string,
+  value_field: string,
+): Record<string | number, any> => {
+  return items.reduce(
+    (acc, curr) => {
+      const key = curr[key_field];
+      const value = curr[value_field];
+      if (typeof key === "string" || typeof key === "number") {
+        acc[key] = value;
+      }
+      return acc;
+    },
+    {} as Record<string | number, any>,
+  );
+};
+
+
+export const shuffleArray = <T>(array: T[]): T[] => {
+    const result = [...array];
+    for (let i = result.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        const temp = result[i] as T;
+        result[i] = result[j] as T;
+        result[j] = temp;
+    }
+    return result;
+};

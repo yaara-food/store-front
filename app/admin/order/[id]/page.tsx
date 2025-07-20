@@ -1,7 +1,6 @@
 "use client";
-
 import { notFound } from "next/navigation";
-import { useEffect, useMemo, useState } from "react";
+import { use, useEffect, useMemo, useState } from "react";
 import { FormattedMessage } from "react-intl";
 import { Box, Divider, Typography } from "@mui/material";
 import {
@@ -9,22 +8,31 @@ import {
   OrderItemsList,
   OrderStatusActions,
   OrderStatusHeader,
-} from "components/admin/order-view";
-import { cache, getOrderById, localeCache } from "lib/api";
-import { ModelType, Order } from "lib/types";
-import { array_obj_to_obj_with_key } from "lib/helper";
+} from "@/components/admin/order-view";
+import { getOrderById, localeCache } from "@/lib/api";
+import { AGTableModelType, ModelType, Order } from "@/lib/types";
+import { array_obj_to_obj_with_key } from "@/lib/helper";
+import { useSelector } from "react-redux";
+import { RootState } from "@/lib/store";
 
-export default function OrderViewPage({ params }: { params: { id: string } }) {
+export default function OrderViewPage({
+  params,
+}: {
+  params: Promise<{ id: string }>;
+}) {
+  const { id } = use(params);
+
   const [order, setOrder] = useState<Order | undefined | null>(undefined);
+
+  const orders: Order[] = useSelector(
+    (state: RootState) => state.admin[ModelType.order],
+  ) as Order[];
 
   useEffect(() => {
     const init = async () => {
       const obj =
-        array_obj_to_obj_with_key(
-          cache.getByModel(ModelType.order),
-          Number(params.id),
-          "id",
-        ) ?? (await getOrderById(Number(params.id)));
+        array_obj_to_obj_with_key(orders, Number(id), "id") ??
+        (await getOrderById(Number(id)));
       setOrder(obj);
     };
     void init();

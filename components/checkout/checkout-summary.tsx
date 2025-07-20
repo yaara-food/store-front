@@ -2,17 +2,16 @@
 import { FormattedMessage } from "react-intl";
 import { useSelector } from "react-redux";
 import { Box, Divider, Grid, Typography } from "@mui/material";
-import { Price } from "components/shared/elements-ssr";
-import { RootState } from "lib/store";
-import { localeCache } from "lib/api";
-import { CartItem } from "lib/types";
+import { Price } from "@/components/shared/elements-ssr";
+import { RootState } from "@/lib/store";
+import { localeCache } from "@/lib/api";
+import { CartItem } from "@/lib/types";
 
 const CheckoutSummaryItem = ({ product }: { product: CartItem }) => (
   <Grid
     key={product.productId}
     sx={{
       display: "flex",
-      flexDirection: "row",
       alignItems: "center",
       bgcolor: "var(--color-bg)",
       borderRadius: 2,
@@ -43,32 +42,32 @@ const CheckoutSummaryItem = ({ product }: { product: CartItem }) => (
         },
       }}
     />
-    <Grid
-      item
+
+    <Box
       sx={{
-        display: "flex",
-        flexDirection: "column",
-        flexGrow: 1,
+        flex: 1,
         minWidth: 0,
         textAlign: localeCache.isRtl() ? "right" : "left",
-      }}
-    >
-      <Typography variant="subtitle1">{product.title}</Typography>
-      <Typography variant="body2">
-        <Price amount={product.unitAmount} />
-      </Typography>
-    </Grid>
-    <Grid
-      sx={{
-        mt: 1,
         display: "flex",
         flexDirection: "column",
-        flexGrow: 1,
-        minWidth: 0,
-        textAlign: localeCache.isRtl() ? "right" : "left",
+        justifyContent: "center",
       }}
     >
-      <Typography fontWeight="bold" fontSize="1.2rem" minWidth={70}>
+      <Typography noWrap>{product.title}</Typography>
+      <Price amount={product.unitAmount} />
+    </Box>
+
+    <Box
+      sx={{
+        width: "5.5rem", // fixed width ~88px
+        textAlign: localeCache.isRtl() ? "right" : "left",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+        alignItems: localeCache.isRtl() ? "flex-start" : "flex-end",
+      }}
+    >
+      <Typography fontWeight="bold" fontSize="1.2rem">
         <Price amount={product.totalAmount} />
       </Typography>
       <Typography variant="body2">
@@ -77,7 +76,7 @@ const CheckoutSummaryItem = ({ product }: { product: CartItem }) => (
           values={{ quantity: product.quantity }}
         />
       </Typography>
-    </Grid>
+    </Box>
   </Grid>
 );
 export default function CheckoutSummary() {

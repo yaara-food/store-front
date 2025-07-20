@@ -1,4 +1,4 @@
-import { baseUrl } from "lib/config/config";
+import { baseUrl } from "@/lib/config/config";
 
 export default function robots() {
   return {
@@ -6,7 +6,7 @@ export default function robots() {
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/admin", "/checkout", "/login"],
+        disallow: ["/admin", "/checkout", "/login", "/legal"],
       },
     ],
     sitemap: `${baseUrl}/sitemap.xml`,

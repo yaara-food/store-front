@@ -13,8 +13,8 @@ import {
   Typography,
   useMediaQuery,
 } from "@mui/material";
-import { ModelType } from "lib/types";
-import { localeCache } from "lib/api";
+import { ModelType } from "@/lib/types";
+import { localeCache } from "@/lib/api";
 
 const AdminNavItem = ({
   model,
@@ -102,11 +102,14 @@ const AdminNavItems = () => {
         open={open}
         onClose={toggleDrawer}
         transitionDuration={0}
-        PaperProps={{
-          sx: {
-            height: "auto",
-            maxHeight: 300,
-            mt: 8,
+        slots={{ transition: undefined }}
+        slotProps={{
+          paper: {
+            sx: {
+              height: "auto",
+              maxHeight: 300,
+              mt: 8,
+            },
           },
         }}
       >
@@ -126,17 +129,47 @@ export default function AdminNav() {
   const isDesktop = useMediaQuery("(min-width:768px)");
   return isDesktop ? (
     <>
-      <div className="flex w-full md:w-1/3 justify-center px-2">
+      <Box
+        sx={{
+          display: "flex",
+          width: "100%",
+          md: { width: "33.3333%" },
+          justifyContent: "center",
+          px: 2,
+        }}
+      >
         <AdminNavItems />
-      </div>
-      <div className="flex justify-end w-auto md:w-1/3" />
+      </Box>
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "flex-end",
+          width: "auto",
+          md: { width: "33.3%" },
+        }}
+      />
     </>
   ) : (
     <>
-      <div className="flex w-full md:w-1/3 justify-center px-2" />
-      <div className="flex justify-end w-auto md:w-1/3">
+      <Box
+        sx={{
+          display: "flex",
+          width: "100%",
+          md: { width: "33.3%" },
+          justifyContent: "center",
+          px: 2,
+        }}
+      />
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "flex-end",
+          width: "auto",
+          md: { width: "33.3%" },
+        }}
+      >
         <AdminNavItems />
-      </div>
+      </Box>
     </>
   );
 }

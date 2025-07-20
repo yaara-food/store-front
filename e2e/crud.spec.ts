@@ -1,6 +1,6 @@
 import { test, expect } from "@playwright/test";
 import { TEST_BASE_URL } from "./global-setup";
-import { ModelType } from "lib/types";
+import { ModelType } from "@/lib/types";
 import {
   assertRowCountIncreasedByOne,
   deleteFirstRowFromModel,
@@ -12,7 +12,6 @@ import {
   openFirstEditForm,
   submitForm,
 } from "./helper-test";
-
 test("view first order details page", async ({ page }) => {
   await loginToAdmin(page);
   await navigateToAdminModel(page, ModelType.order);
