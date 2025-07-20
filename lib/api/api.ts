@@ -67,7 +67,6 @@ export async function handleResponse<T = any>(
       localStorage.clear();
       window.location.href = "/login";
     }
-
     console.error(`❌ Failed to ${context}`);
     throw new Error(err?.error || `Failed to ${context}`);
   }
