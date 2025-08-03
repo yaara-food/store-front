@@ -18,7 +18,6 @@ import {
 import Cart from "@/components/cart";
 import AdminNav from "./admin-nav";
 import { localeCache } from "@/lib/api";
-import ProductGalleryClient from "@/components/products/single/product-gallery";
 
 const Search = () => {
   const intl = useIntl();
@@ -138,7 +137,6 @@ export default function HeaderControlsClient() {
         width: "100%",
       }}
     >
-
       <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
         <AuthButtons />
       </Box>

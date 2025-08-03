@@ -6,7 +6,7 @@ export type AGTableModelType = Product | Category | Order;
 export const columns_product: ColDef<Product>[] = [
   {
     field: "title",
-    width: 130,
+    width: 180,
   },
   {
     field: "id",
@@ -15,7 +15,7 @@ export const columns_product: ColDef<Product>[] = [
   },
   {
     field: "price",
-    width: 80,
+    width: 90,
   },
   {
     field: "category",
@@ -38,15 +38,13 @@ export const columns_order: ColDef<Order>[] = [
   },
   {
     field: "phone",
+    width: 130,
+  },
+
+  {
+    field: "status",
     width: 120,
-  },
-  {
-    field: "totalQuantity",
-    width: 70,
-  },
-  {
-    field: "cost",
-    width: 90,
+    cellRenderer: "OrderStatusRenderer",
   },
   {
     field: "items",
@@ -55,10 +53,14 @@ export const columns_order: ColDef<Order>[] = [
 
     cellRenderer: "OrderItemsRenderer",
   },
+
   {
-    field: "status",
-    width: 120,
-    cellRenderer: "OrderStatusRenderer",
+    field: "cost",
+    width: 90,
+  },
+  {
+    field: "totalQuantity",
+    width: 110,
   },
 ] as ColDef<Order>[];
 
@@ -70,11 +72,11 @@ export const columns_category: ColDef<Category>[] = [
   {
     field: "id",
     cellRenderer: "ActionRenderer",
-    width: 100,
+    width: 130,
   },
   {
     field: "position",
-    width: 100,
+    width: 120,
   },
 ] as ColDef<Category>[];
 export const get_columns_ag_by_model = (

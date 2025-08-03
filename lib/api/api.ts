@@ -6,9 +6,8 @@ import {
   NewOrderPayload,
   ResponseData,
 } from "../types";
-import {setGlobalLoading} from "@/lib/provider/LoadingProvider";
+import { setGlobalLoading } from "@/lib/provider/LoadingProvider";
 import { API_URL, isTest, USE_MOCK_DATA } from "../config";
-
 
 export async function serverFetch(
   input: string,

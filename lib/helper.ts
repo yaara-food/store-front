@@ -62,14 +62,13 @@ export const create_key_to_value_map = (
   );
 };
 
-
 export const shuffleArray = <T>(array: T[]): T[] => {
-    const result = [...array];
-    for (let i = result.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        const temp = result[i] as T;
-        result[i] = result[j] as T;
-        result[j] = temp;
-    }
-    return result;
+  const result = [...array];
+  for (let i = result.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const temp = result[i] as T;
+    result[i] = result[j] as T;
+    result[j] = temp;
+  }
+  return result;
 };

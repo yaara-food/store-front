@@ -2,7 +2,10 @@
 import { useState } from "react";
 import Image from "next/image";
 import { Box, Button } from "@mui/material";
-import { ChevronLeft as ChevronLeftIcon, ChevronRight as ChevronRightIcon } from "@mui/icons-material";
+import {
+  ChevronLeft as ChevronLeftIcon,
+  ChevronRight as ChevronRightIcon,
+} from "@mui/icons-material";
 import GridTileImage from "@/components/products/grid/tile";
 import { ProductImage } from "@/lib/types";
 
@@ -10,7 +13,10 @@ export type PropsProductGallery = {
   images: ProductImage[];
   isRtl: boolean;
 };
-export default function ProductGalleryClient({ images, isRtl }: PropsProductGallery) {
+export default function ProductGalleryClient({
+  images,
+  isRtl,
+}: PropsProductGallery) {
   const [imageIndex, setImageIndex] = useState(0);
   const next = () => setImageIndex((prev) => (prev + 1) % images.length);
   const prev = () =>
@@ -44,64 +50,64 @@ export default function ProductGalleryClient({ images, isRtl }: PropsProductGall
           priority
         />
 
-          {images.length > 1 && (
-              <Box
-                  sx={{
-                      position: "absolute",
-                      bottom: "0.5rem",
-                      width: "100%",
-                      display: "flex",
-                      justifyContent: "center",
-                  }}
+        {images.length > 1 && (
+          <Box
+            sx={{
+              position: "absolute",
+              bottom: "0.5rem",
+              width: "100%",
+              display: "flex",
+              justifyContent: "center",
+            }}
+          >
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: isRtl ? "row" : "row-reverse",
+                alignItems: "center",
+                gap: "2rem",
+              }}
+            >
+              <Button
+                onClick={isRtl ? prev : next}
+                aria-label="Next product image"
+                sx={{
+                  minWidth: 0,
+                  width: "2.5rem",
+                  height: "2.5rem",
+                  borderRadius: "50%",
+                  bgcolor: "white",
+                  boxShadow: 1,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  "&:hover": { transform: "scale(1.2)" },
+                }}
               >
-                  <Box
-                      sx={{
-                          display: "flex",
-                          flexDirection: isRtl ? "row" : "row-reverse",
-                          alignItems: "center",
-                          gap: "2rem",
-                      }}
-                  >
-                      <Button
-                          onClick={isRtl ? prev : next}
-                          aria-label="Next product image"
-                          sx={{
-                              minWidth: 0,
-                              width: "2.5rem",
-                              height: "2.5rem",
-                              borderRadius: "50%",
-                              bgcolor: "white",
-                              boxShadow: 1,
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              "&:hover": { transform: "scale(1.2)" },
-                          }}
-                      >
-                          <ChevronRightIcon sx={{ fontSize: "2rem" }} />
-                      </Button>
+                <ChevronRightIcon sx={{ fontSize: "2rem" }} />
+              </Button>
 
-                      <Button
-                          onClick={isRtl ? next : prev}
-                          aria-label="Previous product image"
-                          sx={{
-                              minWidth: 0,
-                              width: "2.5rem",
-                              height: "2.5rem",
-                              borderRadius: "50%",
-                              bgcolor: "white",
-                              boxShadow: 1,
-                              display: "flex",
-                              alignItems: "center",
-                              justifyContent: "center",
-                              "&:hover": { transform: "scale(1.2)" },
-                          }}
-                      >
-                          <ChevronLeftIcon sx={{ fontSize: "2rem" }} />
-                      </Button>
-                  </Box>
-              </Box>
-          )}
+              <Button
+                onClick={isRtl ? next : prev}
+                aria-label="Previous product image"
+                sx={{
+                  minWidth: 0,
+                  width: "2.5rem",
+                  height: "2.5rem",
+                  borderRadius: "50%",
+                  bgcolor: "white",
+                  boxShadow: 1,
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                  "&:hover": { transform: "scale(1.2)" },
+                }}
+              >
+                <ChevronLeftIcon sx={{ fontSize: "2rem" }} />
+              </Button>
+            </Box>
+          </Box>
+        )}
       </Box>
 
       {images.length > 1 && (

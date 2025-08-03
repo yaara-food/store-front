@@ -1,15 +1,16 @@
 "use client";
-import {CSSProperties, RefObject, useEffect, useRef, useState} from "react";
+import { CSSProperties, RefObject, useEffect, useRef, useState } from "react";
 import { useIntl } from "react-intl";
 import {
-    Chip,
-    Dialog,
-    DialogTitle,
-    DialogContent,
-    DialogActions,
-    Button,
-    Autocomplete,
-    TextField, AutocompleteRenderInputParams,
+  Chip,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  Button,
+  Autocomplete,
+  TextField,
+  AutocompleteRenderInputParams,
 } from "@mui/material";
 import { Category, ModelType, OrderStatus } from "@/lib/types";
 import { usePathname, useRouter } from "next/navigation";
@@ -97,7 +98,11 @@ export const DeleteConfirmDialog = ({
   );
 };
 
-export const CategoryAutocompleteClient = ({ options }: { options: Category[] }) => {
+export const CategoryAutocompleteClient = ({
+  options,
+}: {
+  options: Category[];
+}) => {
   const intl = useIntl();
   const router = useRouter();
   const pathname = safeDecodeURIComponent(usePathname());
@@ -114,93 +119,91 @@ export const CategoryAutocompleteClient = ({ options }: { options: Category[] })
   }, [pathname, options]);
 
   return (
-      <Autocomplete
-          disablePortal
-          options={options}
-          getOptionLabel={(option) => option.title}
-          value={selectedItem}
-          onChange={(event, value: Category | null) => {
-              if (!value) return;
+    <Autocomplete
+      disablePortal
+      options={options}
+      getOptionLabel={(option) => option.title}
+      value={selectedItem}
+      onChange={(event, value: Category | null) => {
+        if (!value) return;
 
-              setSelectedItem(value);
-              router.push(
-                  value.handle === "all"
-                      ? "/"
-                      : `/${ModelType.category}/${value.handle}`
-              );
-              (event?.target as HTMLInputElement)?.blur();
+        setSelectedItem(value);
+        router.push(
+          value.handle === "all"
+            ? "/"
+            : `/${ModelType.category}/${value.handle}`,
+        );
+        (event?.target as HTMLInputElement)?.blur();
+      }}
+      renderInput={(params: AutocompleteRenderInputParams) => (
+        <TextField
+          {...params}
+          label={intl.formatMessage({
+            id: `${ModelType.category}.selectCategory`,
+          })}
+          inputProps={{
+            ...params.inputProps,
+            readOnly: true,
           }}
-
-          renderInput={(params:AutocompleteRenderInputParams) => (
-              <TextField
-                  {...params}
-                  label={intl.formatMessage({
-                      id: `${ModelType.category}.selectCategory`,
-                  })}
-                  inputProps={{
-                      ...params.inputProps,
-                      readOnly: true,
-                  }}
-              />
-          )}
-      />
+        />
+      )}
+    />
   );
 };
 
-
 export function useInfiniteScroll<T>(
-    allItems: T[],
-    itemsPerPage: number,
-    sessionKey: string,
+  allItems: T[],
+  itemsPerPage: number,
+  sessionKey: string,
 ): {
-    visibleItems: T[];
-    hasMore: boolean;
-    sentinelRef: RefObject<HTMLDivElement>;
+  visibleItems: T[];
+  hasMore: boolean;
+  sentinelRef: RefObject<HTMLDivElement>;
 } {
-    const [page, setPage] = useState(() => {
-        const stored = sessionStorage.getItem(sessionKey);
-        return stored ? parseInt(stored) : 1;
-    });
+  const [page, setPage] = useState(() => {
+    const stored = sessionStorage.getItem(sessionKey);
+    return stored ? parseInt(stored) : 1;
+  });
 
-    const sentinelRef = useRef<HTMLDivElement | null>(null);
-    const observer = useRef<IntersectionObserver | null>(null);
-    const loadingRef = useRef(false);
+  const sentinelRef = useRef<HTMLDivElement | null>(null);
+  const observer = useRef<IntersectionObserver | null>(null);
+  const loadingRef = useRef(false);
 
-    const visibleItems = allItems.slice(0, page * itemsPerPage);
-    const hasMore = visibleItems.length < allItems.length;
+  const visibleItems = allItems.slice(0, page * itemsPerPage);
+  const hasMore = visibleItems.length < allItems.length;
 
-    useEffect(() => {
-        sessionStorage.setItem(sessionKey, String(page));
-    }, [page, sessionKey]);
+  useEffect(() => {
+    sessionStorage.setItem(sessionKey, String(page));
+  }, [page, sessionKey]);
 
-    useEffect(() => {
-        if (!hasMore) return;
+  useEffect(() => {
+    if (!hasMore) return;
 
-        const node = sentinelRef.current;
-        if (!node) return;
+    const node = sentinelRef.current;
+    if (!node) return;
 
-        observer.current?.disconnect();
+    observer.current?.disconnect();
 
-        const newObserver = new IntersectionObserver(
-            (entries) => {
-                const entry = entries[0];
-                if (entry?.isIntersecting && !loadingRef.current) {
-                    loadingRef.current = true;
-                    setPage((prev) => prev + 1);
-                }
-            },
-            { threshold: 0.1 },
-        );
+    const newObserver = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        if (entry?.isIntersecting && !loadingRef.current) {
+          loadingRef.current = true;
+          setPage((prev) => prev + 1);
+        }
+      },
+      { threshold: 0.1 },
+    );
 
-        newObserver.observe(node);
-        observer.current = newObserver;
+    newObserver.observe(node);
+    observer.current = newObserver;
 
-        return () => newObserver.disconnect();
-    }, [hasMore, page, allItems]);
+    return () => newObserver.disconnect();
+  }, [hasMore, page, allItems]);
 
-    useEffect(() => {
-        loadingRef.current = false;
-    }, [page]);
+  useEffect(() => {
+    loadingRef.current = false;
+  }, [page]);
 
-    return { visibleItems, hasMore, sentinelRef };
+  return { visibleItems, hasMore, sentinelRef };
 }

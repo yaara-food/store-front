@@ -13,7 +13,7 @@ export default function Logo() {
       }}
     >
       <Image
-        src={(ICON_IMAGE_URL as string)}
+        src={ICON_IMAGE_URL as string}
         alt="logo"
         width={80}
         height={48}

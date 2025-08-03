@@ -8,7 +8,6 @@ import React, {
 } from "react";
 import { LinearProgress } from "@mui/material";
 
-
 const LoadingContext = createContext({ loading: false });
 export const useLoading = () => useContext(LoadingContext);
 
@@ -26,27 +25,25 @@ export function subscribeGlobalLoading(cb: Callback) {
   };
 }
 
-
-export  function LoadingGlobal() {
+export function LoadingGlobal() {
   const { loading } = useLoading();
 
   if (!loading) return null;
 
   return (
-      <div
-          style={{
-            position: "fixed",
-            top: 0,
-            left: 0,
-            width: "100%",
-            zIndex: 1301,
-          }}
-      >
-        <LinearProgress color="secondary" />
-      </div>
+    <div
+      style={{
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100%",
+        zIndex: 1301,
+      }}
+    >
+      <LinearProgress color="secondary" />
+    </div>
   );
 }
-
 
 export default function LoadingProvider({ children }: { children: ReactNode }) {
   const [loading, setLoading] = useState(false);
@@ -56,8 +53,8 @@ export default function LoadingProvider({ children }: { children: ReactNode }) {
   }, []);
 
   return (
-      <LoadingContext.Provider value={{ loading }}>
-        {children}
-      </LoadingContext.Provider>
+    <LoadingContext.Provider value={{ loading }}>
+      {children}
+    </LoadingContext.Provider>
   );
 }

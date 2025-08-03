@@ -5,9 +5,9 @@ import Link from "next/link";
 import { ICellRendererParams } from "ag-grid-community";
 import { IconButton } from "@mui/material";
 import {
-  Visibility as VisibilityIcon,
-  Edit as EditIcon,
   Delete as DeleteIcon,
+  Edit as EditIcon,
+  Visibility as VisibilityIcon,
 } from "@mui/icons-material";
 import { ModelType } from "@/lib/types";
 
@@ -34,12 +34,6 @@ export default function ActionRenderer({ data }: ICellRendererParams) {
         ? ModelType.order
         : null;
 
-  const can_show = {
-    view: isOrder || isProduct,
-    edit: title && (isProduct || isCategory),
-    delete: isProduct || isCategory,
-  };
-
   const dispatch: any = useDispatch();
 
   const handleConfirmDelete = async () => {
@@ -56,28 +50,26 @@ export default function ActionRenderer({ data }: ICellRendererParams) {
 
   return (
     <>
-      {can_show.view && (
-        <Link
-          href={
-            isProduct
-              ? `/${ModelType.product}/${data.handle}`
-              : `/admin/${ModelType.order}/${id}`
-          }
-          target={isProduct ? "_blank" : undefined}
-          rel={isProduct ? "noopener noreferrer" : undefined}
+      <Link
+        href={
+          !isOrder
+            ? `/${model}/${data.handle}`
+            : `/admin/${ModelType.order}/${id}`
+        }
+        target={!isOrder ? "_blank" : undefined}
+        rel={!isOrder ? "noopener noreferrer" : undefined}
+      >
+        <IconButton
+          size="small"
+          aria-label="view"
+          color="info"
+          data-testid="action-view-button"
         >
-          <IconButton
-            size="small"
-            aria-label="view"
-            color="info"
-            data-testid="action-view-button"
-          >
-            <VisibilityIcon fontSize="inherit" />
-          </IconButton>
-        </Link>
-      )}
+          <VisibilityIcon fontSize="inherit" />
+        </IconButton>
+      </Link>
 
-      {can_show.edit && (
+      {!isOrder && (
         <Link href={`/admin/form/${model}/${id}`}>
           <IconButton
             size="small"
@@ -90,7 +82,7 @@ export default function ActionRenderer({ data }: ICellRendererParams) {
         </Link>
       )}
 
-      {can_show.delete && (
+      {!isOrder && (
         <>
           <IconButton
             size="small"
