@@ -30,7 +30,20 @@ const AGTable = ({ cols, rows }: Props) => {
 
   const gridRef = useRef<AgGridReact<AGTableModelType>>(null);
   const [filteredCount, setFilteredCount] = useState(rows.length);
+  const [containerHeightRem, setContainerHeightRem] = useState<string>("42rem");
 
+  useEffect(() => {
+    const compute = () => {
+      const rootSize = parseFloat(
+        getComputedStyle(document.documentElement).fontSize || "16",
+      );
+      const hRem = (window.innerHeight * 0.7) / rootSize;
+      setContainerHeightRem(`${hRem}rem`);
+    };
+    compute();
+    window.addEventListener("resize", compute);
+    return () => window.removeEventListener("resize", compute);
+  }, []);
   const localizedCols: ColDef<AGTableModelType>[] = cols.map((col) => ({
     ...col,
     headerName:
@@ -72,13 +85,14 @@ const AGTable = ({ cols, rows }: Props) => {
         data-testid="ag-table"
         dir={direction}
         style={{
-          height: window.innerHeight * 0.7,
+          height: containerHeightRem,
           width: "100%",
           overflowX: "auto",
           direction,
         }}
       >
         <AgGridReact<AGTableModelType>
+          theme="legacy"
           ref={gridRef}
           rowData={rows}
           columnDefs={localizedCols}
@@ -87,7 +101,7 @@ const AGTable = ({ cols, rows }: Props) => {
           ensureDomOrder={true}
           enableCellTextSelection={true}
           rowHeight={30}
-          frameworkComponents={{
+          components={{
             ActionRenderer,
             OrderItemsRenderer,
             OrderStatusRenderer,

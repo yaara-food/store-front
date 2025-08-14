@@ -24,7 +24,7 @@ export default function SidebarLayout({
       <Box
         sx={{
           flexShrink: 0,
-          width: { xs: "100%", md: "6rem" }, // ✅ FIXED: sidebar stays narrow
+          width: { xs: "100%", md: "6rem" },
         }}
         data-testid="category-nav"
       >

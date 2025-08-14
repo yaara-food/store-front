@@ -81,11 +81,7 @@ export default function ImagesEditor({
           itemId="images"
           label={<span data-testid="form-toggle-images">{placeholder}</span>}
         >
-          <Grid
-            {...({ container: true } as any)}
-            direction="column"
-            spacing={3}
-          >
+          <Grid direction="column" spacing={3}>
             <Button
               sx={{ mt: 4, maxWidth: 300, alignSelf: "center" }}
               variant="outlined"
@@ -97,8 +93,7 @@ export default function ImagesEditor({
 
             {Array.from({ length: MAX_IMAGES }, (_, index) => (
               <Grid
-                {...({ item: true } as any)}
-                xs={12}
+                size={12}
                 key={`image-block-${index}`}
                 data-testid={`form-image-${index}`}
               >
@@ -114,12 +109,12 @@ export default function ImagesEditor({
                 </Typography>
 
                 <Grid
+                  container
                   key={`image.grid-${index}`}
-                  {...({ container: true } as any)}
                   spacing={1}
                   alignItems="center"
                 >
-                  <Grid {...({ item: true } as any)} xs>
+                  <Grid size={11}>
                     <TextField
                       fullWidth
                       size="small"
@@ -130,7 +125,7 @@ export default function ImagesEditor({
                       }
                     />
                   </Grid>
-                  <Grid {...({ item: true } as any)}>
+                  <Grid size={1}>
                     <IconButton
                       onClick={() => handleClipboardPaste(index)}
                       size="small"
@@ -148,12 +143,7 @@ export default function ImagesEditor({
                   </Grid>
                 </Grid>
 
-                <Grid
-                  {...({ item: true } as any)}
-                  xs={12}
-                  mt={1}
-                  key={`image.alt-${index}`}
-                >
+                <Grid size={12} mt={1} key={`image.alt-${index}`}>
                   <TextField
                     fullWidth
                     size="small"

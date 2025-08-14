@@ -35,16 +35,16 @@
     "@mui/icons-material": "7.2.0",
     "@mui/material": "7.2.0",
     "@mui/system": "7.2.0",
-    "@mui/x-tree-view": "8.7.0",
-    "@reduxjs/toolkit": "^2.7.0",
+    "@mui/x-tree-view": "8.10.0",
+    "@reduxjs/toolkit": "^2.8.2",
     "@vercel/analytics": "^1.5.0",
     "@vercel/speed-insights": "^1.2.0",
-    "ag-grid-community": "29.3.3",
-    "ag-grid-react": "29.3.3",
+    "ag-grid-community": "34.1.1",
+    "ag-grid-react": "34.1.1",
     "formik": "^2.4.6",
     "next": "15.3.5",
-    "react": "18.2.0",
-    "react-dom": "18.2.0",
+    "react": "19.1.1",
+    "react-dom": "19.1.1",
     "react-intl": "7.1.11",
     "react-redux": "^9.2.0",
     "redux-persist": "^6.0.0",
@@ -52,13 +52,18 @@
     "yup": "^1.6.1"
   },
   "devDependencies": {
-    "@playwright/test": "1.53.2",
-    "@types/node": "20.10.6",
-    "@types/react": "18.2.0",
-    "@types/react-dom": "18.2.0",
+    "@playwright/test": "1.54.2",
+    "@types/node": "22.14.0",
+    "@types/react": "18.2.24",
+    "@types/react-dom": "18.2.11",
     "prettier": "3.6.2",
     "sass": "^1.86.3",
-    "typescript": "5.8.3"
+    "typescript": "5.9.2"
   },
+  "browserslist": [
+    "defaults",
+    "not IE 11",
+    "not op_mini all"
+  ],
   "packageManager": "pnpm@10.8.1"
 }

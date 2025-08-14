@@ -16,7 +16,7 @@ export default function ProductDescription({
   return (
     <>
       <Grid
-        {...({ container: true } as any)}
+        container
         direction={isLongTitle ? "column" : "row"}
         spacing={1}
         alignItems={isLongTitle ? "flex-start" : "center"}
@@ -27,7 +27,7 @@ export default function ProductDescription({
           pb: 3,
         }}
       >
-        <Grid {...({ item: true } as any)} sx={{ flexGrow: 1, minWidth: 0 }}>
+        <Grid sx={{ flexGrow: 1, minWidth: 0 }}>
           <Box
             component="h1"
             data-testid="product-title"
@@ -49,7 +49,7 @@ export default function ProductDescription({
           </Box>
         </Grid>
 
-        <Grid {...({ item: true } as any)}>
+        <Grid>
           <Box
             data-testid="product-price"
             sx={{

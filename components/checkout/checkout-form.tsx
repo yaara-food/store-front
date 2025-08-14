@@ -37,7 +37,7 @@ import { localeCache } from "@/lib/api";
 const CheckoutActions = ({ isSubmitting }: { isSubmitting: boolean }) => {
   return (
     <>
-      <Grid {...({ item: true } as any)}>
+      <Grid>
         <Typography
           variant="h3"
           component="h3"
@@ -49,7 +49,7 @@ const CheckoutActions = ({ isSubmitting }: { isSubmitting: boolean }) => {
         </Typography>
       </Grid>
 
-      <Grid {...({ item: true } as any)}>
+      <Grid>
         <Button
           data-testid="checkout-submit"
           fullWidth
@@ -92,13 +92,9 @@ const CheckoutFormFields = ({
       }) => (
         <form noValidate onSubmit={handleSubmit} dir={localeCache.dir()}>
           <Box sx={{ p: 2 }}>
-            <Grid
-              {...({ container: true } as any)}
-              direction="column"
-              spacing={2}
-            >
+            <Grid container direction="column" spacing={2}>
               {checkout_fields.map((field) => (
-                <Grid {...({ item: true } as any)} key={field.name}>
+                <Grid key={field.name}>
                   <FormControl
                     fullWidth
                     error={
@@ -270,4 +266,3 @@ export default function CheckoutForm({
     </Box>
   );
 }
-CheckoutForm;

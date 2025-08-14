@@ -34,7 +34,7 @@ export default function Footer() {
           sx={{ gap: { xs: 0, sm: 2 }, rowGap: { xs: 0.5, sm: 0 } }}
         >
           <Grid
-            {...({ container: true } as any)}
+            container
             spacing={0.5}
             justifyContent="space-between"
             alignItems="flex-start"
@@ -42,7 +42,6 @@ export default function Footer() {
           >
             {/* stack on desktop, inline with spacing on mobile */}
             <Grid
-              {...({ item: true } as any)}
               sx={{
                 minWidth: 120,
                 textAlign: localeCache.isRtl() ? "right" : "left",
@@ -86,7 +85,6 @@ export default function Footer() {
 
             {/* hide on mobile */}
             <Grid
-              {...({ item: true } as any)}
               sx={{
                 display: { xs: "none", sm: "block" },
                 textAlign: localeCache.isRtl() ? "left" : "right",

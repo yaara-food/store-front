@@ -31,7 +31,7 @@ export default function DynamicForm({
 
   return (
     <Grid<"form">
-      {...({ container: true } as any)}
+      container
       justifyContent="center"
       component="form"
       onSubmit={(e: FormEvent<HTMLFormElement>) => {
@@ -39,7 +39,7 @@ export default function DynamicForm({
         onSubmit(localFields);
       }}
     >
-      <Grid {...({ item: true } as any)} xs={12} sm={10} md={6} lg={4}>
+      <Grid size={{ xs: 12, sm: 10, md: 6, lg: 5 }}>
         <Typography
           data-testid="form-title"
           variant="h4"
@@ -50,18 +50,14 @@ export default function DynamicForm({
           <FormattedMessage id={title} />
         </Typography>
 
-        <Grid {...({ container: true } as any)} direction="column" spacing={3}>
+        <Grid container direction="column" spacing={3}>
           {localFields.map((field) => (
-            <Grid {...({ item: true } as any)} key={field.key}>
+            <Grid key={field.key}>
               <FieldRenderer field={field} onChange={handleChange} />
             </Grid>
           ))}
 
-          <Grid
-            {...({ item: true } as any)}
-            display="flex"
-            justifyContent="center"
-          >
+          <Grid display="flex" justifyContent="center">
             <Button
               type="submit"
               data-testid="form-submit-button"
