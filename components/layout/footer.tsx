@@ -20,92 +20,87 @@ export default function Footer() {
         direction: localeCache.dir(),
       }}
     >
+      <Grid
+        container
+        sx={{
+          maxWidth: "60rem",
+          width: "100%",
+          mx: "auto",
+          justifyContent: "space-between",
+
+          columnGap: { md: 2 },
+          rowGap: { xs: 1, md: 0 },
+        }}
+      >
         <Grid
-            container
-            sx={{
-                maxWidth: "65rem",
-                width: "100%",
-                mx: "auto",
-                justifyContent: "space-between",
+          size={{ xs: 12, md: 4 }}
+          sx={{
+            display: "flex",
+            flexDirection: { xs: "row", md: "column" },
+            justifyContent: { xs: "center", md: "flex-start" },
 
-                columnGap: { md: 2 },
-                rowGap: { xs: 1, md: 0 },
-            }}
+            alignItems: { xs: "center", md: "flex-start" },
+            gap: { xs: "0.5rem", md: "0.25rem" },
+            whiteSpace: "nowrap",
+          }}
         >
-            <Grid size={{ xs: 12, md: 4 }}
-              sx={{
-                display: "flex",
-                flexDirection: { xs: "row", md: "column" },
-                  justifyContent:{ xs: "center", md: "flex-start"},
+          <Typography variant="subtitle1" fontWeight="bold" lineHeight={1.2}>
+            {metadata_site_title}
+          </Typography>
+          <Typography variant="body2" fontWeight="bold" lineHeight={1.2}>
+            <Box
+              component="span"
+              sx={{ display: { xs: "inline", md: "none" } }}
+            >
+              &nbsp;|&nbsp;
+            </Box>
+            {address}
+          </Typography>
+        </Grid>
 
-                  alignItems: { xs: "center", md: "flex-start"},
-                gap: { xs: "0.5rem", md: "0.25rem" },
-                whiteSpace: "nowrap",
+        <Grid
+          size={{ xs: 12, md: 3 }}
+          sx={{
+            display: { xs: "none", md: "block" },
+            textAlign: localeCache.isRtl() ? "left" : "right",
+            whiteSpace: "nowrap",
+          }}
+        >
+          <Typography variant="body2" lineHeight={1.2} sx={{ m: 0 }}>
+            {phone}
+          </Typography>
+          <Typography variant="body2" lineHeight={1.2} sx={{ m: 0 }}>
+            {email}
+          </Typography>
+        </Grid>
+
+        <Grid
+          size={{ xs: 12, md: 4 }}
+          sx={{ display: "flex", alignItems: "center" }}
+          justifyContent="center"
+          alignItems="center"
+          wrap="nowrap"
+          columnSpacing={2}
+        >
+          {SOCIAL_LINKS.map(({ icon: Icon, href, label, color, hover }) => (
+            <IconButton
+              key={label}
+              component="a"
+              href={href}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={label}
+              sx={{
+                color,
+                mx: "0.3rem",
+                "&:hover": { backgroundColor: hover },
               }}
             >
-              <Typography
-                variant="subtitle1"
-                fontWeight="bold"
-                lineHeight={1.2}
-              >
-                {metadata_site_title}
-              </Typography>
-              <Typography
-                variant="body2"
-                fontWeight="bold"
-                lineHeight={1.2}
-              >
-                <Box
-                  component="span"
-                  sx={{ display: { xs: "inline", md: "none" } }}
-                >
-                  &nbsp;|&nbsp;
-                </Box>
-                {address}
-              </Typography>
-          </Grid>
-
-          <Grid
-            size={{ xs: 12, md: 3 }}
-            sx={{
-              display: { xs: "none", md: "block" },
-              textAlign: localeCache.isRtl() ? "left" : "right",
-              whiteSpace: "nowrap",
-            }}
-          >
-            <Typography variant="body2" lineHeight={1.2} sx={{ m: 0 }}>
-              {phone}
-            </Typography>
-            <Typography variant="body2" lineHeight={1.2} sx={{ m: 0 }}>
-              {email}
-            </Typography>
-          </Grid>
-
-            <Grid size={{ xs: 12, md: 4 }} sx={{ display: "flex", alignItems: "center" }}
-            justifyContent="center"
-            alignItems="center"
-            wrap="nowrap"
-            columnSpacing={2}
-          >
-            {SOCIAL_LINKS.map(({ icon: Icon, href, label, color, hover }) => (
-              <IconButton
-                key={label}
-                component="a"
-                href={href}
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label={label}
-                sx={{
-                  color,
-                  mx: "0.3rem",
-                  "&:hover": { backgroundColor: hover },
-                }}
-              >
-                <Icon sx={{ fontSize: "1.7rem" }} />
-              </IconButton>
-            ))}
-          </Grid>
+              <Icon sx={{ fontSize: "1.7rem" }} />
+            </IconButton>
+          ))}
         </Grid>
+      </Grid>
     </Box>
   );
 }
