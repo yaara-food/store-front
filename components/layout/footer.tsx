@@ -1,11 +1,7 @@
-import { Box, Typography, IconButton, Stack, Grid } from "@mui/material";
+import { Box, Typography, IconButton, Grid } from "@mui/material";
 import { metadata_site_title } from "@/lib/assets/i18n/localizedMetadata";
-import { FOOTER_DATA } from "@/lib/config/config";
 import { localeCache } from "@/lib/api";
-import { SOCIAL_LINKS } from "@/lib/config/ui";
-
-export const [email, address, phone, instagram, facebook, website] =
-  FOOTER_DATA.split(",");
+import { SOCIAL_LINKS, email, address, phone } from "@/lib/config";
 
 export default function Footer() {
   return (
@@ -19,101 +15,77 @@ export default function Footer() {
         bgcolor: "var(--color-bg)",
         color: "var(--color-text-strong)",
         borderTop: "1px solid var(--color-border)",
-        px: 2,
-        py: { xs: 1, sm: 2 },
+        py: { xs: 1, md: 2 },
         zIndex: 10,
         direction: localeCache.dir(),
       }}
     >
-      <Box sx={{ maxWidth: "65rem", mx: "auto", width: "100%" }}>
-        <Stack
-          direction={{ xs: "column", sm: "row" }}
-          justifyContent="space-between"
-          alignItems="center"
-          spacing={{ xs: 0, sm: 2 }}
-          sx={{ gap: { xs: 0, sm: 2 }, rowGap: { xs: 0.5, sm: 0 } }}
-        >
-          <Grid
+        <Grid
             container
-            spacing={0.5}
-            justifyContent="space-between"
-            alignItems="flex-start"
-            sx={{ flex: 1, overflow: "hidden", flexWrap: "nowrap" }}
-          >
-            {/* stack on desktop, inline with spacing on mobile */}
-            <Grid
-              sx={{
-                minWidth: 120,
-                textAlign: localeCache.isRtl() ? "right" : "left",
-                mx: localeCache.isRtl() ? 1 : 0,
-              }}
-            >
-              <Box
-                sx={{
-                  display: "flex",
-                  flexDirection: { xs: "row", sm: "column" },
-                  justifyContent: { xs: "space-between", sm: "flex-start" },
-                  alignItems: localeCache.isRtl() ? "flex-end" : "flex-start",
-                  whiteSpace: "nowrap",
-                  gap: 0.5,
-                }}
-              >
-                <Typography variant="h6" fontWeight="bold" lineHeight={1.3}>
-                  {metadata_site_title}
-                </Typography>
-                <Typography
-                  variant="body2"
-                  fontWeight="bold"
-                  fontSize="0.85rem"
-                  lineHeight={1.3}
-                  sx={{
-                    display: { xs: "inline", sm: "block" },
-                    ml: { xs: 1, sm: 0 },
-                    mr: { xs: 0.5, sm: 0 },
-                  }}
-                >
-                  <Box
-                    component="span"
-                    sx={{ display: { xs: "inline", sm: "none" } }}
-                  >
-                    &nbsp;|&nbsp;
-                  </Box>
-                  {address}
-                </Typography>
-              </Box>
-            </Grid>
+            sx={{
+                maxWidth: "65rem",
+                width: "100%",
+                mx: "auto",
+                justifyContent: "space-between",
 
-            {/* hide on mobile */}
-            <Grid
+                columnGap: { md: 2 },
+                rowGap: { xs: 1, md: 0 },
+            }}
+        >
+            <Grid size={{ xs: 12, md: 4 }}
               sx={{
-                display: { xs: "none", sm: "block" },
-                textAlign: localeCache.isRtl() ? "left" : "right",
-                ml: localeCache.isRtl() ? 0 : { sm: 2 },
-                mr: localeCache.isRtl() ? { sm: 2 } : 0,
-                overflow: "hidden",
-                textOverflow: "ellipsis",
+                display: "flex",
+                flexDirection: { xs: "row", md: "column" },
+                  justifyContent:{ xs: "center", md: "flex-start"},
+
+                  alignItems: { xs: "center", md: "flex-start"},
+                gap: { xs: "0.5rem", md: "0.25rem" },
                 whiteSpace: "nowrap",
-                minWidth: 200,
               }}
             >
-              <Typography variant="body2" fontSize="0.75rem" lineHeight={1.3}>
-                {phone}
+              <Typography
+                variant="subtitle1"
+                fontWeight="bold"
+                lineHeight={1.2}
+              >
+                {metadata_site_title}
               </Typography>
-              <Typography variant="body2" fontSize="0.75rem" lineHeight={1.3}>
-                {email}
+              <Typography
+                variant="body2"
+                fontWeight="bold"
+                lineHeight={1.2}
+              >
+                <Box
+                  component="span"
+                  sx={{ display: { xs: "inline", md: "none" } }}
+                >
+                  &nbsp;|&nbsp;
+                </Box>
+                {address}
               </Typography>
-            </Grid>
           </Grid>
 
-          <Box
+          <Grid
+            size={{ xs: 12, md: 3 }}
             sx={{
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              flexWrap: "wrap",
-              gap: "25px",
-              direction: localeCache.dir(),
+              display: { xs: "none", md: "block" },
+              textAlign: localeCache.isRtl() ? "left" : "right",
+              whiteSpace: "nowrap",
             }}
+          >
+            <Typography variant="body2" lineHeight={1.2} sx={{ m: 0 }}>
+              {phone}
+            </Typography>
+            <Typography variant="body2" lineHeight={1.2} sx={{ m: 0 }}>
+              {email}
+            </Typography>
+          </Grid>
+
+            <Grid size={{ xs: 12, md: 4 }} sx={{ display: "flex", alignItems: "center" }}
+            justifyContent="center"
+            alignItems="center"
+            wrap="nowrap"
+            columnSpacing={2}
           >
             {SOCIAL_LINKS.map(({ icon: Icon, href, label, color, hover }) => (
               <IconButton
@@ -125,16 +97,15 @@ export default function Footer() {
                 aria-label={label}
                 sx={{
                   color,
-                  padding: "4px",
+                  mx: "0.3rem",
                   "&:hover": { backgroundColor: hover },
                 }}
               >
-                <Icon fontSize="small" />
+                <Icon sx={{ fontSize: "1.7rem" }} />
               </IconButton>
             ))}
-          </Box>
-        </Stack>
-      </Box>
+          </Grid>
+        </Grid>
     </Box>
   );
 }

@@ -3,8 +3,7 @@ import { use } from "react";
 import { FormattedMessage } from "react-intl";
 import { notFound } from "next/navigation";
 import { Box, Typography } from "@mui/material";
-import { email } from "@/components/layout/footer";
-import { legal_sections } from "@/lib/config/legal_sections";
+import { legal_sections, email } from "@/lib/config";
 import { localeCache } from "@/lib/api";
 
 export default function LegalPage({

@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+import { ReactElement, ReactNode } from "react";
 import {
   Facebook as FacebookIcon,
   Instagram as InstagramIcon,
@@ -147,11 +147,11 @@ export const createAccessibilityButtons = (
 ];
 
 export type OrderInfoItem = {
-  icon: JSX.Element;
+  icon: ReactElement;
   label: string;
   value: ReactNode;
   iconSx?: { color?: string };
-  extra?: JSX.Element;
+  extra?: ReactElement;
 };
 export const getOrderInfoSections = (
   order: Order,
