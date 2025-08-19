@@ -2,7 +2,11 @@ import { notFound } from "next/navigation";
 import type { Metadata } from "next";
 import { getDecodedHandle, getStaticHandleParams } from "@/lib/helper";
 import { getCategories, getCategory, getCategoryProducts } from "@/lib/api";
-import { generateMetadataCategory, generateJsonLdCategory } from "@/lib/config";
+import {
+  generateMetadataCategory,
+  generateJsonLdItemListCategory,
+  generateJsonLdBreadcrumbsCategory,
+} from "@/lib/config";
 import { PropsHandle } from "@/lib/types";
 import { ProductsSSR } from "@/components/shared/elements-ssr";
 
@@ -35,14 +39,18 @@ export default async function CategoryPage({ params }: PropsHandle) {
   if (!category) return notFound();
 
   const products = await getCategoryProducts({ category: slug });
-  const jsonLd = generateJsonLdCategory(category, products);
-
+  const jsonLdItemList = generateJsonLdItemListCategory(category, products);
+  const jsonLdBreadcrumbs = generateJsonLdBreadcrumbsCategory(category);
   return (
     <section>
       <h1 className="sr-only">{category.title}</h1>
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdItemList) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLdBreadcrumbs) }}
       />
       <ProductsSSR products={products} />
     </section>

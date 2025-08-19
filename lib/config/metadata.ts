@@ -12,7 +12,7 @@ import {
   ICON_IMAGE_URL,
   SITE_NAME,
 } from "@/lib/config";
-import { Category, Product } from "@/lib/types";
+import { Category, ModelType, Product } from "@/lib/types";
 export const generateMetadataHome = (): Metadata => {
   return {
     title: metadata_site_title,
@@ -81,12 +81,12 @@ export const generateMetadataProduct = (product: Product) => {
     title: product.title,
     description: product.description,
     alternates: {
-      canonical: `${baseUrl}/product/${encodeURIComponent(product.handle)}`,
+      canonical: `${baseUrl}/${ModelType.product}/${encodeURIComponent(product.handle)}`,
     },
     openGraph: {
       title: product.title,
       description: product.description,
-      url: `${baseUrl}/product/${encodeURIComponent(product.handle)}`,
+      url: `${baseUrl}/${ModelType.product}/${encodeURIComponent(product.handle)}`,
       images: [
         {
           url: product.featuredImage.url,
@@ -113,12 +113,12 @@ export const generateMetadataCategory = (category: Category): Metadata => {
     title,
     description,
     alternates: {
-      canonical: `${baseUrl}/category/${encodeURIComponent(category.title)}`,
+      canonical: `${baseUrl}/${ModelType.category}/${encodeURIComponent(category.title)}`,
     },
     openGraph: {
       title,
       description,
-      url: `${baseUrl}/category/${encodeURIComponent(category.title)}`,
+      url: `${baseUrl}/${ModelType.category}/${encodeURIComponent(category.title)}`,
       siteName: SITE_NAME,
       type: "website",
       images: [

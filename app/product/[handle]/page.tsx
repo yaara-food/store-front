@@ -34,7 +34,6 @@ export default async function ProductPage({ params }: PropsHandle) {
 
   const isRtl = /[\u0590-\u05FF]/.test(product.title);
   const jsonLd = generateJsonLdProduct(product);
-
   return (
     <>
       <script
