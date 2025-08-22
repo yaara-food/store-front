@@ -1,5 +1,4 @@
 "use client";
-import { useDispatch, useSelector } from "react-redux";
 import { FormattedMessage, useIntl } from "react-intl";
 import Link from "next/link";
 import { Formik } from "formik";
@@ -21,7 +20,7 @@ import {
   formikHelperTextSx,
   formikTextFieldSx,
 } from "@/lib/assets/styles/style";
-import { RootState } from "@/lib/store";
+import { RootState, useAppDispatch, useAppSelector } from "@/lib/store";
 import {
   Cart,
   CheckoutFormValues,
@@ -219,8 +218,8 @@ export default function CheckoutForm({
   onSuccess: (orderId: number) => void;
   onError: () => void;
 }) {
-  const cart: Cart = useSelector((state: RootState) => state.cart);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+  const cart: Cart = useAppSelector((state) => state.cart);
 
   const handleSubmit = async (values: CheckoutFormValues) => {
     const order: NewOrderPayload = {

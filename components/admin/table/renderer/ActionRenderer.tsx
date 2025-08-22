@@ -1,7 +1,8 @@
 "use client";
-import { useState } from "react";
-import { deleteRowById } from "@/lib/store";
 import Link from "next/link";
+import { useState } from "react";
+import { useIntl } from "react-intl";
+import { toast } from "sonner";
 import { ICellRendererParams } from "ag-grid-community";
 import { IconButton } from "@mui/material";
 import {
@@ -9,12 +10,11 @@ import {
   Edit as EditIcon,
   Visibility as VisibilityIcon,
 } from "@mui/icons-material";
-import { ModelType } from "@/lib/types";
 
-import { toast } from "sonner";
-import { useIntl } from "react-intl";
+import { ModelType } from "@/lib/types";
+import { deleteRowById, useAppDispatch } from "@/lib/store";
+
 import { DeleteConfirmDialog } from "@/components/shared/elements-client";
-import { useDispatch } from "react-redux";
 
 export default function ActionRenderer({ data }: ICellRendererParams) {
   const [open, setOpen] = useState(false);
@@ -34,7 +34,7 @@ export default function ActionRenderer({ data }: ICellRendererParams) {
         ? ModelType.order
         : null;
 
-  const dispatch: any = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleConfirmDelete = async () => {
     setOpen(false);

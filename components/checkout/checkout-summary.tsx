@@ -1,11 +1,10 @@
 "use client";
 import { FormattedMessage } from "react-intl";
-import { useSelector } from "react-redux";
 import { Box, Divider, Grid, Typography } from "@mui/material";
 import { Price } from "@/components/shared/elements-ssr";
-import { RootState } from "@/lib/store";
+import { useAppSelector } from "@/lib/store";
 import { localeCache } from "@/lib/api";
-import { CartItem } from "@/lib/types";
+import { Cart, CartItem } from "@/lib/types";
 
 const CheckoutSummaryItem = ({ product }: { product: CartItem }) => (
   <Grid
@@ -80,8 +79,7 @@ const CheckoutSummaryItem = ({ product }: { product: CartItem }) => (
   </Grid>
 );
 export default function CheckoutSummary() {
-  const cart = useSelector((state: RootState) => state.cart);
-
+  const cart: Cart = useAppSelector((state) => state.cart);
   return (
     <Box
       sx={{
@@ -98,7 +96,7 @@ export default function CheckoutSummary() {
       </Typography>
 
       {cart?.lines.length ? (
-        cart.lines.map((product) => (
+        cart.lines.map((product: CartItem) => (
           <CheckoutSummaryItem key={product.productId} product={product} />
         ))
       ) : (
@@ -121,7 +119,7 @@ export default function CheckoutSummary() {
           <FormattedMessage id="checkout.total" />
         </Typography>
         <Typography variant="h6" fontWeight="bold">
-          <Price amount={cart?.cost} />
+          <Price amount={cart.cost} />
         </Typography>
       </Box>
     </Box>

@@ -1,5 +1,4 @@
 "use client";
-import React, { useEffect, useState } from "react";
 import { useIntl } from "react-intl";
 import {
   TextField,
@@ -16,9 +15,7 @@ import {
   ModelType,
   Category,
 } from "@/lib/types";
-import { getCategories } from "@/lib/api";
-import { useSelector } from "react-redux";
-import { RootState } from "@/lib/store";
+import { useAppSelector } from "@/lib/store";
 
 type FormFieldProps = {
   field: FormField;
@@ -31,9 +28,7 @@ export default function FieldRenderer({ field, onChange }: FormFieldProps) {
   let options: any[] = [];
   if (field.key === ModelType.category && FormType.AutoComplete === field.type)
     options = (
-      useSelector(
-        (state: RootState) => state.admin[ModelType.category],
-      ) as Category[]
+      useAppSelector((state) => state.admin[ModelType.category]) as Category[]
     ).map((c) => c.title);
   switch (field.type) {
     case FormType.ImagesEditor:

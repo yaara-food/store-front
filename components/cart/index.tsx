@@ -1,25 +1,22 @@
 "use client";
 import { useEffect, useRef, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 import { Dialog, DialogContent } from "@mui/material";
-
 import {
   CartCheckoutSection,
   CartEmptyState,
   CartHeader,
   CartItemList,
 } from "./cart-content";
-import { RootState } from "@/lib/store";
-import { updateItem } from "@/lib/store/cartSlice";
 import { OpenCart } from "./cart-buttons";
+import { updateItem, useAppDispatch, useAppSelector } from "@/lib/store";
 import { localeCache } from "@/lib/api";
 
 export default function Cart() {
+  const dispatch = useAppDispatch();
   const router = useRouter();
-  const dispatch = useDispatch();
+  const cart = useAppSelector((state) => state.cart);
 
-  const cart = useSelector((state: RootState) => state.cart);
   const [isOpen, setIsOpen] = useState(false);
   const quantityRef = useRef(cart?.totalQuantity);
 

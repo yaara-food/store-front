@@ -7,40 +7,41 @@ import {
   useState,
   use,
 } from "react";
-import { useDispatch } from "react-redux";
-import { ColDef } from "ag-grid-community";
+
+import type { ColDef } from "ag-grid-community";
 import { Container, Grid } from "@mui/material";
 import AGTable from "@/components/admin/table";
 import { useLoading } from "@/lib/provider/LoadingProvider";
 import { LoadingTable } from "@/components/shared/loading-skeleton";
+import { TableHeader } from "@/components/admin/table/table-header";
+
 import {
   AGTableModelType,
   get_columns_ag_by_model,
   ModelType,
 } from "@/lib/types";
 import { filterBySearch } from "@/lib/helper";
-import { TableHeader } from "@/components/admin/table/table-header";
-import { useSelector } from "react-redux";
-import { fetchRowsByModel, RootState } from "@/lib/store";
+import { fetchRowsByModel, useAppDispatch, useAppSelector } from "@/lib/store";
 
 export default function AdminPage({
   params,
 }: {
   params: Promise<{ model: ModelType }>;
 }) {
-  const { model } = use(params);
+  const dispatch = useAppDispatch();
   const { loading } = useLoading();
+  const { model } = use(params);
 
   const [searchValue, setSearchValue] = useState("");
-  const rows: AGTableModelType[] = useSelector(
-    (state: RootState) => state.admin[model],
+
+  const rows: AGTableModelType[] = useAppSelector(
+    (state) => state.admin[model],
   ) as AGTableModelType[];
+
   const cols: ColDef<AGTableModelType>[] = useMemo(
     () => get_columns_ag_by_model(model),
     [model],
   );
-
-  const dispatch: any = useDispatch();
 
   useEffect(() => {
     dispatch(fetchRowsByModel({ model }));

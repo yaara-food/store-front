@@ -21,6 +21,7 @@ import { RootState } from "@/lib/store";
 import { localeCache } from "@/lib/api";
 import { useTheme } from "@mui/system";
 import React from "react";
+import { CartItem } from "@/lib/types";
 export const CartHeader = ({ closeCart }: { closeCart: () => void }) => (
   <Box
     display="flex"
@@ -76,9 +77,9 @@ export const CartItemList = ({
     }}
   >
     {cart.lines
-      .filter((item) => item?.title)
-      .sort((a, b) => a.title.localeCompare(b.title))
-      .map((item, i) => (
+      .filter((item: CartItem) => item?.title)
+      .sort((a: CartItem, b: CartItem) => a.title.localeCompare(b.title))
+      .map((item: CartItem, i: number) => (
         <Box
           component="li"
           key={i}

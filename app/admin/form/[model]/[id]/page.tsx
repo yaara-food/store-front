@@ -1,14 +1,14 @@
 "use client";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useState, use } from "react";
-import { useDispatch, useSelector } from "react-redux";
 import { useIntl } from "react-intl";
 import { toast } from "sonner";
 import { Container } from "@mui/material";
 import {
   fetchRowsByModel,
-  RootState,
   selectCategoryTitleToIdMap,
+  useAppDispatch,
+  useAppSelector,
 } from "@/lib/store";
 import DynamicForm from "@/components/admin/form";
 import { FormFieldError } from "@/components/shared/messages";
@@ -22,27 +22,24 @@ import {
   transform_data_to_body,
 } from "@/lib/types";
 import { submitModel } from "@/lib/api";
-import {
-  array_obj_to_obj_with_key,
-  create_key_to_value_map,
-  extract_missing_field,
-} from "@/lib/helper";
+import { array_obj_to_obj_with_key, extract_missing_field } from "@/lib/helper";
 
 export default function FormPage({
   params,
 }: {
   params: Promise<{ model: ModelType; id: string }>;
 }) {
-  const { model, id } = use(params);
   const router = useRouter();
   const intl = useIntl();
-  const dispatch: any = useDispatch();
+  const dispatch = useAppDispatch();
+
+  const { model, id } = use(params);
+  const data: AGTableModelType[] = useAppSelector(
+    (state) => state.admin[model],
+  ) as AGTableModelType[];
 
   const [fields, setFields] = useState<FormField[]>([]);
   const [fieldError, setFieldError] = useState<string | null>(null);
-  const data: AGTableModelType[] = useSelector(
-    (state: RootState) => state.admin[model],
-  ) as AGTableModelType[];
 
   const isAdd = id === "add";
 
@@ -60,9 +57,10 @@ export default function FormPage({
     dispatch(fetchRowsByModel({ model }));
   }, []);
 
-  const categoryTitleToIdMap: Record<string, number> = useSelector(
+  const categoryTitleToIdMap: Record<string, number> = useAppSelector(
     selectCategoryTitleToIdMap,
   );
+
   const handleSubmit = async (send_fields: FormField[]) => {
     setFieldError(null);
     try {

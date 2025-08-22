@@ -83,7 +83,7 @@ export default function ProductDescription({
           overflowX: "hidden",
         }}
       >
-        <ProductButtons product={product} isRtl={isRtl} />
+        <ProductButtons product={product} />
       </Box>
       <Divider />
       <Box

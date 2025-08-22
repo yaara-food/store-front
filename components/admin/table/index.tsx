@@ -1,8 +1,13 @@
 "use client";
 import { useIntl } from "react-intl";
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useMemo, useCallback } from "react";
 import { AgGridReact } from "ag-grid-react";
-import { ColDef } from "ag-grid-community";
+import type {
+  ColDef,
+  GridReadyEvent,
+  FilterChangedEvent,
+  ModelUpdatedEvent,
+} from "ag-grid-community";
 import {
   ActionRenderer,
   OrderItemsRenderer,
@@ -12,11 +17,7 @@ import { AGTableModelType } from "lib/types";
 import { Typography } from "@mui/material";
 import { localeCache } from "@/lib/api";
 
-const defaultColDef: ColDef = {
-  resizable: true,
-  filter: true,
-  sortable: true,
-};
+const defaultColDef: ColDef = { resizable: true, filter: true, sortable: true };
 
 interface Props {
   cols: ColDef<AGTableModelType>[];
@@ -44,34 +45,42 @@ const AGTable = ({ cols, rows }: Props) => {
     window.addEventListener("resize", compute);
     return () => window.removeEventListener("resize", compute);
   }, []);
-  const localizedCols: ColDef<AGTableModelType>[] = cols.map((col) => ({
-    ...col,
-    headerName:
-      col.headerName ??
-      intl.formatMessage({ id: `table.headerName.${col.field}` }),
-    cellStyle: {
-      textAlign: isRtl ? "right" : "left",
-      direction,
-    },
-    headerClass: isRtl ? "ag-header-cell-rtl" : "ag-header-cell-ltr",
-  }));
 
-  useEffect(() => {
+  const localizedCols = useMemo<ColDef<AGTableModelType>[]>(() => {
+    return cols.map((col) => ({
+      ...col,
+      headerName:
+        col.headerName ??
+        intl.formatMessage({ id: `table.headerName.${col.field}` }),
+      valueFormatter:
+        col.valueFormatter ??
+        ((p) => (p.value && typeof p.value === "object" ? "" : p.value)),
+    }));
+  }, [cols, intl]);
+
+  const rafIdRef = useRef<number | null>(null);
+  const updateCounts = useCallback(() => {
     const api = gridRef.current?.api;
-    if (!api) return;
-
-    const updateCounts = () => {
+    if (!api || api.isDestroyed()) return;
+    if (rafIdRef.current != null) return;
+    rafIdRef.current = requestAnimationFrame(() => {
+      rafIdRef.current = null;
       setFilteredCount(api.getDisplayedRowCount());
-    };
+    });
+  }, []);
 
-    api.addEventListener("filterChanged", updateCounts);
-    api.addEventListener("modelUpdated", updateCounts);
+  useEffect(
+    () => () => {
+      if (rafIdRef.current != null) cancelAnimationFrame(rafIdRef.current);
+    },
+    [],
+  );
 
-    return () => {
-      api.removeEventListener("filterChanged", updateCounts);
-      api.removeEventListener("modelUpdated", updateCounts);
-    };
-  }, [rows]);
+  const onGridReady = (e: GridReadyEvent) => {
+    setFilteredCount(e.api.getDisplayedRowCount());
+  };
+  const onFilterChanged = (_e: FilterChangedEvent) => updateCounts();
+  const onModelUpdated = (_e: ModelUpdatedEvent) => updateCounts();
 
   return (
     <>
@@ -81,7 +90,7 @@ const AGTable = ({ cols, rows }: Props) => {
         </Typography>
       )}
       <div
-        className="ag-theme-alpine"
+        className="ag-theme-quartz"
         data-testid="ag-table"
         dir={direction}
         style={{
@@ -92,20 +101,25 @@ const AGTable = ({ cols, rows }: Props) => {
         }}
       >
         <AgGridReact<AGTableModelType>
-          theme="legacy"
           ref={gridRef}
+          className="ag-theme-quartz"
           rowData={rows}
           columnDefs={localizedCols}
           defaultColDef={defaultColDef}
           enableRtl={isRtl}
-          ensureDomOrder={true}
-          enableCellTextSelection={true}
+          ensureDomOrder={false}
+          enableCellTextSelection
+          suppressColumnVirtualisation={false}
+          suppressRowVirtualisation={false}
           rowHeight={30}
           components={{
             ActionRenderer,
             OrderItemsRenderer,
             OrderStatusRenderer,
           }}
+          onGridReady={onGridReady}
+          onFilterChanged={onFilterChanged}
+          onModelUpdated={onModelUpdated}
         />
       </div>
     </>

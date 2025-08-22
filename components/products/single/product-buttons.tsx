@@ -1,26 +1,22 @@
 "use client";
 import { useIntl, FormattedMessage } from "react-intl";
-import { useDispatch } from "react-redux";
 import { Box, Button, IconButton, Tooltip } from "@mui/material";
 import {
   Add as AddIcon,
   Share as ShareIcon,
   Facebook as FacebookIcon,
 } from "@mui/icons-material";
-import { addItem } from "@/lib/store/cartSlice";
+import { addItem, useAppDispatch } from "@/lib/store";
 import { baseUrl } from "@/lib/config/config";
 import { Product, ModelType } from "@/lib/types";
 
 export type PropsProductButtons = {
   product: Product;
-  isRtl: boolean;
 };
-export default function ProductButtonsClient({
-  product,
-  isRtl,
-}: PropsProductButtons) {
+export default function ProductButtonsClient({ product }: PropsProductButtons) {
   const intl = useIntl();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+
   const url = `${baseUrl}/${ModelType.product}/${product.handle}`;
 
   const handleAddToCart = () => {
